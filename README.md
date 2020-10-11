@@ -1,2 +1,2 @@
 # blueprint
-blueprint:foundation_create
+Generates design basic data
