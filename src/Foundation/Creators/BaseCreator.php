@@ -273,7 +273,7 @@ abstract class BaseCreator
 
         // Exclude from creation
         if ($is_except_file && isset($foundation['except_file_names'])) {
-            $read_yaml_files = collect($read_yaml_files)->filter(function ($key) use ($foundation) {
+            $read_yaml_files = collect($read_yaml_files)->filter(function ($value, $key) use ($foundation) {
                 return !in_array(Str::studly(basename($key, '.yml')), $foundation['except_file_names'], false);
             })->all();
         }
