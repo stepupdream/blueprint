@@ -16,7 +16,7 @@ class IndividualFileCreator extends BaseCreator implements FoundationCreatorInte
      *
      * @param array $foundation
      */
-    public function run(array $foundation)
+    public function run(array $foundation) : void
     {
         // Read yaml file
         $common_yaml_file = $this->readCommonYamlFile($foundation);

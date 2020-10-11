@@ -14,7 +14,7 @@ class IndividualFileCreatorWithoutRead extends BaseCreator implements Foundation
      *
      * @param array $foundation
      */
-    public function run(array $foundation)
+    public function run(array $foundation) : void
     {
         // create class file
         $class_file_path = $foundation['output_path'];

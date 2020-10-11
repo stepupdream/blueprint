@@ -33,7 +33,7 @@ class FoundationCreateCommand extends BaseCreateCommand
     /**
      * run method in order
      */
-    public function handle()
+    public function handle() : void
     {
         $target = $this->option('target');
         
@@ -72,7 +72,7 @@ class FoundationCreateCommand extends BaseCreateCommand
                     throw new LogicException('read error foundation_enumeration[create_type]');
             }
             
-            $this->info('Completed:: ' . $foundation_name);
+            $this->info('Completed: ' . $foundation_name);
         }
         
         $this->call('view:clear');
@@ -89,7 +89,7 @@ class FoundationCreateCommand extends BaseCreateCommand
      * @param int $depth
      * @return int
      */
-    private function arrayDepth($array, bool $blank = false, int $depth = 0)
+    private function arrayDepth($array, bool $blank = false, int $depth = 0) : int
     {
         if (!is_array($array)) {
             return $depth;

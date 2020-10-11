@@ -17,8 +17,9 @@ class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements Foundatio
      * Execution of processing
      *
      * @param array $foundation
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function run(array $foundation)
+    public function run(array $foundation) : void
     {
         // Read yaml file
         if (is_dir($foundation['read_path'])) {
