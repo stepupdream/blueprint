@@ -89,15 +89,17 @@ abstract class BaseCreator
         
         return view($foundation['template_blade_file'],
             [
-                'namespace'            => $this->convertFileFullPathToNamespace($class_file_path),
-                'class_name'           => basename($class_file_path, '.' . $foundation['extension']),
-                'extends_class_name'   => empty($foundation['extends_class_name']) ? '' : ' extends ' . $foundation['extends_class_name'],
-                'use_extends_class'    => empty($use_extends_class) ? '' : 'use ' . $use_extends_class,
-                'interface_class_name' => empty($foundation['interface_class_name']) ? '' : ' implements ' . $foundation['interface_class_name'],
-                'use_interface_class'  => empty($foundation['use_interface_class']) ? '' : $foundation['use_interface_class'],
-                'model'                => $read_yaml_file,
-                'common_model'         => $common_yaml_file,
-                'option'               => empty($foundation['option']) ? '' : $foundation['option'],
+                'namespace'               => $this->convertFileFullPathToNamespace($class_file_path),
+                'class_name'              => basename($class_file_path, '.' . $foundation['extension']),
+                'extends_class_name'      => empty($foundation['extends_class_name']) ? '' : ' extends ' . $foundation['extends_class_name'],
+                'use_extends_class'       => empty($use_extends_class) ? '' : 'use ' . $use_extends_class,
+                'interface_class_name'    => empty($foundation['interface_class_name']) ? '' : ' implements ' . $foundation['interface_class_name'],
+                'use_interface_class'     => empty($foundation['use_interface_class']) ? '' : $foundation['use_interface_class'],
+                'model'                   => $read_yaml_file,
+                'common_model'            => $common_yaml_file,
+                'request_directory_path'  => empty($foundation['request_directory_path']) ? '' : $foundation['request_directory_path'],
+                'response_directory_path' => empty($foundation['response_directory_path']) ? '' : $foundation['response_directory_path'],
+                'option'                  => empty($foundation['option']) ? '' : $foundation['option'],
             ])->render();
     }
     
@@ -215,7 +217,7 @@ abstract class BaseCreator
             default:
                 throw new LogicException('The data in convert_class_name_type is incorrect');
         }
-    
+        
         return $result;
     }
     
@@ -270,7 +272,7 @@ abstract class BaseCreator
     protected function readYamlFile(array $foundation, bool $is_except_file = true) : array
     {
         $read_yaml_files = YamlFileReader::readByDirectoryPath($foundation['read_path']);
-
+        
         // Exclude from creation
         if ($is_except_file && isset($foundation['except_file_names'])) {
             $read_yaml_files = collect($read_yaml_files)->filter(function ($value, $key) use ($foundation) {
