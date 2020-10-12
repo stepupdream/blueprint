@@ -47,7 +47,9 @@ class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements Foundatio
             if (File::exists($class_file_path) && !method_exists($this->convertFileFullPathToClassPath($class_file_path), Str::camel($read_yaml_file[$foundation['method_key_name']]))) {
                 $blade_file = view($foundation['add_template_blade_file'],
                     [
-                        'model' => $read_yaml_file,
+                        'model'                   => $read_yaml_file,
+                        'request_directory_path'  => $foundation['request_directory_path'] ?? '',
+                        'response_directory_path' => $foundation['response_directory_path'] ?? '',
                     ])->render();
                 
                 // Replace } at the end of file with new method
