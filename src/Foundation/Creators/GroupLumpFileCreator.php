@@ -14,27 +14,40 @@ class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInter
     /**
      * Execution of processing
      *
-     * @param array $foundation
+     * Output the read yaml contents as a group
+     *
+     * [Keys that can be set : required]
+     * - read_path : string
+     * - output_directory_path : string
+     * - group_key_name : string
+     * - extension : string
+     * - template_blade_file : string
+     * - is_override : bool
+     *
+     * [Keys that can be set : option]
+     * - except_file_names : array
+     * - extends_class_name : string
+     * - use_extends_class : string
+     * - interface_class_name : string
+     * - use_interface_class : string
+     * - option : string
+     *
+     * @param  array  $foundation
      */
-    public function run(array $foundation) : void
+    public function run(array $foundation): void
     {
-        // Read yaml file
+        $this->verifyKeys($foundation, ['read_path', 'output_directory_path', 'group_key_name', 'extension', 'template_blade_file', 'is_override']);
         if (is_dir($foundation['read_path'])) {
-            $read_yaml_files = $this->readYamlFile($foundation);
+            $readYamlFiles = $this->readYamlFile($foundation);
         } else {
-            throw new LogicException($foundation['read_path'] . ': read path must be a directory');
+            throw new LogicException($foundation['read_path'].': read path must be a directory');
         }
         
-        if (empty($foundation['output_directory_path'])) {
-            throw new LogicException('output_directory_path is not found');
-        }
-        
-        // create class file
-        $read_yaml_files_groups = collect($read_yaml_files)->groupBy($foundation['group_key_name'])->all();
-        foreach ($read_yaml_files_groups as $key => $read_yaml_files_group) {
-            $class_file_path = $foundation['output_directory_path'] . DIRECTORY_SEPARATOR . $key . '.php';
-            $blade_file = $this->readBladeFileLump($foundation, $class_file_path, $read_yaml_files_group);
-            $this->file_operation->createFile($blade_file, $class_file_path, $foundation['is_override']);
+        $readYamlFilesGroups = collect($readYamlFiles)->groupBy($foundation['group_key_name'])->toArray();
+        foreach ($readYamlFilesGroups as $groupKeyName => $readYamlFilesGroup) {
+            $classFilePath = $foundation['output_directory_path'].DIRECTORY_SEPARATOR.$groupKeyName.'.php';
+            $bladeFile = $this->readBladeFileLump($foundation, $classFilePath, $readYamlFilesGroup);
+            $this->yamlFileOperation->createFile($bladeFile, $classFilePath, $foundation['is_override']);
         }
     }
 }
