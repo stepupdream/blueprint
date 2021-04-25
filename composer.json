@@ -13,15 +13,15 @@
   "autoload": {
     "psr-4": {
       "StepUpDream\\Blueprint\\": "src/"
-    },
-    "files": [
-      "helpers.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
       "StepUpDream\\Blueprint\\Test\\": "tests/"
-    }
+    },
+    "files": [
+      "helpers.php"
+    ]
   },
   "extra": {
     "laravel": {
