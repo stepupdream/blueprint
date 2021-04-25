@@ -2,6 +2,7 @@
 
 namespace StepUpDream\Blueprint\Foundation\Supports;
 
+use File;
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
 use Symfony\Component\Yaml\Yaml;
@@ -128,7 +129,7 @@ class YamlFileOperation
      * @param  string  $directoryPath
      * @return array
      */
-    protected function getAllFilePath(string $directoryPath): array
+    public function getAllFilePath(string $directoryPath): array
     {
         $filePaths = [];
         
@@ -176,7 +177,6 @@ class YamlFileOperation
     protected function parseYaml(string $filePath)
     {
         $extension = $this->file->extension($filePath);
-        
         if ($extension !== 'yml') {
             throw new LogicException('Could not parse because it is not Yaml data filePath: '.$filePath);
         }
