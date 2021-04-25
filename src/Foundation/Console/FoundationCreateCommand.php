@@ -37,7 +37,7 @@ class FoundationCreateCommand extends BaseCreateCommand
     {
         $target = $this->option('target');
         
-        $foundationCreateClasses = config('foundation.create_classes');
+        $foundationCreateClasses = config('step_up_dream.blueprint.create_classes');
         if (empty($foundationCreateClasses) || $this->arrayDepth($foundationCreateClasses) !== 2) {
             throw new LogicException('read error foundation enumerations');
         }

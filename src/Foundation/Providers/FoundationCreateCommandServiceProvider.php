@@ -19,12 +19,12 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
     public function register(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->mergeConfigFrom(__DIR__.'/../Config/foundation.php', 'foundation');
+            $this->mergeConfigFrom(__DIR__.'/../Config/foundation.php', 'step_up_dream.blueprint');
             
-            $this->loadViewsFrom(__DIR__.'/../../../resources', 'foundation');
+            $this->loadViewsFrom(__DIR__.'/../../../resources', 'blueprint');
             
             $this->publishes([
-                __DIR__.'/../Config/foundation.php' => config_path('step_up_dream/foundation.php'),
+                __DIR__.'/../Config/foundation.php' => config_path('step_up_dream/blueprint.php'),
             ]);
             $this->publishes([
                 __DIR__.'/../../../resources' => $this->app->resourcePath('views/vendor/blueprint'),

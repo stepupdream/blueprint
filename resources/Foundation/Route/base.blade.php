@@ -12,6 +12,6 @@ echo '<?php' . PHP_EOL
 |
 */
 
-@foreach ($models as $model)
-{!! sprintf("Route::%s('%s/%s', '%sController@%s'); // %s", Str::camel($model['http_method']), Str::snake($model['controller_name']), Str::snake($model['name']), $model['controller_name'], Str::snake($model['name']), $model['description']) !!}
+@foreach ($yamls as $yaml)
+{!! sprintf("Route::%s('%s/%s', '%sController@%s'); // %s", Str::camel($yaml['http_method']), Str::snake($yaml['controller_name']), Str::snake($yaml['name']), $yaml['controller_name'], Str::snake($yaml['name']), $yaml['description']) !!}
 @endforeach
