@@ -1,4 +1,7 @@
 # blueprint
+[![testing](https://github.com/stepupdream/blueprint/actions/workflows/testing.yml/badge.svg)](https://github.com/stepupdream/blueprint/actions/workflows/testing.yml)
+[![Latest Stable Version](https://poser.pugx.org/stepupdream/blueprint/v)](//packagist.org/packages/stepupdream/blueprint)
+[![Latest Unstable Version](https://poser.pugx.org/stepupdream/blueprint/v/unstable)](//packagist.org/packages/stepupdream/blueprint)
 [![Laravel 6|7|8](https://img.shields.io/badge/Laravel-6|7|8-orange.svg)](http://laravel.com)
 [![License](https://poser.pugx.org/stepupdream/blueprint/license)](//packagist.org/packages/stepupdream/blueprint)
 
