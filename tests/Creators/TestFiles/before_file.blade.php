@@ -11,12 +11,4 @@ class Sample
     {
         //
     }
-
-    /**
-     * Sample
-     */
-    public function sample2()
-    {
-        // sample
-    }
 }
