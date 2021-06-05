@@ -7,6 +7,9 @@ namespace StepUpDream\Blueprint\Test\Creators\TestFiles;
  */
 class Sample
 {
+    /**
+     * Sample.
+     */
     public function sample1(): void
     {
         //
