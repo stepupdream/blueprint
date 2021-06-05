@@ -8,9 +8,9 @@ blueprint is an open source tool that provides commands to automatically generat
 
 ## Features
 
-When developing a large project, it is better to divide the class into small pieces. However,
-it takes time for humans to create them one by one, and they are not unified.
-By using this package, you will be freed from the hassle of creating classes.
+When developing a large project, it is better to divide the class into small pieces.  
+However, it takes time for humans to create them one by one, and they are not unified.  
+By using this package, you will be freed from the hassle of creating classes.  
 Use the Blade template used in Laravel to create a template for your class.
 It can be freely adjusted to suit your project.
 
@@ -61,7 +61,7 @@ and outputs them to a file.
   
 ## Config
 Required keys are determined by each pattern.  
-There is no problem if you do not enter any keys other than the required keys. It will be an invalid value.
+There is no problem if you do not enter any keys other than the required keys. It will be an invalid value.  
 You can use two special characters in config: @fileName and @groupName.  
 If you specify these strings, the strings will be replaced automatically.
 
