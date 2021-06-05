@@ -62,8 +62,8 @@ class ReaderTest extends TestCase
     {
         $reader = $this->app->make(Reader::class);
         $textDirectory = __DIR__.'/../TestFiles/Yaml/';
-        $parseAllYaml = $reader->readFileByDirectoryPath($textDirectory);
-        $testResult = collect($this->testResult)->all();
+        $parseAllYaml = $reader->readFileByDirectoryPath($textDirectory, []);
+        $testResult = collect($this->testResult)->take(3)->all();
         self::assertEquals($parseAllYaml, $testResult);
 
         $parseAllYaml2 = $reader->readFileByDirectoryPath($textDirectory, ['common']);
