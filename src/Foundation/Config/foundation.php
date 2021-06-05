@@ -7,11 +7,12 @@ return [
             'template_blade_file' => 'blueprint::Foundation.Controller.base',
             'output_path'         => app_path('Presentations/Http/Api/BaseController.php'),
             'extension'           => 'php',
-            'use_extends_class'   => 'App\Presentations\Http\Controller;',
+            'use_extends_class'   => 'App\Http\Controllers\Controller;',
             'extends_class_name'  => 'Controller',
-            'is_override'         => true,
+            'is_override'         => false,
         ],
-        'api_controllers'     => [
+
+        'api_controller' => [
             'create_type'             => 'GroupLumpWithAddMethod',
             'read_path'               => base_path('definition_document/http/api'),
             'except_file_names'       => ['Base'],
@@ -27,7 +28,8 @@ return [
             'request_directory_path'  => 'App\Presentations\Http\Api\Requests',
             'response_directory_path' => 'App\Presentations\Http\Api\Responses',
         ],
-        'api_route'           => [
+
+        'api_route' => [
             'create_type'         => 'Lump',
             'read_path'           => base_path('definition_document/http/api'),
             'except_file_names'   => ['Base'],
@@ -36,53 +38,51 @@ return [
             'template_blade_file' => 'blueprint::Foundation.Route.base',
             'is_override'         => true,
         ],
-        
-        // Application
-        'api_applications'    => [
-            'create_type'             => 'GroupLumpWithAddMethod',
-            'read_path'               => base_path('definition_document/http/api'),
-            'except_file_names'       => ['Base'],
-            'output_directory_path'   => app_path('Applications'),
-            'convert_class_name_type' => 'singular_studly',
-            'extension'               => 'php',
-            'suffix'                  => 'Application',
-            'group_key_name'          => 'controller_name',
-            'method_key_name'         => 'name',
-            'template_blade_file'     => 'blueprint::Foundation.Application.base',
-            'add_template_blade_file' => 'blueprint::Component.Application.add_method',
-        ],
-        
-        // User
-        'user_models'         => [
+
+        'user_model' => [
             'create_type'             => 'Individual',
             'read_path'               => base_path('definition_document/database/user'),
             'except_file_names'       => [],
-            'output_directory_path'   => app_path('Infrastructures/User').'/%s',
+            'output_directory_path'   => app_path('Infrastructures/User').'/@fileName',
             'convert_class_name_type' => 'singular_studly',
             'extension'               => 'php',
             'template_blade_file'     => 'blueprint::Foundation.Model.normal',
-            'use_extends_class'       => 'App\Infrastructures\User\%s\Framework\%s as Framework;',
-            'extends_class_name'      => 'Framework',
+            'use_extends_class'       => 'App\Infrastructures\User\@fileName\Blueprint\@fileName as Blueprint;',
+            'extends_class_name'      => 'Blueprint',
             'is_override'             => false,
         ],
-        
-        'user_models_framework' => [
+
+        'user_models_blueprint' => [
             'create_type'             => 'Individual',
             'read_path'               => base_path('definition_document/database/user'),
             'except_file_names'       => [],
-            'output_directory_path'   => app_path('Infrastructures/User').'/%s/Framework',
+            'output_directory_path'   => app_path('Infrastructures/User').'/@fileName/Blueprint',
             'convert_class_name_type' => 'singular_studly',
             'extension'               => 'php',
-            'template_blade_file'     => 'blueprint::Foundation.Model.framework',
+            'template_blade_file'     => 'blueprint::Foundation.Model.blueprint',
+            'use_extends_class'       => 'App\Infrastructures\User\BaseUser;',
+            'extends_class_name'      => 'BaseUser',
             'is_override'             => true,
         ],
-        
+
         'user_models_base' => [
             'create_type'         => 'IndividualWithoutRead',
             'template_blade_file' => 'blueprint::Foundation.Model.base',
             'output_path'         => app_path('Infrastructures/User/BaseUser.php'),
             'extension'           => 'php',
             'is_override'         => false,
+        ],
+
+        'migration' => [
+            'create_type'             => 'Individual',
+            'read_path'               => base_path('definition_document/database'),
+            'except_file_names'       => [],
+            'output_directory_path'   => database_path('temp'),
+            'convert_class_name_type' => 'singular_studly',
+            'extension'               => 'php',
+            'template_blade_file'     => 'blueprint::Foundation.Migration.base',
+            'is_override'             => true,
+            'option'                  => '',
         ],
     ],
 ];
