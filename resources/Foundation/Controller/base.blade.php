@@ -4,17 +4,15 @@ echo '<?php' . PHP_EOL;
 
 namespace {{ $namespace }};
 
-@if (!empty($use_extends_class))
-{{ $use_extends_class }}
+@if (!empty($useExtendsClass))
+{{ $useExtendsClass }}
 
 @else
 @endif
 /**
- * Class {{ $class_name }}
- *
- * {{ blade_phpdoc_support($namespace, 'package') }}
+ * Class {{ $className }}
  */
-abstract class {{ $class_name }}{{ $extends_class_name }}
+abstract class {{ $className }}{{ $extendsClassName }}
 {
 
 }

@@ -13,7 +13,7 @@ namespace {{ $namespace }};
 /**
  * Class {{ Str::studly($className) }}
  */
-class {{ Str::studly($className) }}{{ $extendsClassName }}
+abstract class {{ Str::studly($className) }}{{ $extendsClassName }}
 {
-    @include('blueprint::Component.Controller.add_method')
+    //
 }

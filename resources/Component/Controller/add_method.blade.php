@@ -1,6 +1,6 @@
     /**
-     * {!! $model['description'] !!}
+     * {!! $yaml['description'] !!}
      */
-    {!! sprintf('public function %s()', Str::camel($model['name'])) !!}
+    {!! sprintf('public function %s()', Str::camel($yaml['name'])) !!}
     {
     }

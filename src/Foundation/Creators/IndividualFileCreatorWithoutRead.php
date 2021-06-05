@@ -2,23 +2,26 @@
 
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
+use StepUpDream\Blueprint\Foundation\Foundation;
+
 /**
- * Class IndividualFileCreatorWithoutRead
- *
- * @package StepUpDream\Blueprint\Foundation\Creators
+ * Class IndividualFileCreatorWithoutRead.
  */
 class IndividualFileCreatorWithoutRead extends BaseCreator implements FoundationCreatorInterface
 {
     /**
-     * Execution of processing
+     * Execution of processing.
      *
-     * @param array $foundation
+     * Output the contents of blade as a file regardless of the contents of Yaml file
+     *
+     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
      */
-    public function run(array $foundation)
+    public function run(Foundation $foundation): void
     {
-        // create class file
-        $class_file_path = $foundation['output_path'];
-        $blade_file = $this->readBladeFileIndividual($foundation, $class_file_path, '', [], []);
-        $this->file_operation->createFile($blade_file, $class_file_path, $foundation['is_override']);
+        $requiredKey = ['outputPath', 'extension', 'templateBladeFile', 'isOverride'];
+        $this->verifyKeys($foundation, $requiredKey);
+        $classFilePath = $foundation->outputPath();
+        $bladeFile = $this->readBladeFileIndividual($foundation, $classFilePath, '', [], []);
+        $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
     }
 }

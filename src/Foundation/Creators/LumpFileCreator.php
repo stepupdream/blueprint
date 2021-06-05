@@ -2,32 +2,28 @@
 
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
-use LogicException;
+use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
- * Class LumpFileCreator
- *
- * @package StepUpDream\Blueprint\Foundation\Creators
+ * Class LumpFileCreator.
  */
 class LumpFileCreator extends BaseCreator implements FoundationCreatorInterface
 {
     /**
-     * Execution of processing
+     * Execution of processing.
      *
-     * @param array $foundation
+     * Combine the contents of the read Yaml into one file.
+     *
+     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @see \StepUpDream\Blueprint\Foundation\Console\FoundationCreateCommand::handle()
      */
-    public function run(array $foundation)
+    public function run(Foundation $foundation): void
     {
-        // Read yaml file
-        if (is_dir($foundation['read_path'])) {
-            $read_yaml_files = $this->readYamlFile($foundation);
-        } else {
-            throw new LogicException($foundation['read_path'] . ': read path must be a directory');
-        }
-        
-        // create class file
-        $class_file_path = $foundation['output_path'];
-        $blade_file = $this->readBladeFileLump($foundation, $class_file_path, $read_yaml_files);
-        $this->file_operation->createFile($blade_file, $class_file_path, $foundation['is_override']);
+        $requiredKey = ['readPath', 'outputPath', 'extension', 'templateBladeFile', 'isOverride'];
+        $this->verifyKeys($foundation, $requiredKey);
+        $yamlFiles = $this->yamlReader->readFileByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
+        $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
+        $bladeFile = $this->readBladeFileLump($foundation, $foundation->outputPath(), $yamlFiles, $yamlFileCommon);
+        $this->fileCreator->createFile($bladeFile, $foundation->outputPath(), $foundation->isOverride());
     }
 }

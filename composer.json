@@ -2,20 +2,28 @@
   "name": "stepupdream/blueprint",
   "description": "support package",
   "license": "MIT",
+  "keywords": ["laravel", "yaml", "blueprint"],
   "require": {
+    "php": ">=7.3.0",
     "laravel/framework": "^6|^7|^8"
   },
   "require-dev": {
+    "orchestra/testbench": "^6.15",
+    "phpunit/phpunit": "^9.5",
+    "symfony/yaml": "^5.2"
   },
   "autoload": {
     "psr-4": {
       "StepUpDream\\Blueprint\\": "src/"
     },
     "files": [
-      "helpers.php"
+      "src/Foundation/helpers.php"
     ]
   },
   "autoload-dev": {
+    "psr-4": {
+      "StepUpDream\\Blueprint\\Test\\": "tests/"
+    }
   },
   "extra": {
     "laravel": {
