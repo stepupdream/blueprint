@@ -6,7 +6,7 @@ use StepUpDream\Blueprint\Foundation\Supports\Yaml\Reader;
 use StepUpDream\Blueprint\Test\TestCase;
 
 /**
- * Class ReaderTest
+ * Class ReaderTest.
  */
 class ReaderTest extends TestCase
 {

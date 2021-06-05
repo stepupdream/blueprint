@@ -3,7 +3,7 @@
 namespace StepUpDream\Blueprint\Test\Creators\TestFiles;
 
 /**
- * Class Sample
+ * Class Sample.
  */
 class Sample
 {

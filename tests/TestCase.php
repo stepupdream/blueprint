@@ -6,7 +6,7 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use ReflectionClass;
 
 /**
- * Class TestCase
+ * Class TestCase.
  */
 abstract class TestCase extends OrchestraTestCase
 {

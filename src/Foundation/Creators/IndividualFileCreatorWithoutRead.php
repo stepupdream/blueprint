@@ -5,12 +5,12 @@ namespace StepUpDream\Blueprint\Foundation\Creators;
 use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
- * Class IndividualFileCreatorWithoutRead
+ * Class IndividualFileCreatorWithoutRead.
  */
 class IndividualFileCreatorWithoutRead extends BaseCreator implements FoundationCreatorInterface
 {
     /**
-     * Execution of processing
+     * Execution of processing.
      *
      * Output the contents of blade as a file regardless of the contents of Yaml file
      *
