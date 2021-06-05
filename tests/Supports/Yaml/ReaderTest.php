@@ -11,7 +11,7 @@ use StepUpDream\Blueprint\Test\TestCase;
 class ReaderTest extends TestCase
 {
     protected $testResult = [
-        '/work/packages/stepupdream/blueprint/tests/Supports/TestFiles/Yaml/Temp/character_details.yml' => [
+        [
             'database_directory_name' => 'MasterData',
             'domain_group'            => 'Character',
             'columns'                 => [
@@ -25,7 +25,7 @@ class ReaderTest extends TestCase
                 ],
             ],
         ],
-        '/work/packages/stepupdream/blueprint/tests/Supports/TestFiles/Yaml/characters.yml'             => [
+        [
             'database_directory_name' => 'MasterData',
             'domain_group'            => 'Character',
             'columns'                 => [
@@ -43,7 +43,7 @@ class ReaderTest extends TestCase
                 ],
             ],
         ],
-        '/work/packages/stepupdream/blueprint/tests/Supports/TestFiles/Yaml/common.yml'                 => [
+        [
             'database_directory_name' => 'MasterData',
             'domain_group'            => 'Common',
             'columns'                 => [
