@@ -2,7 +2,7 @@
 
 if (! function_exists('blade_phpdoc_support')) {
     /**
-     * blade_phpdoc_support
+     * blade_phpdoc_support.
      *
      * @param  string  $text
      * @param  string  $type
@@ -16,7 +16,7 @@ if (! function_exists('blade_phpdoc_support')) {
 
 if (! function_exists('snake_singular')) {
     /**
-     * If you change ***_***es to singular, it will not behave as intended, so create it separately
+     * If you change ***_***es to singular, it will not behave as intended, so create it separately.
      *
      * @param  string  $name
      * @return string
