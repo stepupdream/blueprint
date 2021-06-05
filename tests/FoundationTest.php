@@ -15,7 +15,7 @@ class FoundationTest extends TestCase
      */
     public function replacedText(): void
     {
-        $yamlFile = Yaml::parse(file_get_contents(__DIR__.'/Supports/TestFiles/Yaml/sample.yml'));
+        $yamlFile = Yaml::parse(file_get_contents(__DIR__.'/Supports/TestFiles/sample.yml'));
         $foundationAttributes = [
             'output_directory_path'    => 'app/Http/Controllers/NewsWatchController/@groupName/@fileName',
             'extends_class_name'       => 'orange/@groupName/@fileName',
