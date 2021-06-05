@@ -2,12 +2,10 @@
 
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
-use LogicException;
+use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
  * Class GroupLumpFileCreator
- *
- * @package StepUpDream\Blueprint\Foundation\Creators
  */
 class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInterface
 {
@@ -16,38 +14,23 @@ class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInter
      *
      * Output the read yaml contents as a group
      *
-     * [Keys that can be set : required]
-     * - read_path : string
-     * - output_directory_path : string
-     * - group_key_name : string
-     * - extension : string
-     * - template_blade_file : string
-     * - is_override : bool
-     *
-     * [Keys that can be set : option]
-     * - except_file_names : array
-     * - extends_class_name : string
-     * - use_extends_class : string
-     * - interface_class_name : string
-     * - use_interface_class : string
-     * - option : string
-     *
-     * @param  array  $foundation
+     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
      */
-    public function run(array $foundation): void
+    public function run(Foundation $foundation): void
     {
-        $this->verifyKeys($foundation, ['read_path', 'output_directory_path', 'group_key_name', 'extension', 'template_blade_file', 'is_override']);
-        if (is_dir($foundation['read_path'])) {
-            $readYamlFiles = $this->readYamlFile($foundation);
-        } else {
-            throw new LogicException($foundation['read_path'].': read path must be a directory');
-        }
-        
-        $readYamlFilesGroups = collect($readYamlFiles)->groupBy($foundation['group_key_name'])->toArray();
-        foreach ($readYamlFilesGroups as $groupKeyName => $readYamlFilesGroup) {
-            $classFilePath = $foundation['output_directory_path'].DIRECTORY_SEPARATOR.$groupKeyName.'.php';
-            $bladeFile = $this->readBladeFileLump($foundation, $classFilePath, $readYamlFilesGroup);
-            $this->yamlFileOperation->createFile($bladeFile, $classFilePath, $foundation['is_override']);
+        $requiredKey = [
+            'readPath', 'outputDirectoryPath', 'groupKeyName', 'extension', 'templateBladeFile', 'isOverride',
+        ];
+        $this->verifyKeys($foundation, $requiredKey);
+        $yamlFiles = $this->yamlReader->readFileByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
+        $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
+
+        $yamlFilesGroups = collect($yamlFiles)->groupBy($foundation->groupKeyName())->toArray();
+        foreach ($yamlFilesGroups as $groupKeyName => $yamlFilesGroup) {
+            $fileName = $this->textSupport->convertNameByConvertType($foundation->convertClassNameType(), $groupKeyName);
+            $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, []);
+            $bladeFile = $this->readBladeFileLump($foundation, $classFilePath, $yamlFilesGroup, $yamlFileCommon);
+            $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
         }
     }
 }
