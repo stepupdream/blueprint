@@ -6,7 +6,7 @@ use StepUpDream\Blueprint\Foundation\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
 
 /**
- * Class TextSupportTest
+ * Class TextSupportTest.
  */
 class TextSupportTest extends TestCase
 {
@@ -23,7 +23,7 @@ class TextSupportTest extends TestCase
     }
 
     /**
-     * dataProvider
+     * dataProvider.
      */
     public function dataProviderConvertNameByConvertType()
     {

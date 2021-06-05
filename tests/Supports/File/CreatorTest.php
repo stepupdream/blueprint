@@ -6,7 +6,7 @@ use StepUpDream\Blueprint\Foundation\Supports\File\Creator;
 use StepUpDream\Blueprint\Test\TestCase;
 
 /**
- * Class CreatorTest
+ * Class CreatorTest.
  */
 class CreatorTest extends TestCase
 {

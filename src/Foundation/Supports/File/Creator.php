@@ -6,7 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use LogicException;
 
 /**
- * Class Creator
+ * Class Creator.
  */
 class Creator
 {
@@ -49,6 +49,7 @@ class Creator
             if ($resultCreate === false) {
                 throw new LogicException($filePath.': Failed to create');
             }
+
             return;
         }
 

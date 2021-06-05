@@ -3,7 +3,7 @@
 namespace StepUpDream\Blueprint\Test\Creators\TestFiles;
 
 /**
- * Class Sample
+ * Class Sample.
  */
 class Sample
 {
@@ -13,7 +13,7 @@ class Sample
     }
 
     /**
-     * Sample
+     * Sample.
      */
     public function sample2()
     {

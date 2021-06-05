@@ -5,7 +5,7 @@ namespace StepUpDream\Blueprint\Foundation;
 use StepUpDream\Blueprint\Foundation\Supports\TextSupport;
 
 /**
- * Class Foundation
+ * Class Foundation.
  */
 class Foundation
 {
@@ -205,7 +205,7 @@ class Foundation
     }
 
     /**
-     * Replaced output directory path
+     * Replaced output directory path.
      *
      * @param  mixed  $yamlFile
      * @param  string  $fileName
@@ -498,7 +498,7 @@ class Foundation
     }
 
     /**
-     * options for blade
+     * options for blade.
      *
      * @param  string  $fileName
      * @param  mixed  $yamlFile
