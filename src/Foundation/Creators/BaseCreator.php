@@ -9,7 +9,7 @@ use StepUpDream\Blueprint\Foundation\Supports\TextSupport;
 use StepUpDream\Blueprint\Foundation\Supports\Yaml\Reader;
 
 /**
- * Class BaseCreator
+ * Class BaseCreator.
  */
 class BaseCreator
 {

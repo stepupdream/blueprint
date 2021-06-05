@@ -11,7 +11,7 @@ use StepUpDream\Blueprint\Foundation\Creators\LumpFileCreator;
 use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
- * Class FoundationCreateCommand
+ * Class FoundationCreateCommand.
  */
 class FoundationCreateCommand extends BaseCreateCommand
 {

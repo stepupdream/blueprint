@@ -6,7 +6,7 @@ use StepUpDream\Blueprint\Foundation\Foundation;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class FoundationTest
+ * Class FoundationTest.
  */
 class FoundationTest extends TestCase
 {
