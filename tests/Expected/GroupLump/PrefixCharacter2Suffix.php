@@ -20,7 +20,6 @@ declare(strict_types=1);
 // extends Blueprint
 // use App\Infrastructures\User\@fileName\@groupName\DDD as Blueprint2;
 // implements Blueprint2
-// \opt\project\tests\Result\GroupLump
 // PrefixCharacter2Suffix
 // Get4
 

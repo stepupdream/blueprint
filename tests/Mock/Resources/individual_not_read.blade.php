@@ -9,7 +9,6 @@ echo '<?php' . PHP_EOL . PHP_EOL .'declare(strict_types=1);'
 // {{ $extendsClassName }}
 // {{ $useInterfaceClass }}
 // {{ $interfaceClassName }}
-// {{ $namespace }}
 // {{ $className }}
 
 @foreach ($options as $option)

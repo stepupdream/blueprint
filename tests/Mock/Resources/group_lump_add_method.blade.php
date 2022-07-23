@@ -24,7 +24,6 @@ class {{ Str::studly($className) }} {{ $extendsClassName }}
         // {{ $extendsClassName }}
         // {{ $useInterfaceClass }}
         // {{ $interfaceClassName }}
-        // {{ $namespace }}
         // {{ $className }}
 
 @foreach ($options as $option)

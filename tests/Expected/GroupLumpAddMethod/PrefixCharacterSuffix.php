@@ -22,7 +22,6 @@ class PrefixCharacterSuffix extends Blueprint
         // extends Blueprint
         // use App\Infrastructures\User\Character\Character\DDD as Blueprint2;
         // implements Blueprint2
-        // \opt\project\tests\Result\GroupLumpAddMethod
         // PrefixCharacterSuffix
 
         // AAA
