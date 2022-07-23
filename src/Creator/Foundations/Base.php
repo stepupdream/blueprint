@@ -89,7 +89,7 @@ abstract class Base
     {
         $replacedValue = $this->replaceForBlade($fileName, $this->extendsClassName, $yamlFile);
 
-        return empty($replacedValue) ? '' : ' extends '.$replacedValue;
+        return empty($replacedValue) ? '' : 'extends '.$replacedValue;
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class Base
     {
         $replacedValue = $this->replaceForBlade($fileName, $this->useExtendsClass, $yamlFile);
 
-        return empty($replacedValue) ? '' : 'use '.$replacedValue;
+        return empty($replacedValue) ? '' : 'use '.$replacedValue.';';
     }
 
     /**
@@ -139,7 +139,7 @@ abstract class Base
     {
         $replacedValue = $this->replaceForBlade($fileName, $this->interfaceClassName, $yamlFile);
 
-        return empty($replacedValue) ? '' : ' implements '.$replacedValue;
+        return empty($replacedValue) ? '' : 'implements '.$replacedValue;
     }
 
     /**
@@ -153,7 +153,7 @@ abstract class Base
     {
         $replacedValue = $this->replaceForBlade($fileName, $this->useInterfaceClass, $yamlFile);
 
-        return empty($replacedValue) ? '' : 'use '.$replacedValue;
+        return empty($replacedValue) ? '' : 'use '.$replacedValue.';';
     }
 
     /**

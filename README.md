@@ -16,8 +16,8 @@ It can be freely adjusted to suit your project.
 
 ## Requirements 
 The requirements to Blueprint application is:
-- PHP - Supported Versions: >= 7.3
-- Laravel - Supported Versions: >= 6.0
+- PHP - Supported Versions: >= 8.0
+- Laravel - Supported Versions: >= 8.0
 
 ## Installation 
 Require this package with composer using the following command:
@@ -98,7 +98,6 @@ If you specify these strings, the strings will be replaced automatically.
 |  create_type  | string |  Output pattern  |
 |  read_path  | string |  Directory path where yaml files are located  |
 |  output_path  | string |  Output destination path  |
-|  extension  | string |  Output file extension  |
 |  template_blade_file  | string |  Blade file that serves as a template  |
 |  is_override  | bool |  Whether it is okay to overwrite the file when outputting the file  |
 
@@ -109,7 +108,6 @@ If you specify these strings, the strings will be replaced automatically.
         'read_path'           => base_path('definition_document/http/api'),
         'except_file_names'   => ['Base'],
         'output_path'         => base_path('routes/api.php'),
-        'extension'           => 'php',
         'template_blade_file' => 'blueprint::Foundation.Route.base',
         'is_override'         => true,
     ]
@@ -148,7 +146,6 @@ If you specify these strings, the strings will be replaced automatically.
 | ---- | ---- | ---- |
 |  create_type  | string |  Output pattern  |
 |  output_path  | string |  Output destination path  |
-|  extension  | string |  Output file extension  |
 |  template_blade_file  | string |  Blade file that serves as a template  |
 |  is_override  | bool |  Whether it is okay to overwrite the file when outputting the file  |
 
@@ -157,7 +154,6 @@ If you specify these strings, the strings will be replaced automatically.
     'create_type'         => 'IndividualWithoutRead',
     'template_blade_file' => 'blueprint::Foundation.Controller.base',
     'output_path'         => app_path('Presentations/Http/Api/BaseController.php'),
-    'extension'           => 'php',
     'use_extends_class'   => 'App\Http\Controllers\Controller;',
     'extends_class_name'  => 'Controller',
     'is_override'         => false,

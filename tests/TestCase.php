@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Test;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use ReflectionClass;
 
-/**
- * Class TestCase.
- */
 abstract class TestCase extends OrchestraTestCase
 {
     /**
@@ -18,7 +17,7 @@ abstract class TestCase extends OrchestraTestCase
      * @param  array  $arguments
      * @return mixed
      */
-    protected function executePrivateFunction($class, string $methodName, array $arguments)
+    protected function executePrivateFunction($class, string $methodName, array $arguments = []): mixed
     {
         $reflection = new ReflectionClass($class);
         $method = $reflection->getMethod($methodName);

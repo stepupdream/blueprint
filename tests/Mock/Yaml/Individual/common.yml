@@ -1,0 +1,6 @@
+- database_directory_name: 'MasterData'
+  domain_group: 'Common'
+  columns:
+    - name: 'id'
+      data_type: 'int'
+      description: 'id2'

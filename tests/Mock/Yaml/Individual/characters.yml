@@ -1,0 +1,12 @@
+- database_directory_name: 'MasterData'
+  domain_group: 'Character'
+  columns:
+    - name: 'id'
+      data_type: 'int'
+      description: 'id'
+    - name: 'name'
+      data_type: 'string'
+      description: 'name'
+    - name: 'level'
+      data_type: 'int'
+      description: 'level'

@@ -1,0 +1,13 @@
+- controller_name: 'User'
+  route_prefix: 'api'
+  http_method: 'Post'
+  name: 'Get2'
+  description: 'Get2 Description'
+  domain_group: 'Character'
+  request:
+    columns:
+  response:
+    columns:
+      - name: 'name'
+        description: 'name description'
+        data_type: 'string'

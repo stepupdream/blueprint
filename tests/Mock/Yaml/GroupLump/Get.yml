@@ -1,0 +1,25 @@
+- controller_name: 'User'
+  route_prefix: 'api'
+  http_method: 'Post'
+  name: 'Get'
+  description: 'Get Description'
+  domain_group: 'Character'
+  request:
+    columns:
+      - name: 'id'
+        description: 'id description'
+        data_type: 'int'
+        default_value: '10'
+        rules: 'required|int'
+        messages: {'required': 'required rule', 'int': 'int rule'}
+      - name: 'token'
+        description: 'token description'
+        data_type: 'string'
+        default_value: 'dksasdf5'
+        rules: 'required'
+        messages: {'required': 'required rule'}
+  response:
+    columns:
+      - name: 'name'
+        description: 'name description'
+        data_type: 'string'

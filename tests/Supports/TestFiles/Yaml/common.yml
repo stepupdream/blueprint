@@ -1,5 +1,0 @@
-- database_directory_name: 'MasterData'
-  domain_group: 'Common'
-  columns:
-    - name: 'id'
-      description: 'id'

@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Test\Supports;
 
-use StepUpDream\Blueprint\Foundation\Supports\TextSupport;
+use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
 
-/**
- * Class TextSupportTest.
- */
 class TextSupportTest extends TestCase
 {
     /**
@@ -19,13 +18,15 @@ class TextSupportTest extends TestCase
         $textSupport = new TextSupport();
         $result = $textSupport->convertName($convertType, $name);
 
-        self::assertEquals($result, $testResult);
+        self::assertSame($result, $testResult);
     }
 
     /**
      * dataProvider.
+     *
+     * @return string[]
      */
-    public function dataProviderConvertNameByConvertType()
+    public function dataProviderConvertNameByConvertType(): array
     {
         return [
             ['studly', 'base_controller', 'BaseController'],
@@ -54,7 +55,7 @@ class TextSupportTest extends TestCase
         $textSupport = new TextSupport();
         $result = $textSupport->convertFileFullPathToNamespace(app_path('Http/Controllers/NewsWatchController'));
 
-        self::assertEquals('App\Http\Controllers', $result);
+        self::assertSame('App\Http\Controllers', $result);
     }
 
     /**
@@ -65,6 +66,6 @@ class TextSupportTest extends TestCase
         $textSupport = new TextSupport();
         $result = $textSupport->convertFileFullPathToClassPath(app_path('Http/Controllers/NewsWatchController'));
 
-        self::assertEquals('App\Http\Controllers\NewsWatchController', $result);
+        self::assertSame('App\Http\Controllers\NewsWatchController', $result);
     }
 }
