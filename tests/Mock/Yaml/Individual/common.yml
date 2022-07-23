@@ -1,5 +1,6 @@
 - database_directory_name: 'MasterData'
   domain_group: 'Common'
+  name: 'test'
   columns:
     - name: 'id'
       data_type: 'int'

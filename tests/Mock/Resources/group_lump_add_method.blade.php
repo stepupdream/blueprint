@@ -11,23 +11,20 @@ use Illuminate\Database\Schema\Blueprint;
 /**
  * Class {{ Str::studly($className) }}
  */
-class {{ Str::studly($className) }} {{ $extendsClassName }}
+class {{ Str::studly($className) }} {{ $options['extends_class_name'] }}
 {
     /**
      * {!! $yamlFile['description'] !!}
      */
     {!! sprintf('public function %s()', Str::camel($yamlFile['name'])) !!}
     {
-        // {{ $requestDirectoryPath }}
-        // {{ $responseDirectoryPath }}
-        // {{ $useExtendsClass }}
-        // {{ $extendsClassName }}
-        // {{ $useInterfaceClass }}
-        // {{ $interfaceClassName }}
         // {{ $className }}
-
-@foreach ($options as $option)
-        // {{ $option }}
-@endforeach
+        // {{ $yamlCommonFile['name'] }}
+        // {{ $options['request_directory_path'] }}
+        // {{ $options['response_directory_path'] }}
+        // {{ $options['use_extends_class'] }}
+        // {{ $options['extends_class_name'] }}
+        // {{ $options['use_interface_class'] }}
+        // {{ $options['interface_class_name'] }}
     }
 }

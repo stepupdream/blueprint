@@ -21,11 +21,6 @@ class GroupLump extends OutputDirectory
     ];
 
     /**
-     * @var string
-     */
-    protected string $groupKeyName;
-
-    /**
      * @var bool
      */
     protected bool $isOverride;

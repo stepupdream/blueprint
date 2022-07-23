@@ -35,11 +35,6 @@ class GroupLumpAddMethod extends OutputDirectory
     /**
      * @var string
      */
-    protected string $groupKeyName;
-
-    /**
-     * @var string
-     */
     protected string $methodNameType;
 
     /**

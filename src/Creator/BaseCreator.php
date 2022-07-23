@@ -67,16 +67,10 @@ abstract class BaseCreator
         array $yamlFile = []
     ): array {
         return [
-            'yamlCommonFile'        => $yamlFileCommon,
-            'namespace'             => $this->textSupport->convertFileFullPathToNamespace($classFilePath),
-            'className'             => pathinfo($classFilePath, PATHINFO_FILENAME),
-            'extendsClassName'      => $foundation->extendsClassNameForBlade($fileName, $yamlFile),
-            'useExtendsClass'       => $foundation->useExtendsClassForBlade($fileName, $yamlFile),
-            'interfaceClassName'    => $foundation->interfaceClassNameForBlade($fileName, $yamlFile),
-            'useInterfaceClass'     => $foundation->useInterfaceClassForBlade($fileName, $yamlFile),
-            'requestDirectoryPath'  => $foundation->requestDirectoryPathForBlade($fileName, $yamlFile),
-            'responseDirectoryPath' => $foundation->responseDirectoryPathForBlade($fileName, $yamlFile),
-            'options'               => $foundation->optionsForBlade($fileName, $yamlFile),
+            'yamlCommonFile' => $yamlFileCommon,
+            'namespace'      => $this->textSupport->convertFileFullPathToNamespace($classFilePath),
+            'className'      => pathinfo($classFilePath, PATHINFO_FILENAME),
+            'options'        => $foundation->optionsForBlade($fileName, $yamlFile),
         ];
     }
 

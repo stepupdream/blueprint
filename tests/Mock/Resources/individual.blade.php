@@ -8,18 +8,15 @@ echo '<?php' . PHP_EOL . PHP_EOL .'declare(strict_types=1);'
 //'{!! $column['name'] !!}' => '{!! $column['data_type'] !!}',
 @endforeach
 
-// {{ $requestDirectoryPath }}
-// {{ $responseDirectoryPath }}
-// {{ $useExtendsClass }}
-// {{ $extendsClassName }}
-// {{ $useInterfaceClass }}
-// {{ $interfaceClassName }}
 // {{ $className }}
+// {{ $yamlCommonFile['name'] }}
+// {{ $options['request_directory_path'] }}
+// {{ $options['response_directory_path'] }}
+// {{ $options['use_extends_class'] }}
+// {{ $options['extends_class_name'] }}
+// {{ $options['use_interface_class'] }}
+// {{ $options['interface_class_name'] }}
 
 @foreach($yamlCommonFile['columns'] as $column)
 //'{!! $column['name'] !!}' => '{!! $column['data_type'] !!}',
-@endforeach
-
-@foreach ($options as $option)
-// {{ $option }}
 @endforeach
