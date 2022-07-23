@@ -7,8 +7,8 @@ on:
     branches: [ develop ]
 
 jobs:
-  spread-sheet-converter-testing:
-    name: SpreadSheetConverter (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+  blueprint-testing:
+    name: Blueprint (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false

@@ -6,7 +6,7 @@ on [Github](https://github.com/stepupdream/blueprint).
 ## Pull Requests
 
 - We try to follow [SemVer v2.0.0](http://semver.org/).
-- SpreadSheetConverter follows
+- Blueprint follows
   the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standard
   and the [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) autoloading
   standard.   
