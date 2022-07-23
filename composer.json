@@ -2,13 +2,17 @@
   "name": "stepupdream/blueprint",
   "description": "support package",
   "license": "MIT",
-  "keywords": ["laravel", "yaml", "blueprint"],
+  "keywords": [
+    "laravel",
+    "yaml",
+    "blueprint"
+  ],
   "require": {
     "php": ">=8.0.0",
-    "laravel/framework": "^8"
+    "laravel/framework": "^8",
+    "symfony/yaml": "^5.2"
   },
   "require-dev": {
-    "symfony/yaml": "^5.2",
     "orchestra/testbench": "^6.15",
     "phpunit/phpunit": "^9.5",
     "bamarni/composer-bin-plugin": "^1.4",

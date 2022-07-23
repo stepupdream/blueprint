@@ -4,6 +4,8 @@ echo '<?php' . PHP_EOL . PHP_EOL .'declare(strict_types=1);'
 @endphp
 
 
+namespace StepUpDream\Blueprint\Test\Expected\GroupLumpAddMethod;
+
 class {{ Str::studly($className) }}
 {
     public function {{ Str::camel($yamlFile['api_name']) }}()

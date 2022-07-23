@@ -40,10 +40,10 @@ class GroupLumpAddMethodTest extends TestCase
 
         // assertion
         $testResult = file_get_contents(__DIR__.'/../Result/GroupLumpAddMethod/PrefixSampleGroup1Suffix.php');
-        $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixCharacter1Suffix.php');
+        $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixSampleGroup1Suffix.php');
         self::assertSame($testResult, $expectedResult);
         $testResult = file_get_contents(__DIR__.'/../Result/GroupLumpAddMethod/PrefixSampleGroup2Suffix.php');
-        $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixCharacter2Suffix.php');
+        $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixSampleGroup2Suffix.php');
         self::assertSame($testResult, $expectedResult);
 
         // end
