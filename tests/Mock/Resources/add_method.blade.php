@@ -1,6 +1,7 @@
-    /**
-     * {!! $yamlFile['description'] !!}
-     */
-    {!! sprintf('public function %s()', Str::camel($yamlFile['name'])) !!}
+    public function {{ Str::camel($yamlFile['api_name']) }}()
     {
+        // {{ Str::snake($yamlFile['name']) }}
+        // {{ $className }}
+        // {{ $yamlCommonFile['name'] }}
+        // {{ $options['sample'] }}
     }

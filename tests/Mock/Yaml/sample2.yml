@@ -1,0 +1,4 @@
+- name: 'Sample2'
+  description: 'Sample2 Description'
+  domain_group: 'SampleGroup1'
+  api_name: 'Get2'

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test\Creators;
 
-use Illuminate\Filesystem\Filesystem;
 use StepUpDream\Blueprint\Creator\Foundations\Individual;
 use StepUpDream\Blueprint\Creator\IndividualCreator;
 use StepUpDream\Blueprint\Test\TestCase;
@@ -17,6 +16,9 @@ class IndividualCreatorTest extends TestCase
      */
     public function individualCreator(): void
     {
+        // initialize
+        $this->resultReset();
+
         // config mock
         $configPath = __DIR__.'/../Config.php';
         $configMock = require $configPath;
@@ -26,18 +28,21 @@ class IndividualCreatorTest extends TestCase
         $mock = new ViewLoadServiceProvider($this->app);
         $mock->run();
 
-        // initialize
-        $filesystem = new Filesystem();
-        $filesystem->deleteDirectory(__DIR__.'/../Result/Individual', true);
-
         // test
         $foundation = app()->make(Individual::class, ['foundationConfig' => $foundationConfig]);
         $individualCreator = $this->app->make(IndividualCreator::class);
         $individualCreator->run($foundation);
 
         // assertion
-        $testResult = file_get_contents(__DIR__.'/../Result/Individual/PrefixCharacterSuffix.php');
-        $expectedResult = file_get_contents(__DIR__.'/../Expected/Individual/PrefixCharacterSuffix.php');
+        $testResult = file_get_contents(__DIR__.'/../Result/Individual/PrefixSample2Suffix.php');
+        $expectedResult = file_get_contents(__DIR__.'/../Expected/Individual/PrefixSample2Suffix.php');
         self::assertSame($testResult, $expectedResult);
+
+        $testResult = file_get_contents(__DIR__.'/../Result/Individual/PrefixSample3Suffix.php');
+        $expectedResult = file_get_contents(__DIR__.'/../Expected/Individual/PrefixSample3Suffix.php');
+        self::assertSame($testResult, $expectedResult);
+
+        // end
+        $this->resultReset();
     }
 }

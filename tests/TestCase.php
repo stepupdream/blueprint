@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test;
 
+use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use ReflectionClass;
 
@@ -24,5 +25,14 @@ abstract class TestCase extends OrchestraTestCase
         $method->setAccessible(true);
 
         return $method->invokeArgs($class, $arguments);
+    }
+
+    /**
+     * Delete the directory for storing test results. Recursively delete a directory.
+     */
+    protected function resultReset(): void
+    {
+        $filesystem = $this->app->make(Filesystem::class);
+        $filesystem->deleteDirectory(__DIR__.'/Result');
     }
 }

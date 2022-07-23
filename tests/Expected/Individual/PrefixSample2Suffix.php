@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-// sample1
 // sample2
-// sample3
-// sample5
-
+// PrefixSample2Suffix
 // Sample5
-// sample
-// sample
+// Sample2\SampleGroup1

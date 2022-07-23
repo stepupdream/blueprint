@@ -4,14 +4,7 @@ echo '<?php' . PHP_EOL . PHP_EOL .'declare(strict_types=1);'
 @endphp
 
 
-@foreach($yamlFile['columns'] as $column)
-//'{!! $column['name'] !!}' => '{!! $column['data_type'] !!}',
-@endforeach
-
+// {{ Str::snake($yamlFile['name']) }}
 // {{ $className }}
 // {{ $yamlCommonFile['name'] }}
-// {{ $options['use_extends_class'] }}
-
-@foreach($yamlCommonFile['columns'] as $column)
-//'{!! $column['name'] !!}' => '{!! $column['data_type'] !!}',
-@endforeach
+// {{ $options['sample'] }}

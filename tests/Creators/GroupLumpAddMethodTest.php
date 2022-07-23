@@ -17,8 +17,8 @@ class GroupLumpAddMethodTest extends TestCase
      */
     public function groupLumpAddMethod(): void
     {
-        $resultPath = __DIR__.'/../Result/GroupLumpAddMethod/PrefixCharacterSuffix.php';
-        $this->initialize($resultPath);
+        // initialize
+        $this->resultReset();
 
         // config mock
         $configPath = __DIR__.'/../Config.php';
@@ -39,25 +39,14 @@ class GroupLumpAddMethodTest extends TestCase
         $individualCreator->run($foundation);
 
         // assertion
-        $testResult = file_get_contents($resultPath);
-        $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixCharacterSuffix.php');
+        $testResult = file_get_contents(__DIR__.'/../Result/GroupLumpAddMethod/PrefixSampleGroup1Suffix.php');
+        $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixCharacter1Suffix.php');
         self::assertSame($testResult, $expectedResult);
-    }
+        $testResult = file_get_contents(__DIR__.'/../Result/GroupLumpAddMethod/PrefixSampleGroup2Suffix.php');
+        $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixCharacter2Suffix.php');
+        self::assertSame($testResult, $expectedResult);
 
-    /**
-     * Delete file.
-     *
-     * @param  string  $path
-     * @return bool
-     */
-    protected function initialize(string $path): bool
-    {
-        $success = true;
-
-        if (! @unlink($path)) {
-            $success = false;
-        }
-
-        return $success;
+        // end
+        $this->resultReset();
     }
 }

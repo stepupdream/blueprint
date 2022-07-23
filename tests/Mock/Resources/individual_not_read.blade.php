@@ -4,4 +4,4 @@ echo '<?php' . PHP_EOL . PHP_EOL .'declare(strict_types=1);'
 
 
 // {{ $className }}
-// {{ $options['use_extends_class'] }}
+// {{ $options['sample'] }}

@@ -7,17 +7,16 @@ return [
         'lump' => [
             // required
             'create_type'         => 'Lump',
-            'read_path'           => __DIR__.'/Mock/Yaml/Lump',
+            'read_path'           => __DIR__.'/Mock/Yaml',
             'output_path'         => __DIR__.'/Result/Lump/sample.php',
             'template_blade_file' => 'blueprint::lump',
             'is_override'         => true,
 
             // option
-            'except_file_names'   => ['Get3', 'Get4'],
-            'group_key_name'      => 'domain_group',
-            'common_file_name'    => 'Get4',
+            'except_file_names'   => ['sample4'],
+            'common_file_name'    => 'sample5',
             'options'             => [
-                'use_extends_class' => 'use App\Infrastructures\User\@fileName\@groupName\CCC as Blueprint;',
+                'sample' => '@fileName',
             ],
         ],
 
@@ -29,29 +28,26 @@ return [
             'is_override'         => true,
 
             // option
-            'except_file_names'   => ['Get3', 'Get4'],
-            'group_key_name'      => 'domain_group',
-            'common_file_name'    => 'Get4',
             'options'             => [
-                'use_extends_class' => 'use App\Infrastructures\User\@fileName\@groupName\CCC as Blueprint;',
+                'sample' => 'test',
             ],
         ],
 
         'individual' => [
             // required
             'create_type'             => 'Individual',
-            'read_path'               => __DIR__.'/Mock/Yaml/Individual',
+            'read_path'               => __DIR__.'/Mock/Yaml',
             'extension'               => 'php',
             'output_directory_path'   => __DIR__.'/Result/Individual',
             'template_blade_file'     => 'blueprint::individual',
             'is_override'             => true,
 
             // option
-            'except_file_names'       => ['common'],
+            'except_file_names'       => ['sample1', 'sample4', 'sample5'],
             'group_key_name'          => 'domain_group',
-            'common_file_name'        => 'common',
+            'common_file_name'        => 'sample5',
             'options'                 => [
-                'use_extends_class' => 'use App\Infrastructures\User\@fileName\@groupName\CCC as Blueprint;',
+                'sample' => '@fileName\@groupName',
             ],
             'prefix'                  => 'Prefix',
             'suffix'                  => 'Suffix',
@@ -61,20 +57,20 @@ return [
         'group_lump_add_method' => [
             // required
             'create_type'             => 'GroupLumpAddMethod',
-            'read_path'               => __DIR__.'/Mock/Yaml/GroupLumpAddMethod',
+            'read_path'               => __DIR__.'/Mock/Yaml',
             'extension'               => 'php',
             'output_directory_path'   => __DIR__.'/Result/GroupLumpAddMethod',
             'template_blade_file'     => 'blueprint::group_lump_add_method',
             'group_key_name'          => 'domain_group',
-            'method_key_name'         => 'name',
+            'method_key_name'         => 'api_name',
             'method_name_type'        => 'camel',
             'add_template_blade_file' => 'blueprint::add_method',
 
             // option
-            'except_file_names'       => ['Get3'],
-            'common_file_name'        => 'Get3',
+            'except_file_names'       => ['sample5'],
+            'common_file_name'        => 'sample5',
             'options'                 => [
-                'use_extends_class' => 'use App\Infrastructures\User\@fileName\@groupName\CCC as Blueprint;',
+                'sample' => '@fileName\@groupName',
             ],
             'prefix'                  => 'Prefix',
             'suffix'                  => 'Suffix',
@@ -84,7 +80,7 @@ return [
         'group_lump' => [
             // required
             'create_type'             => 'GroupLump',
-            'read_path'               => __DIR__.'/Mock/Yaml/GroupLump',
+            'read_path'               => __DIR__.'/Mock/Yaml',
             'extension'               => 'php',
             'output_directory_path'   => __DIR__.'/Result/GroupLump',
             'template_blade_file'     => 'blueprint::group_lump',
@@ -92,10 +88,10 @@ return [
             'is_override'             => true,
 
             // option
-            'except_file_names'       => ['Get4'],
-            'common_file_name'        => 'Get4',
+            'except_file_names'       => ['sample5'],
+            'common_file_name'        => 'sample5',
             'options'                 => [
-                'use_extends_class' => 'use App\Infrastructures\User\@fileName\@groupName\CCC as Blueprint;',
+                'sample' => '@fileName\@groupName',
             ],
             'prefix'                  => 'Prefix',
             'suffix'                  => 'Suffix',
