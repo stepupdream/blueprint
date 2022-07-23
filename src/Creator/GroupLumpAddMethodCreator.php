@@ -2,28 +2,24 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Foundation\Creators;
+namespace StepUpDream\Blueprint\Creator;
 
-use StepUpDream\Blueprint\Foundation\Foundation;
+use LogicException;
+use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
 
-class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements FoundationCreatorInterface
+class GroupLumpAddMethodCreator extends BaseCreator
 {
     /**
      * Execution of processing.
      *
      * Output the read yaml contents as a group. Assuming one method per Yaml.
      *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod  $foundation
      */
-    public function run(Foundation $foundation): void
+    public function run(GroupLumpAddMethod $foundation): void
     {
-        $requiredKey = [
-            'readPath', 'outputDirectoryPath', 'extension', 'methodKeyName',
-            'addTemplateBladeFile', 'groupKeyName', 'templateBladeFile',
-        ];
-        $this->verifyKeys($foundation, $requiredKey);
         $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
-        $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
+        $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
 
         foreach ($yamlFiles as $yamlFile) {
             $fileName = $yamlFile[$foundation->groupKeyName()];
@@ -43,9 +39,32 @@ class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements Foundatio
                 $this->fileCreator->createFile($newFile, $classPath, true);
             } else {
                 $blade = $this->readBladeIndividual($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
-                $this->fileCreator->createFile($blade, $classPath, $foundation->isOverride());
+                $this->fileCreator->createFile($blade, $classPath, false);
             }
         }
+    }
+
+    /**
+     * Read blade file for add template file.
+     *
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod  $foundation
+     * @param  string  $classFilePath
+     * @param  string  $fileName
+     * @param  mixed[]  $yamlFile
+     * @param  mixed[]  $yamlFileCommon
+     * @return string
+     */
+    protected function readBladeAddTemplate(
+        GroupLumpAddMethod $foundation,
+        string $classFilePath,
+        string $fileName,
+        array $yamlFile,
+        array $yamlFileCommon
+    ): string {
+        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
+        $arguments['yaml'] = $yamlFile;
+
+        return view($foundation->addTemplateBladeFile(), $arguments)->render();
     }
 
     /**
@@ -60,6 +79,6 @@ class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements Foundatio
     {
         $replacement = PHP_EOL.$this->fileCreator->addTabSpace().$bladeFile.'}'.PHP_EOL;
 
-        return preg_replace('/}[^}]*$/', $replacement, $this->fileCreator->getFile($classFilePath));
+        return preg_replace('/}[^}]*$/', $replacement, $this->fileCreator->get($classFilePath));
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Foundation\Supports;
+namespace StepUpDream\Blueprint\Creator\Supports;
 
 use Illuminate\Support\Str;
 use LogicException;

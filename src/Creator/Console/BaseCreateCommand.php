@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Foundation\Console;
+namespace StepUpDream\Blueprint\Creator\Console;
 
 use Illuminate\Console\Command;
 

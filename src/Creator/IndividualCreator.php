@@ -2,25 +2,23 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Foundation\Creators;
+namespace StepUpDream\Blueprint\Creator;
 
-use StepUpDream\Blueprint\Foundation\Foundation;
+use StepUpDream\Blueprint\Creator\Foundations\Individual;
 
-class IndividualFileCreator extends BaseCreator implements FoundationCreatorInterface
+class IndividualCreator extends BaseCreator
 {
     /**
      * Execution of processing.
      *
      * Output the file according to the read yaml file.
      *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\Individual  $foundation
      */
-    public function run(Foundation $foundation): void
+    public function run(Individual $foundation): void
     {
-        $requiredKey = ['readPath', 'outputDirectoryPath', 'extension', 'templateBladeFile', 'isOverride'];
-        $this->verifyKeys($foundation, $requiredKey);
         $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
-        $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
+        $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
 
         foreach ($yamlFiles as $filePath => $yamlFile) {
             $fileName = basename($filePath, '.yml');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if (! function_exists('blade_phpdoc_support')) {
     /**
      * blade_phpdoc_support.

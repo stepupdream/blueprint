@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Foundation\Creators;
+namespace StepUpDream\Blueprint\Creator;
 
-use LogicException;
-use StepUpDream\Blueprint\Foundation\Foundation;
-use StepUpDream\Blueprint\Foundation\Supports\File\Creator;
-use StepUpDream\Blueprint\Foundation\Supports\TextSupport;
-use StepUpDream\Blueprint\Foundation\Supports\Yaml\Reader;
+use StepUpDream\Blueprint\Creator\Foundations\Base;
+use StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryCommon;
+use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
+use StepUpDream\Blueprint\Creator\Supports\TextSupport;
+use StepUpDream\Blueprint\Reader\Yaml\YamlFileOperation;
 
-class BaseCreator
+abstract class BaseCreator
 {
     /**
      * BaseCreator constructor.
      *
-     * @param  \StepUpDream\Blueprint\Foundation\Supports\File\Creator  $fileCreator
-     * @param  \StepUpDream\Blueprint\Foundation\Supports\Yaml\Reader  $yamlReader
-     * @param  \StepUpDream\Blueprint\Foundation\Supports\TextSupport  $textSupport
+     * @param  \StepUpDream\Blueprint\Creator\Supports\File\FileOperation  $fileCreator
+     * @param  \StepUpDream\Blueprint\Reader\Yaml\YamlFileOperation  $yamlReader
+     * @param  \StepUpDream\Blueprint\Creator\Supports\TextSupport  $textSupport
      */
     public function __construct(
-        protected Creator $fileCreator,
-        protected Reader $yamlReader,
+        protected FileOperation $fileCreator,
+        protected YamlFileOperation $yamlReader,
         protected TextSupport $textSupport
     ) {
     }
@@ -29,15 +29,15 @@ class BaseCreator
     /**
      * Read blade file for Individual file.
      *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\Base  $foundation
      * @param  string  $classFilePath
      * @param  string  $fileName
-     * @param  array  $yamlFile
-     * @param  array  $yamlFileCommon
+     * @param  mixed[]  $yamlFile
+     * @param  mixed[]  $yamlFileCommon
      * @return string
      */
     protected function readBladeIndividual(
-        Foundation $foundation,
+        Base $foundation,
         string $classFilePath,
         string $fileName,
         array $yamlFile,
@@ -52,15 +52,15 @@ class BaseCreator
     /**
      * Arguments to view.
      *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\Base  $foundation
      * @param  string  $classFilePath
      * @param  string  $fileName
-     * @param  array  $yamlFile
-     * @param  array  $yamlFileCommon
-     * @return array
+     * @param  mixed[]  $yamlFile
+     * @param  mixed[]  $yamlFileCommon
+     * @return mixed[]
      */
     protected function argumentsToView(
-        Foundation $foundation,
+        Base $foundation,
         string $classFilePath,
         array $yamlFileCommon,
         string $fileName = '',
@@ -81,39 +81,16 @@ class BaseCreator
     }
 
     /**
-     * Read blade file for add template file.
-     *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
-     * @param  string  $classFilePath
-     * @param  string  $fileName
-     * @param  array  $yamlFile
-     * @param  array  $yamlFileCommon
-     * @return string
-     */
-    protected function readBladeAddTemplate(
-        Foundation $foundation,
-        string $classFilePath,
-        string $fileName,
-        array $yamlFile,
-        array $yamlFileCommon
-    ): string {
-        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
-        $arguments['yaml'] = $yamlFile;
-
-        return view($foundation->addTemplateBladeFile(), $arguments)->render();
-    }
-
-    /**
      * Read blade file.
      *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\Base  $foundation
      * @param  string  $classFilePath
-     * @param  array  $yamlFiles
-     * @param  array  $yamlFileCommon
+     * @param  mixed[]  $yamlFiles
+     * @param  mixed[]  $yamlFileCommon
      * @return string
      */
     protected function readBladeFileLump(
-        Foundation $foundation,
+        Base $foundation,
         string $classFilePath,
         array $yamlFiles,
         array $yamlFileCommon
@@ -125,31 +102,18 @@ class BaseCreator
     }
 
     /**
-     * Verify if there is a required key.
-     *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
-     * @param  array  $requiredKeys
-     */
-    protected function verifyKeys(Foundation $foundation, array $requiredKeys): void
-    {
-        $foundationArray = $foundation->toArray();
-        foreach ($requiredKeys as $requiredKey) {
-            if (! array_key_exists($requiredKey, $foundationArray) || $foundation->{$requiredKey}() === '') {
-                throw new LogicException($requiredKey.': Check if the specified key is correct');
-            }
-        }
-    }
-
-    /**
      * Generate the full path of the output file.
      *
      * @param  string  $fileName
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
-     * @param  array  $yamlFile
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryCommon  $foundation
+     * @param  mixed[]  $yamlFile
      * @return string
      */
-    protected function generateOutputFileFullPath(string $fileName, Foundation $foundation, array $yamlFile): string
-    {
+    protected function generateOutputFileFullPath(
+        string $fileName,
+        OutputDirectoryCommon $foundation,
+        array $yamlFile
+    ): string {
         $outputDirectoryPath = $foundation->replacedOutputDirectoryPath($fileName, $yamlFile);
         $prefix = $foundation->prefix();
         $suffix = $foundation->suffix();

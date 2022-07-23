@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'create_classes' => [
+    'foundations' => [
         'api_base_controller' => [
             'create_type'         => 'IndividualWithoutRead',
             'template_blade_file' => 'blueprint::Foundation.Controller.base',

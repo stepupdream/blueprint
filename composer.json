@@ -19,7 +19,7 @@
       "StepUpDream\\Blueprint\\": "src/"
     },
     "files": [
-      "src/Foundation/helpers.php"
+      "src/Creator/Supports/helpers.php"
     ]
   },
   "autoload-dev": {
@@ -30,7 +30,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "StepUpDream\\Blueprint\\Foundation\\Providers\\FoundationCreateCommandServiceProvider"
+        "StepUpDream\\Blueprint\\Creator\\Providers\\FoundationCreateCommandServiceProvider"
       ],
       "aliases": {
       }

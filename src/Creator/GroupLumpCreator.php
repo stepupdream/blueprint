@@ -2,27 +2,23 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Foundation\Creators;
+namespace StepUpDream\Blueprint\Creator;
 
-use StepUpDream\Blueprint\Foundation\Foundation;
+use StepUpDream\Blueprint\Creator\Foundations\GroupLump;
 
-class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInterface
+class GroupLumpCreator extends BaseCreator
 {
     /**
      * Execution of processing.
      *
      * Output the read yaml contents as a group
      *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\GroupLump  $foundation
      */
-    public function run(Foundation $foundation): void
+    public function run(GroupLump $foundation): void
     {
-        $requiredKey = [
-            'readPath', 'outputDirectoryPath', 'groupKeyName', 'extension', 'templateBladeFile', 'isOverride',
-        ];
-        $this->verifyKeys($foundation, $requiredKey);
         $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
-        $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
+        $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
 
         $yamlFilesGroups = collect($yamlFiles)->groupBy($foundation->groupKeyName())->toArray();
         foreach ($yamlFilesGroups as $groupKeyName => $yamlFilesGroup) {
