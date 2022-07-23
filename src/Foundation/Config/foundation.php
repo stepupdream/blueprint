@@ -55,7 +55,7 @@ return [
         // User
         'user_models'         => [
             'create_type'             => 'Individual',
-            'read_path'               => base_path('definition_document/database/user_data'),
+            'read_path'               => base_path('definition_document/database/user'),
             'except_file_names'       => [],
             'output_directory_path'   => app_path('Infrastructures/User').'/%s',
             'convert_class_name_type' => 'singular_studly',
@@ -68,7 +68,7 @@ return [
         
         'user_models_framework' => [
             'create_type'             => 'Individual',
-            'read_path'               => base_path('definition_document/database/user_Data'),
+            'read_path'               => base_path('definition_document/database/user'),
             'except_file_names'       => [],
             'output_directory_path'   => app_path('Infrastructures/User').'/%s/Framework',
             'convert_class_name_type' => 'singular_studly',

@@ -17,5 +17,5 @@ namespace {{ $namespace }};
  */
 class {{ Str::studly($class_name) }}{{ $extends_class_name }}
 {
-    @include('foundation::Component.Controller.add_method')
+    @include('blueprint::Component.Controller.add_method')
 }
