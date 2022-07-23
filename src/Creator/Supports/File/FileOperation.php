@@ -137,6 +137,8 @@ class FileOperation
             if (! $contents) {
                 throw new LogicException('Failed to get the file. : '.$path);
             }
+
+            return $contents;
         }
 
         throw new FileNotFoundException("File does not exist at path {$path}.");

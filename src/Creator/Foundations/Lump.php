@@ -57,9 +57,9 @@ class Lump extends Base
         parent::__construct($foundationConfig, $textSupport);
 
         // required
-        $this->readPath = (string) $foundationConfig['readPath'];
-        $this->outputPath = (string) $foundationConfig['outputPath'];
-        $this->isOverride = (bool) $foundationConfig['isOverride'];
+        $this->readPath = (string) $foundationConfig['read_path'];
+        $this->outputPath = (string) $foundationConfig['output_path'];
+        $this->isOverride = (bool) $foundationConfig['is_override'];
 
         // option
         $this->exceptFileNames = $foundationConfig['except_file_names'] ?? [];
