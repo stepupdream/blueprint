@@ -7,7 +7,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 use LogicException;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class Base
+abstract class Base
 {
     /**
      * @var string
@@ -228,82 +228,12 @@ class Base
     }
 
     /**
-     * Get extendsClassName
-     *
-     * @return string
-     */
-    public function extendsClassName(): string
-    {
-        return $this->extendsClassName;
-    }
-
-    /**
-     * Get useExtendsClass
-     *
-     * @return string
-     */
-    public function useExtendsClass(): string
-    {
-        return $this->useExtendsClass;
-    }
-
-    /**
-     * Get interfaceClassName
-     *
-     * @return string
-     */
-    public function interfaceClassName(): string
-    {
-        return $this->interfaceClassName;
-    }
-
-    /**
-     * Get useInterfaceClass
-     *
-     * @return string
-     */
-    public function useInterfaceClass(): string
-    {
-        return $this->useInterfaceClass;
-    }
-
-    /**
-     * Get requestDirectoryPath
-     *
-     * @return string
-     */
-    public function requestDirectoryPath(): string
-    {
-        return $this->requestDirectoryPath;
-    }
-
-    /**
-     * Get responseDirectoryPath
-     *
-     * @return string
-     */
-    public function responseDirectoryPath(): string
-    {
-        return $this->responseDirectoryPath;
-    }
-
-    /**
-     * Get options
-     *
-     * @return string[]
-     */
-    public function options(): array
-    {
-        return $this->options;
-    }
-
-    /**
      * Verify if there is a required key.
      *
      * @param  string[]  $foundationConfig
      * @param  string[]  $requiredKeys
      */
-    public function verifyKeys(array $foundationConfig, array $requiredKeys): void
+    protected function verifyKeys(array $foundationConfig, array $requiredKeys): void
     {
         foreach ($requiredKeys as $requiredKey) {
             if (! array_key_exists($requiredKey, $foundationConfig)) {

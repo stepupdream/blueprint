@@ -84,16 +84,6 @@ abstract class OutputDirectoryCommon extends Base
     }
 
     /**
-     * Get outputDirectoryPath
-     *
-     * @return string
-     */
-    public function outputDirectoryPath(): string
-    {
-        return $this->outputDirectoryPath;
-    }
-
-    /**
      * Get exceptFileNames
      *
      * @return string[]
