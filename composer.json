@@ -1,0 +1,29 @@
+{
+  "name": "stepupdream/blueprint",
+  "description": "support package",
+  "license": "MIT",
+  "require": {
+    "laravel/framework": "^6|^7|^8"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "StepUpDream\\Blueprint\\": "src/"
+    },
+    "files": [
+      "helpers.php"
+    ]
+  },
+  "autoload-dev": {
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "StepUpDream\\Blueprint\\Foundation\\Providers\\FoundationCreateCommandServiceProvider"
+      ],
+      "aliases": {
+      }
+    }
+  }
+}
