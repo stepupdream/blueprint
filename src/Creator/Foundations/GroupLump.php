@@ -6,8 +6,11 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class GroupLump extends OutputDirectory
+class GroupLump extends Base implements OutputDirectoryInterface, NeedReadYamlInterface
 {
+    use OutputDirectory;
+    use NeedReadYaml;
+
     /**
      * @var string[]
      */
@@ -36,20 +39,11 @@ class GroupLump extends OutputDirectory
         TextSupport $textSupport
     ) {
         $this->verifyKeys($foundationConfig, $this->requiredKeys);
+        $this->setOutputDirectory($foundationConfig);
+        $this->setNeedReadYaml($foundationConfig);
         parent::__construct($foundationConfig, $textSupport);
 
-        $this->groupKeyName = (string) $foundationConfig['group_key_name'];
         $this->isOverride = (bool) $foundationConfig['is_override'];
-    }
-
-    /**
-     * Get groupKeyName
-     *
-     * @return string
-     */
-    public function groupKeyName(): string
-    {
-        return $this->groupKeyName;
     }
 
     /**

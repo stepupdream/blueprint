@@ -7,7 +7,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 use LogicException;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-abstract class Base
+abstract class Base implements BaseInterface
 {
     /**
      * @var string
@@ -18,11 +18,6 @@ abstract class Base
      * @var string[]
      */
     protected array $options;
-
-    /**
-     * @var string
-     */
-    protected string $groupKeyName;
 
     /**
      * Base constructor.
@@ -36,46 +31,6 @@ abstract class Base
     ) {
         $this->templateBladeFile = (string) $foundationConfig['template_blade_file'];
         $this->options = $foundationConfig['options'] ?? [];
-        $this->groupKeyName = $foundationConfig['group_key_name'] ?? '';
-    }
-
-    /**
-     * options for blade.
-     *
-     * @param  string  $fileName
-     * @param  mixed|null  $yamlFile
-     * @return mixed[]
-     */
-    public function optionsForBlade(string $fileName, mixed $yamlFile = null): array
-    {
-        $result = [];
-        foreach ($this->options as $key => $option) {
-            $result[$key] = $this->replaceForBlade($fileName, $option, $yamlFile);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Replace key for replacement.
-     *
-     * @param  string  $fileName
-     * @param  string  $value
-     * @param  mixed  $yamlFile
-     * @return string
-     */
-    protected function replaceForBlade(string $fileName, string $value, mixed $yamlFile): string
-    {
-        $groupName = $yamlFile[$this->groupKeyName] ?? '';
-        if (! empty($groupName) && str_contains($value, '@groupName')) {
-            $value = str_replace('@groupName', $groupName, $value);
-        }
-
-        if (! empty($fileName) && str_contains($value, '@fileName')) {
-            $value = str_replace('@fileName', $fileName, $value);
-        }
-
-        return $value;
     }
 
     /**

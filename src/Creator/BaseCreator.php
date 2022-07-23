@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace StepUpDream\Blueprint\Creator;
 
 use StepUpDream\Blueprint\Creator\Foundations\Base;
-use StepUpDream\Blueprint\Creator\Foundations\OutputDirectory;
+use StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryInterface;
 use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
 use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
@@ -63,8 +63,8 @@ abstract class BaseCreator
         Base $foundation,
         string $classFilePath,
         array $yamlFileCommon,
-        string $fileName = '',
-        array $yamlFile = []
+        string $fileName,
+        array $yamlFile
     ): array {
         return [
             'yamlCommonFile' => $yamlFileCommon,
@@ -89,7 +89,9 @@ abstract class BaseCreator
         array $yamlFiles,
         array $yamlFileCommon
     ): string {
-        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon);
+        $fileName = pathinfo($classFilePath, PATHINFO_FILENAME);
+        $yamlFile = array_values($yamlFiles)[0];
+        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
         $arguments['yamlFiles'] = $yamlFiles;
 
         return view($foundation->templateBladeFile(), $arguments)->render();
@@ -99,13 +101,13 @@ abstract class BaseCreator
      * Generate the full path of the output file.
      *
      * @param  string  $fileName
-     * @param  \StepUpDream\Blueprint\Creator\Foundations\OutputDirectory  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryInterface  $foundation
      * @param  mixed[]  $yamlFile
      * @return string
      */
     protected function generateOutputFileFullPath(
         string $fileName,
-        OutputDirectory $foundation,
+        OutputDirectoryInterface $foundation,
         array $yamlFile
     ): string {
         $outputDirectoryPath = $foundation->replacedOutputDirectoryPath($fileName, $yamlFile);

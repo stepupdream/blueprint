@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator\Foundations;
 
-use StepUpDream\Blueprint\Creator\Supports\TextSupport;
-
-abstract class OutputDirectory extends Base
+trait OutputDirectory
 {
-    /**
-     * @var string
-     */
-    protected string $readPath;
-
     /**
      * @var string
      */
@@ -22,11 +15,6 @@ abstract class OutputDirectory extends Base
      * @var string
      */
     protected string $extension;
-
-    /**
-     * @var string[]
-     */
-    protected array $exceptFileNames;
 
     /**
      * @var string
@@ -41,54 +29,7 @@ abstract class OutputDirectory extends Base
     /**
      * @var string
      */
-    protected string $commonFileName;
-
-    /**
-     * @var string
-     */
     protected string $convertClassNameType;
-
-    /**
-     * OutputDirectoryCommon constructor.
-     *
-     * @param  mixed[]  $foundationConfig
-     * @param  \StepUpDream\Blueprint\Creator\Supports\TextSupport  $textSupport
-     */
-    public function __construct(
-        array $foundationConfig,
-        TextSupport $textSupport
-    ) {
-        parent::__construct($foundationConfig, $textSupport);
-
-        $this->readPath = (string) $foundationConfig['read_path'];
-        $this->outputDirectoryPath = (string) $foundationConfig['output_directory_path'];
-        $this->extension = (string) $foundationConfig['extension'];
-        $this->exceptFileNames = $foundationConfig['except_file_names'] ?? [];
-        $this->prefix = $foundationConfig['prefix'] ?? '';
-        $this->suffix = $foundationConfig['suffix'] ?? '';
-        $this->commonFileName = $foundationConfig['common_file_name'] ?? '';
-        $this->convertClassNameType = $foundationConfig['convert_class_name_type'] ?? '';
-    }
-
-    /**
-     * Get readPath
-     *
-     * @return string
-     */
-    public function readPath(): string
-    {
-        return $this->readPath;
-    }
-
-    /**
-     * Get exceptFileNames
-     *
-     * @return string[]
-     */
-    public function exceptFileNames(): array
-    {
-        return $this->exceptFileNames;
-    }
 
     /**
      * Get extension
@@ -121,16 +62,6 @@ abstract class OutputDirectory extends Base
     }
 
     /**
-     * Get commonFileName
-     *
-     * @return string
-     */
-    public function commonFileName(): string
-    {
-        return $this->commonFileName;
-    }
-
-    /**
      * Get convertClassNameType
      *
      * @return string
@@ -150,5 +81,20 @@ abstract class OutputDirectory extends Base
     public function replacedOutputDirectoryPath(string $fileName, array $yamlFile): string
     {
         return $this->replaceForBlade($fileName, $this->outputDirectoryPath, $yamlFile);
+    }
+
+    /**
+     * Set output directory value.
+     *
+     * @param  mixed[]  $foundationConfig
+     * @return void
+     */
+    protected function setOutputDirectory(array $foundationConfig): void
+    {
+        $this->outputDirectoryPath = (string) $foundationConfig['output_directory_path'];
+        $this->extension = (string) $foundationConfig['extension'];
+        $this->prefix = $foundationConfig['prefix'] ?? '';
+        $this->suffix = $foundationConfig['suffix'] ?? '';
+        $this->convertClassNameType = $foundationConfig['convert_class_name_type'] ?? '';
     }
 }

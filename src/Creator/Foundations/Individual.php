@@ -6,8 +6,11 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class Individual extends OutputDirectory
+class Individual extends Base implements OutputDirectoryInterface, NeedReadYamlInterface
 {
+    use OutputDirectory;
+    use NeedReadYaml;
+
     /**
      * @var string[]
      */
@@ -35,6 +38,8 @@ class Individual extends OutputDirectory
         TextSupport $textSupport
     ) {
         $this->verifyKeys($foundationConfig, $this->requiredKeys);
+        $this->setOutputDirectory($foundationConfig);
+        $this->setNeedReadYaml($foundationConfig);
         parent::__construct($foundationConfig, $textSupport);
 
         $this->isOverride = (bool) $foundationConfig['is_override'];

@@ -6,8 +6,10 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class Lump extends Base
+class Lump extends Base implements NeedReadYamlInterface
 {
+    use NeedReadYaml;
+
     /**
      * @var string[]
      */
@@ -21,27 +23,12 @@ class Lump extends Base
     /**
      * @var string
      */
-    protected string $readPath;
-
-    /**
-     * @var string
-     */
     protected string $outputPath;
 
     /**
      * @var bool
      */
     protected bool $isOverride;
-
-    /**
-     * @var string[]
-     */
-    protected array $exceptFileNames;
-
-    /**
-     * @var string
-     */
-    protected string $commonFileName;
 
     /**
      * Lump constructor.
@@ -54,23 +41,11 @@ class Lump extends Base
         TextSupport $textSupport
     ) {
         $this->verifyKeys($foundationConfig, $this->requiredKeys);
+        $this->setNeedReadYaml($foundationConfig);
         parent::__construct($foundationConfig, $textSupport);
 
-        $this->readPath = (string) $foundationConfig['read_path'];
         $this->outputPath = (string) $foundationConfig['output_path'];
         $this->isOverride = (bool) $foundationConfig['is_override'];
-        $this->exceptFileNames = $foundationConfig['except_file_names'] ?? [];
-        $this->commonFileName = $foundationConfig['common_file_name'] ?? '';
-    }
-
-    /**
-     * Get readPath
-     *
-     * @return string
-     */
-    public function readPath(): string
-    {
-        return $this->readPath;
     }
 
     /**
@@ -91,25 +66,5 @@ class Lump extends Base
     public function isOverride(): bool
     {
         return $this->isOverride;
-    }
-
-    /**
-     * Get exceptFileNames
-     *
-     * @return string[]
-     */
-    public function exceptFileNames(): array
-    {
-        return $this->exceptFileNames;
-    }
-
-    /**
-     * Get commonFileName
-     *
-     * @return string
-     */
-    public function commonFileName(): string
-    {
-        return $this->commonFileName;
     }
 }

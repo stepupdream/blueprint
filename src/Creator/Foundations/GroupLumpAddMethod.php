@@ -6,8 +6,11 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class GroupLumpAddMethod extends OutputDirectory
+class GroupLumpAddMethod extends Base implements OutputDirectoryInterface, NeedReadYamlInterface
 {
+    use OutputDirectory;
+    use NeedReadYaml;
+
     /**
      * @var string[]
      */
@@ -48,11 +51,12 @@ class GroupLumpAddMethod extends OutputDirectory
         TextSupport $textSupport
     ) {
         $this->verifyKeys($foundationConfig, $this->requiredKeys);
+        $this->setOutputDirectory($foundationConfig);
+        $this->setNeedReadYaml($foundationConfig);
         parent::__construct($foundationConfig, $textSupport);
 
         $this->methodKeyName = (string) $foundationConfig['method_key_name'];
         $this->addTemplateBladeFile = (string) $foundationConfig['add_template_blade_file'];
-        $this->groupKeyName = (string) $foundationConfig['group_key_name'];
         $this->methodNameType = $foundationConfig['method_name_type'];
     }
 
@@ -74,16 +78,6 @@ class GroupLumpAddMethod extends OutputDirectory
     public function addTemplateBladeFile(): string
     {
         return $this->addTemplateBladeFile;
-    }
-
-    /**
-     * Get groupKeyName
-     *
-     * @return string
-     */
-    public function groupKeyName(): string
-    {
-        return $this->groupKeyName;
     }
 
     /**
