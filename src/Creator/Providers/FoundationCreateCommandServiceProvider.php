@@ -16,7 +16,7 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
      * @var string[]
      */
     protected array $commands = [
-        'FoundationCreateCommand' => 'command.foundation-create-command',
+        'BlueprintCreateCommand' => 'blueprint.create.command',
     ];
 
     /**
@@ -36,7 +36,7 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
                 __DIR__.'/../../../resources' => $this->app->resourcePath('views/vendor/blueprint'),
             ], 'blueprint');
 
-            $this->app->singleton('command.foundation-create-command', function () {
+            $this->app->singleton('blueprint.create.command', function () {
                 return new FoundationCreateCommand();
             });
 

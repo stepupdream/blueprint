@@ -23,7 +23,7 @@ class FoundationCreateCommand extends BaseCreateCommand
      *
      * @var string
      */
-    protected $signature = 'blueprint:foundation-create {--target=}';
+    protected $signature = 'blueprint:create {--target=}';
 
     /**
      * The console command description.
