@@ -5,7 +5,7 @@ namespace StepUpDream\Blueprint\Foundation\Creators;
 use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
- * Class IndividualFileCreator
+ * Class IndividualFileCreator.
  */
 class IndividualFileCreator extends BaseCreator implements FoundationCreatorInterface
 {

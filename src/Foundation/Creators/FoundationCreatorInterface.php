@@ -5,12 +5,12 @@ namespace StepUpDream\Blueprint\Foundation\Creators;
 use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
- * Interface FoundationCreatorInterface
+ * Interface FoundationCreatorInterface.
  */
 interface FoundationCreatorInterface
 {
     /**
-     * Execution of processing
+     * Execution of processing.
      *
      * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
      */

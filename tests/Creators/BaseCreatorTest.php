@@ -8,7 +8,7 @@ use StepUpDream\Blueprint\Foundation\Foundation;
 use StepUpDream\Blueprint\Test\TestCase;
 
 /**
- * Class BaseCreatorTest
+ * Class BaseCreatorTest.
  */
 class BaseCreatorTest extends TestCase
 {
@@ -34,7 +34,7 @@ class BaseCreatorTest extends TestCase
     }
 
     /**
-     * dataProvider
+     * dataProvider.
      */
     public function dataProviderCheckKey()
     {

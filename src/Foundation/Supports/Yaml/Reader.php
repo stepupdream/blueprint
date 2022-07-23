@@ -7,7 +7,7 @@ use LogicException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class Reader
+ * Class Reader.
  */
 class Reader
 {

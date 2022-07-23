@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use LogicException;
 
 /**
- * Class TextSupport
+ * Class TextSupport.
  */
 class TextSupport
 {

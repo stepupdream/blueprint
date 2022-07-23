@@ -7,9 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use StepUpDream\Blueprint\Foundation\Console\FoundationCreateCommand;
 
 /**
- * Class FoundationCreateCommandServiceProvider
- *
- * @package StepUpDream\Blueprint\Foundation\Providers
+ * Class FoundationCreateCommandServiceProvider.
  */
 class FoundationCreateCommandServiceProvider extends ServiceProvider implements DeferrableProvider
 {

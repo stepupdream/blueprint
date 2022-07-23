@@ -5,7 +5,7 @@ namespace StepUpDream\Blueprint\Foundation\Console;
 use Illuminate\Console\Command;
 
 /**
- * Class BaseCreateCommand
+ * Class BaseCreateCommand.
  */
 abstract class BaseCreateCommand extends Command
 {

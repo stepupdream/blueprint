@@ -10,7 +10,7 @@ use StepUpDream\Blueprint\Foundation\Supports\Yaml\Reader;
 use StepUpDream\Blueprint\Test\TestCase;
 
 /**
- * Class IndividualFileCreatorTest
+ * Class IndividualFileCreatorTest.
  */
 class IndividualFileCreatorTest extends TestCase
 {

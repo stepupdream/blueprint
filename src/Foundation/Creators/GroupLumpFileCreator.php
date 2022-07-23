@@ -5,12 +5,12 @@ namespace StepUpDream\Blueprint\Foundation\Creators;
 use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
- * Class GroupLumpFileCreator
+ * Class GroupLumpFileCreator.
  */
 class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInterface
 {
     /**
-     * Execution of processing
+     * Execution of processing.
      *
      * Output the read yaml contents as a group
      *
