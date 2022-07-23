@@ -1,2 +1,2 @@
 # blueprint
-blueprint
+blueprint:foundation_create
