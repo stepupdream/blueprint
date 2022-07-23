@@ -60,12 +60,9 @@ abstract class OutputDirectory extends Base
     ) {
         parent::__construct($foundationConfig, $textSupport);
 
-        // required
         $this->readPath = (string) $foundationConfig['read_path'];
         $this->outputDirectoryPath = (string) $foundationConfig['output_directory_path'];
         $this->extension = (string) $foundationConfig['extension'];
-
-        // option
         $this->exceptFileNames = $foundationConfig['except_file_names'] ?? [];
         $this->prefix = $foundationConfig['prefix'] ?? '';
         $this->suffix = $foundationConfig['suffix'] ?? '';

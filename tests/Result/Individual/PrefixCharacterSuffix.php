@@ -8,11 +8,6 @@ declare(strict_types=1);
 
 // PrefixCharacterSuffix
 // test
-// App\Presentations\Http\Api\Requests
-// App\Presentations\Http\Api\Responses
 // use App\Infrastructures\User\Character\Character\CCC as Blueprint;
-// extends Blueprint
-// use App\Infrastructures\User\Character\Character\DDD as Blueprint2;
-// implements Blueprint2
 
 //'id' => 'int',

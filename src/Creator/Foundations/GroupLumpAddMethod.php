@@ -50,7 +50,6 @@ class GroupLumpAddMethod extends OutputDirectory
         $this->verifyKeys($foundationConfig, $this->requiredKeys);
         parent::__construct($foundationConfig, $textSupport);
 
-        // required
         $this->methodKeyName = (string) $foundationConfig['method_key_name'];
         $this->addTemplateBladeFile = (string) $foundationConfig['add_template_blade_file'];
         $this->groupKeyName = (string) $foundationConfig['group_key_name'];

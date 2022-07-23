@@ -34,10 +34,7 @@ abstract class Base
         array $foundationConfig,
         protected TextSupport $textSupport
     ) {
-        // required
         $this->templateBladeFile = (string) $foundationConfig['template_blade_file'];
-
-        // option
         $this->options = $foundationConfig['options'] ?? [];
         $this->groupKeyName = $foundationConfig['group_key_name'] ?? '';
     }

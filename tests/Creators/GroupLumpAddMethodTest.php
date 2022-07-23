@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test\Creators;
 
-use ErrorException;
 use Illuminate\Filesystem\Filesystem;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
 use StepUpDream\Blueprint\Creator\GroupLumpAddMethodCreator;

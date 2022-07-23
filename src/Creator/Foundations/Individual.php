@@ -37,7 +37,6 @@ class Individual extends OutputDirectory
         $this->verifyKeys($foundationConfig, $this->requiredKeys);
         parent::__construct($foundationConfig, $textSupport);
 
-        // required
         $this->isOverride = (bool) $foundationConfig['is_override'];
     }
 

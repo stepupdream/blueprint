@@ -40,7 +40,6 @@ class IndividualNotRead extends Base
         $this->verifyKeys($foundationConfig, $this->requiredKeys);
         parent::__construct($foundationConfig, $textSupport);
 
-        // required
         $this->outputPath = (string) $foundationConfig['output_path'];
         $this->isOverride = (bool) $foundationConfig['is_override'];
     }
