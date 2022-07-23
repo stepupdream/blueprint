@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Providers;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use StepUpDream\Blueprint\Foundation\Console\FoundationCreateCommand;
 
-/**
- * Class FoundationCreateCommandServiceProvider.
- */
 class FoundationCreateCommandServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
@@ -17,22 +16,22 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
     public function register(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->mergeConfigFrom(__DIR__.'/../Config/foundation.php', 'step_up_dream.blueprint');
+            $this->mergeConfigFrom(__DIR__.'/../Config/foundation.php', 'stepupdream.blueprint');
 
             $this->loadViewsFrom(__DIR__.'/../../../resources', 'blueprint');
 
             $this->publishes([
-                __DIR__.'/../Config/foundation.php' => config_path('step_up_dream/blueprint.php'),
+                __DIR__.'/../Config/foundation.php' => config_path('stepupdream/blueprint.php'),
             ]);
             $this->publishes([
                 __DIR__.'/../../../resources' => $this->app->resourcePath('views/vendor/blueprint'),
             ], 'blueprint');
 
-            $this->app->singleton('command.foundation_create_command', function () {
+            $this->app->singleton('command.foundation-create_command', function () {
                 return new FoundationCreateCommand();
             });
 
-            $this->commands(['command.foundation_create_command']);
+            $this->commands(['command.foundation-create-command']);
         }
     }
 
@@ -43,6 +42,6 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
      */
     public function provides(): array
     {
-        return ['command.foundation_create_command'];
+        return ['command.foundation-create-command'];
     }
 }

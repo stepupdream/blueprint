@@ -17,7 +17,7 @@ class TextSupportTest extends TestCase
     public function convertNameByConvertType(string $convertType, string $name, string $testResult): void
     {
         $textSupport = new TextSupport();
-        $result = $textSupport->convertNameByConvertType($convertType, $name);
+        $result = $textSupport->convertName($convertType, $name);
 
         self::assertEquals($result, $testResult);
     }

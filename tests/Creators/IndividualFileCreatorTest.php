@@ -73,7 +73,7 @@ class IndividualFileCreatorTest extends TestCase
 
         View::shouldReceive('make->render')->twice()->andReturn('sample');
         $readerMock = Mockery::mock(Reader::class)->makePartial();
-        $readerMock->shouldReceive('readFileByDirectoryPath')->andReturn($readFileByDirectoryPathMock);
+        $readerMock->shouldReceive('readByDirectoryPath')->andReturn($readFileByDirectoryPathMock);
         $readerMock->shouldReceive('readFileByFileName')->andReturn();
         $creator = $this->app->make(IndividualFileCreator::class, [
             'yamlReader' => $readerMock,

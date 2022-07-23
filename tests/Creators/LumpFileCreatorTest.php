@@ -38,7 +38,7 @@ class LumpFileCreatorTest extends TestCase
 
         View::shouldReceive('make->render')->once()->andReturn('sample');
         $readerMock = Mockery::mock(Reader::class)->makePartial();
-        $readerMock->shouldReceive('readFileByDirectoryPath')->andReturn();
+        $readerMock->shouldReceive('readByDirectoryPath')->andReturn();
         $readerMock->shouldReceive('readFileByFileName')->andReturn();
         $creator = $this->app->make(LumpFileCreator::class, [
             'yamlReader' => $readerMock,

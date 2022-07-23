@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
 use StepUpDream\Blueprint\Foundation\Foundation;
 
-/**
- * Class GroupLumpFileCreatorWithAddMethod.
- */
 class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements FoundationCreatorInterface
 {
     /**
@@ -23,29 +22,28 @@ class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements Foundatio
             'addTemplateBladeFile', 'groupKeyName', 'templateBladeFile',
         ];
         $this->verifyKeys($foundation, $requiredKey);
-        $yamlFiles = $this->yamlReader->readFileByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
+        $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
         $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
 
         foreach ($yamlFiles as $yamlFile) {
             $fileName = $yamlFile[$foundation->groupKeyName()];
-            $fileName = $this->textSupport->convertNameByConvertType($foundation->convertClassNameType(), $fileName);
-            $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
-            $methodName = $this->textSupport->convertNameByConvertType(
+            $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $fileName);
+            $classPath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
+            $methodName = $this->textSupport->convertName(
                 $foundation->convertMethodNameType(),
                 $yamlFile[$foundation->methodKeyName()]
             );
 
             // Only add methods if you already have a class
-            if (file_exists($classFilePath) &&
-                ! method_exists($this->textSupport->convertFileFullPathToClassPath($classFilePath), $methodName)) {
-
+            if (file_exists($classPath) &&
+                ! method_exists($this->textSupport->convertFileFullPathToClassPath($classPath), $methodName)) {
                 // Replace } at the end of file with new method
-                $bladeFile = $this->readBladeFileAddTemplate($foundation, $classFilePath, $fileName, $yamlFile, $yamlFileCommon);
-                $newFile = $this->replaceClassFile($bladeFile, $classFilePath);
-                $this->fileCreator->createFile($newFile, $classFilePath, true);
+                $blade = $this->readBladeAddTemplate($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
+                $newFile = $this->replaceClassFile($blade, $classPath);
+                $this->fileCreator->createFile($newFile, $classPath, true);
             } else {
-                $bladeFile = $this->readBladeFileIndividual($foundation, $classFilePath, $fileName, $yamlFile, $yamlFileCommon);
-                $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
+                $blade = $this->readBladeIndividual($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
+                $this->fileCreator->createFile($blade, $classPath, $foundation->isOverride());
             }
         }
     }
@@ -55,11 +53,13 @@ class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements Foundatio
      *
      * @param  string  $bladeFile
      * @param  string  $classFilePath
-     * @return array|string|string[]|null
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function replaceClassFile(string $bladeFile, string $classFilePath)
+    protected function replaceClassFile(string $bladeFile, string $classFilePath): string
     {
-        return preg_replace('/}[^}]*$\n/', PHP_EOL.$this->fileCreator->addTabSpace().$bladeFile.'}'.PHP_EOL,
-            $this->fileCreator->getFile($classFilePath));
+        $replacement = PHP_EOL.$this->fileCreator->addTabSpace().$bladeFile.'}'.PHP_EOL;
+
+        return preg_replace('/}[^}]*$/', $replacement, $this->fileCreator->getFile($classFilePath));
     }
 }

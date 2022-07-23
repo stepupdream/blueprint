@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
 use StepUpDream\Blueprint\Foundation\Foundation;
 
-/**
- * Class IndividualFileCreatorWithoutRead.
- */
 class IndividualFileCreatorWithoutRead extends BaseCreator implements FoundationCreatorInterface
 {
     /**
@@ -21,7 +20,7 @@ class IndividualFileCreatorWithoutRead extends BaseCreator implements Foundation
         $requiredKey = ['outputPath', 'extension', 'templateBladeFile', 'isOverride'];
         $this->verifyKeys($foundation, $requiredKey);
         $classFilePath = $foundation->outputPath();
-        $bladeFile = $this->readBladeFileIndividual($foundation, $classFilePath, '', [], []);
+        $bladeFile = $this->readBladeIndividual($foundation, $classFilePath, '', [], []);
         $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
     }
 }

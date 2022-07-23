@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
 use LogicException;
@@ -8,26 +10,8 @@ use StepUpDream\Blueprint\Foundation\Supports\File\Creator;
 use StepUpDream\Blueprint\Foundation\Supports\TextSupport;
 use StepUpDream\Blueprint\Foundation\Supports\Yaml\Reader;
 
-/**
- * Class BaseCreator.
- */
 class BaseCreator
 {
-    /**
-     * @var \StepUpDream\Blueprint\Foundation\Supports\File\Creator
-     */
-    protected $fileCreator;
-
-    /**
-     * @var \StepUpDream\Blueprint\Foundation\Supports\TextSupport
-     */
-    protected $textSupport;
-
-    /**
-     * @var \StepUpDream\Blueprint\Foundation\Supports\Yaml\Reader
-     */
-    protected $yamlReader;
-
     /**
      * BaseCreator constructor.
      *
@@ -36,13 +20,10 @@ class BaseCreator
      * @param  \StepUpDream\Blueprint\Foundation\Supports\TextSupport  $textSupport
      */
     public function __construct(
-        Creator $fileCreator,
-        Reader $yamlReader,
-        TextSupport $textSupport
+        protected Creator $fileCreator,
+        protected Reader $yamlReader,
+        protected TextSupport $textSupport
     ) {
-        $this->fileCreator = $fileCreator;
-        $this->textSupport = $textSupport;
-        $this->yamlReader = $yamlReader;
     }
 
     /**
@@ -55,7 +36,7 @@ class BaseCreator
      * @param  array  $yamlFileCommon
      * @return string
      */
-    protected function readBladeFileIndividual(
+    protected function readBladeIndividual(
         Foundation $foundation,
         string $classFilePath,
         string $fileName,
@@ -64,50 +45,6 @@ class BaseCreator
     ): string {
         $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
         $arguments['yaml'] = $yamlFile;
-
-        return view($foundation->templateBladeFile(), $arguments)->render();
-    }
-
-    /**
-     * Read blade file for add template file.
-     *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
-     * @param  string  $classFilePath
-     * @param  string  $fileName
-     * @param  array  $yamlFile
-     * @param  array  $yamlFileCommon
-     * @return string
-     */
-    protected function readBladeFileAddTemplate(
-        Foundation $foundation,
-        string $classFilePath,
-        string $fileName,
-        array $yamlFile,
-        array $yamlFileCommon
-    ): string {
-        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
-        $arguments['yaml'] = $yamlFile;
-
-        return view($foundation->addTemplateBladeFile(), $arguments)->render();
-    }
-
-    /**
-     * Read blade file.
-     *
-     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
-     * @param  string  $classFilePath
-     * @param  array  $yamlFiles
-     * @param  array  $yamlFileCommon
-     * @return string
-     */
-    protected function readBladeFileLump(
-        Foundation $foundation,
-        string $classFilePath,
-        array $yamlFiles,
-        array $yamlFileCommon
-    ): string {
-        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon);
-        $arguments['yamls'] = $yamlFiles;
 
         return view($foundation->templateBladeFile(), $arguments)->render();
     }
@@ -141,6 +78,50 @@ class BaseCreator
             'responseDirectoryPath' => $foundation->responseDirectoryPathForBlade($fileName, $yamlFile),
             'options'               => $foundation->optionsForBlade($fileName, $yamlFile),
         ];
+    }
+
+    /**
+     * Read blade file for add template file.
+     *
+     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  string  $classFilePath
+     * @param  string  $fileName
+     * @param  array  $yamlFile
+     * @param  array  $yamlFileCommon
+     * @return string
+     */
+    protected function readBladeAddTemplate(
+        Foundation $foundation,
+        string $classFilePath,
+        string $fileName,
+        array $yamlFile,
+        array $yamlFileCommon
+    ): string {
+        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
+        $arguments['yaml'] = $yamlFile;
+
+        return view($foundation->addTemplateBladeFile(), $arguments)->render();
+    }
+
+    /**
+     * Read blade file.
+     *
+     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
+     * @param  string  $classFilePath
+     * @param  array  $yamlFiles
+     * @param  array  $yamlFileCommon
+     * @return string
+     */
+    protected function readBladeFileLump(
+        Foundation $foundation,
+        string $classFilePath,
+        array $yamlFiles,
+        array $yamlFileCommon
+    ): string {
+        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon);
+        $arguments['yamls'] = $yamlFiles;
+
+        return view($foundation->templateBladeFile(), $arguments)->render();
     }
 
     /**

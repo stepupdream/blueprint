@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
 use StepUpDream\Blueprint\Foundation\Foundation;
 
-/**
- * Class GroupLumpFileCreator.
- */
 class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInterface
 {
     /**
@@ -22,12 +21,12 @@ class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInter
             'readPath', 'outputDirectoryPath', 'groupKeyName', 'extension', 'templateBladeFile', 'isOverride',
         ];
         $this->verifyKeys($foundation, $requiredKey);
-        $yamlFiles = $this->yamlReader->readFileByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
+        $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
         $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
 
         $yamlFilesGroups = collect($yamlFiles)->groupBy($foundation->groupKeyName())->toArray();
         foreach ($yamlFilesGroups as $groupKeyName => $yamlFilesGroup) {
-            $fileName = $this->textSupport->convertNameByConvertType($foundation->convertClassNameType(), $groupKeyName);
+            $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $groupKeyName);
             $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, []);
             $bladeFile = $this->readBladeFileLump($foundation, $classFilePath, $yamlFilesGroup, $yamlFileCommon);
             $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());

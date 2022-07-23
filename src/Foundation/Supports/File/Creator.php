@@ -1,29 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Supports\File;
 
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
 
-/**
- * Class Creator.
- */
 class Creator
 {
-    /**
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $file;
-
     /**
      * Creator constructor.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $file
      */
     public function __construct(
-        Filesystem $file
+        protected Filesystem $file
     ) {
-        $this->file = $file;
     }
 
     /**

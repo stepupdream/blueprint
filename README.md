@@ -33,7 +33,7 @@ composer require --dev stepupdream/blueprint
 ## Run Locally
 
 ```bash
-php artisan blueprint:foundation_create
+php artisan blueprint:foundation-create
 ```
 
 ## Output Pattern

@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
 use StepUpDream\Blueprint\Foundation\Foundation;
 
-/**
- * Class IndividualFileCreator.
- */
 class IndividualFileCreator extends BaseCreator implements FoundationCreatorInterface
 {
     /**
@@ -20,14 +19,15 @@ class IndividualFileCreator extends BaseCreator implements FoundationCreatorInte
     {
         $requiredKey = ['readPath', 'outputDirectoryPath', 'extension', 'templateBladeFile', 'isOverride'];
         $this->verifyKeys($foundation, $requiredKey);
-        $yamlFiles = $this->yamlReader->readFileByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
+        $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
         $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
 
         foreach ($yamlFiles as $filePath => $yamlFile) {
             $fileName = basename($filePath, '.yml');
-            $fileName = $this->textSupport->convertNameByConvertType($foundation->convertClassNameType(), $fileName);
+
+            $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $fileName);
             $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
-            $bladeFile = $this->readBladeFileIndividual($foundation, $classFilePath, $fileName, $yamlFile, $yamlFileCommon);
+            $bladeFile = $this->readBladeIndividual($foundation, $classFilePath, $fileName, $yamlFile, $yamlFileCommon);
             $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
         }
     }

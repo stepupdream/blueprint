@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Console;
 
 use Illuminate\Console\Command;
 
-/**
- * Class BaseCreateCommand.
- */
 abstract class BaseCreateCommand extends Command
 {
     /**

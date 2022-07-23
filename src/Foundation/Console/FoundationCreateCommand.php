@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Console;
 
 use LogicException;
@@ -10,9 +12,6 @@ use StepUpDream\Blueprint\Foundation\Creators\IndividualFileCreatorWithoutRead;
 use StepUpDream\Blueprint\Foundation\Creators\LumpFileCreator;
 use StepUpDream\Blueprint\Foundation\Foundation;
 
-/**
- * Class FoundationCreateCommand.
- */
 class FoundationCreateCommand extends BaseCreateCommand
 {
     /**
@@ -20,7 +19,7 @@ class FoundationCreateCommand extends BaseCreateCommand
      *
      * @var string
      */
-    protected $signature = 'blueprint:foundation_create {--target=}';
+    protected $signature = 'blueprint:foundation-create {--target=}';
 
     /**
      * The console command description.
@@ -35,7 +34,7 @@ class FoundationCreateCommand extends BaseCreateCommand
     public function handle(): void
     {
         $target = $this->option('target');
-        $foundationCreateClasses = config('step_up_dream.blueprint.create_classes');
+        $foundationCreateClasses = config('step-up-dream.blueprint.create_classes');
 
         foreach ($foundationCreateClasses as $foundationName => $foundation) {
             if (isset($target) && $foundationName !== $target) {

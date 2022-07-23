@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation;
 
 use StepUpDream\Blueprint\Foundation\Supports\TextSupport;

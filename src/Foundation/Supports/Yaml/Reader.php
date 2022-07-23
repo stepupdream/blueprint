@@ -1,26 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\Blueprint\Foundation\Supports\Yaml;
 
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * Class Reader.
- */
 class Reader
 {
-    /**
-     * @var \Symfony\Component\Yaml\Yaml
-     */
-    protected $yaml;
-
-    /**
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $file;
-
     /**
      * Reader constructor.
      *
@@ -28,32 +17,9 @@ class Reader
      * @param  \Symfony\Component\Yaml\Yaml  $yaml
      */
     public function __construct(
-        Filesystem $file,
-        Yaml $yaml
+        protected Filesystem $file,
+        protected Yaml $yaml
     ) {
-        $this->yaml = $yaml;
-        $this->file = $file;
-    }
-
-    /**
-     * Read yaml files.
-     *
-     * @param  string  $directoryPath
-     * @param  array  $exceptFileNames
-     * @return array
-     */
-    public function readFileByDirectoryPath(string $directoryPath, array $exceptFileNames = []): array
-    {
-        $yamlFiles = $this->readByDirectoryPath($directoryPath);
-
-        // Exclude from creation
-        if (! empty($exceptFileNames) && ! empty($yamlFiles)) {
-            $yamlFiles = collect($yamlFiles)->filter(function ($value, $key) use ($exceptFileNames) {
-                return ! in_array(basename($key, '.yml'), $exceptFileNames, false);
-            })->all();
-        }
-
-        return $yamlFiles;
     }
 
     /**
@@ -65,7 +31,7 @@ class Reader
      */
     public function readFileByFileName(string $directoryPath, string $findFileName): array
     {
-        $yamlFiles = $this->readFileByDirectoryPath($directoryPath);
+        $yamlFiles = $this->readByDirectoryPath($directoryPath);
 
         foreach ($yamlFiles as $fileName => $yamlFile) {
             if (basename($fileName, '.yml') === $findFileName) {
@@ -77,20 +43,29 @@ class Reader
     }
 
     /**
-     * Reading definition data.
+     * Read yaml files.
      *
-     * @param  string  $targetDirectoryPath
+     * @param  string  $directoryPath
+     * @param  array  $exceptFileNames
      * @return array
      */
-    protected function readByDirectoryPath(string $targetDirectoryPath): array
+    public function readByDirectoryPath(string $directoryPath, array $exceptFileNames = []): array
     {
-        if (! $this->file->isDirectory($targetDirectoryPath)) {
-            throw new LogicException($targetDirectoryPath.': read path must be a directory');
+        if (! $this->file->isDirectory($directoryPath)) {
+            throw new LogicException($directoryPath.': read path must be a directory');
         }
 
-        $filePaths = $this->getAllFilePath($targetDirectoryPath);
+        $filePaths = $this->getAllFilePath($directoryPath);
+        $yamlFiles = $this->parseAllYaml($filePaths);
 
-        return $this->parseAllYaml($filePaths);
+        // Exclude from creation
+        if (! empty($exceptFileNames) && ! empty($yamlFiles)) {
+            $yamlFiles = collect($yamlFiles)->filter(function ($value, $key) use ($exceptFileNames) {
+                return ! in_array(basename($key, '.yml'), $exceptFileNames, false);
+            })->all();
+        }
+
+        return $yamlFiles;
     }
 
     /**
@@ -144,7 +119,7 @@ class Reader
      * @param  string  $filePath
      * @return mixed
      */
-    protected function parseYaml(string $filePath)
+    protected function parseYaml(string $filePath): mixed
     {
         $extension = $this->file->extension($filePath);
         if ($extension !== 'yml') {
