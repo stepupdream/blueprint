@@ -63,4 +63,12 @@ class YamlFileOperationTest extends TestCase
         
         self::assertEquals($parseAllYaml, $testResult);
     }
+    
+    public function testGetAllFilePath(): void
+    {
+        $fileOperation = $this->app->make(YamlFileOperation::class);
+        $paths = $fileOperation->getAllFilePath(__DIR__);
+        
+        self::assertEquals($paths, [__DIR__.'/YamlFileOperationTest.php' => __DIR__.'/YamlFileOperationTest.php']);
+    }
 }
