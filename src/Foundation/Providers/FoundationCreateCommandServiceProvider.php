@@ -20,24 +20,24 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
     {
         if ($this->app->runningInConsole()) {
             $this->mergeConfigFrom(__DIR__.'/../Config/foundation.php', 'step_up_dream.blueprint');
-            
+
             $this->loadViewsFrom(__DIR__.'/../../../resources', 'blueprint');
-            
+
             $this->publishes([
                 __DIR__.'/../Config/foundation.php' => config_path('step_up_dream/blueprint.php'),
             ]);
             $this->publishes([
                 __DIR__.'/../../../resources' => $this->app->resourcePath('views/vendor/blueprint'),
             ], 'blueprint');
-            
+
             $this->app->singleton('command.foundation_create_command', function () {
                 return new FoundationCreateCommand();
             });
-            
+
             $this->commands(['command.foundation_create_command']);
         }
     }
-    
+
     /**
      * Get the services provided by the provider.
      *

@@ -2,58 +2,33 @@
 
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
-use LogicException;
+use StepUpDream\Blueprint\Foundation\Foundation;
 
 /**
  * Class IndividualFileCreator
- *
- * @package StepUpDream\Blueprint\Foundation\Creators
  */
 class IndividualFileCreator extends BaseCreator implements FoundationCreatorInterface
 {
     /**
-     * Execution of processing
+     * Execution of processing.
      *
-     * Output the file according to the read yaml file
+     * Output the file according to the read yaml file.
      *
-     * [Keys that can be set : required]
-     * - read_path : string
-     * - output_directory_path : string
-     * - extension : string
-     * - template_blade_file : string
-     * - is_override : bool
-     *
-     * [Keys that can be set : option]
-     * - common_file_name : string
-     * - except_file_names : array
-     * - convert_class_name_type : string
-     * - prefix : string
-     * - suffix : string
-     * - extends_class_name : string
-     * - use_extends_class : string
-     * - interface_class_name : string
-     * - use_interface_class : string
-     * - request_directory_path : string
-     * - response_directory_path : string
-     * - option : string
-     *
-     * @param  array  $foundation
+     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
      */
-    public function run(array $foundation): void
+    public function run(Foundation $foundation): void
     {
-        $this->verifyKeys($foundation, ['read_path', 'output_directory_path', 'extension', 'template_blade_file', 'is_override']);
-        $commonYamlFile = $this->readCommonYamlFile($foundation);
-        if (is_dir($foundation['read_path'])) {
-            $readYamlFiles = $this->readYamlFile($foundation);
-        } else {
-            throw new LogicException($foundation['read_path'].': read path must be a directory');
-        }
-        
-        foreach ($readYamlFiles as $filePath => $readYamlFile) {
+        $requiredKey = ['readPath', 'outputDirectoryPath', 'extension', 'templateBladeFile', 'isOverride'];
+        $this->verifyKeys($foundation, $requiredKey);
+        $yamlFiles = $this->yamlReader->readFileByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
+        $yamlFileCommon = $this->yamlReader->readFileByFileName($foundation->readPath(), $foundation->commonFileName());
+
+        foreach ($yamlFiles as $filePath => $yamlFile) {
             $fileName = basename($filePath, '.yml');
-            $classFilePath = $this->convertClassFilePath($foundation, $fileName, $readYamlFile);
-            $bladeFile = $this->readBladeFileIndividual($foundation, $classFilePath, $fileName, $readYamlFile, $commonYamlFile);
-            $this->yamlFileOperation->createFile($bladeFile, $classFilePath, $foundation['is_override']);
+            $fileName = $this->textSupport->convertNameByConvertType($foundation->convertClassNameType(), $fileName);
+            $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
+            $bladeFile = $this->readBladeFileIndividual($foundation, $classFilePath, $fileName, $yamlFile, $yamlFileCommon);
+            $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
         }
     }
 }

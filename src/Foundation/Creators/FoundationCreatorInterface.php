@@ -2,17 +2,17 @@
 
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
+use StepUpDream\Blueprint\Foundation\Foundation;
+
 /**
  * Interface FoundationCreatorInterface
- *
- * @package StepUpDream\Blueprint\Foundation\Creators
  */
 interface FoundationCreatorInterface
 {
     /**
      * Execution of processing
      *
-     * @param  array  $foundation
+     * @param  \StepUpDream\Blueprint\Foundation\Foundation  $foundation
      */
-    public function run(array $foundation);
+    public function run(Foundation $foundation);
 }
