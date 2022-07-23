@@ -1,7 +1,7 @@
 /**
      * Sample
      */
-    public function()
+    public function sample2()
     {
         // sample
     }

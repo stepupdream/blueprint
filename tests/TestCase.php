@@ -7,26 +7,23 @@ use ReflectionClass;
 
 /**
  * Class TestCase
- *
- * @package StepUpDream\Blueprint\Test
  */
 abstract class TestCase extends OrchestraTestCase
 {
     /**
-     * Execute private function test
+     * Execute private function test.
      *
      * @param $class
      * @param  string  $methodName
-     * @param  array  $argument
+     * @param  array  $arguments
      * @return mixed
-     * @throws \ReflectionException
      */
-    protected function executePrivateFunction($class, string $methodName, array $argument)
+    protected function executePrivateFunction($class, string $methodName, array $arguments)
     {
         $reflection = new ReflectionClass($class);
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
-        
-        return $method->invokeArgs($class, $argument);
+
+        return $method->invokeArgs($class, $arguments);
     }
 }
