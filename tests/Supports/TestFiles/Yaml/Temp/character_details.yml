@@ -1,0 +1,7 @@
+- database_directory_name: 'MasterData'
+  domain_group: 'Character'
+  columns:
+    - name: 'id'
+      description: 'id'
+    - name: 'name'
+      description: 'name'

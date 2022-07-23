@@ -1,0 +1,7 @@
+/**
+     * Sample
+     */
+    public function()
+    {
+        // sample
+    }
