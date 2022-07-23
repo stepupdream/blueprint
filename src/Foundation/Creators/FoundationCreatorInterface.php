@@ -12,7 +12,7 @@ interface FoundationCreatorInterface
     /**
      * Execution of processing
      *
-     * @param array $foundation
+     * @param  array  $foundation
      */
     public function run(array $foundation);
 }

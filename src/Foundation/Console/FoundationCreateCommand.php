@@ -33,63 +33,58 @@ class FoundationCreateCommand extends BaseCreateCommand
     /**
      * run method in order
      */
-    public function handle() : void
+    public function handle(): void
     {
         $target = $this->option('target');
         
-        $foundation_create_classes = config('foundation.create_classes');
-        if (empty($foundation_create_classes) || $this->arrayDepth($foundation_create_classes) !== 2) {
+        $foundationCreateClasses = config('foundation.create_classes');
+        if (empty($foundationCreateClasses) || $this->arrayDepth($foundationCreateClasses) !== 2) {
             throw new LogicException('read error foundation enumerations');
         }
         
-        foreach ($foundation_create_classes as $foundation_name => $foundation) {
-            if (isset($target) && $foundation_name !== $target) {
+        foreach ($foundationCreateClasses as $foundationName => $foundation) {
+            if (isset($target) && $foundationName !== $target) {
                 continue;
             }
             
             switch ($foundation['create_type']) {
                 case 'Individual':
-                    $individual_file_creator = app()->make(IndividualFileCreator::class);
-                    $individual_file_creator->run($foundation);
+                    $individualFileCreator = app()->make(IndividualFileCreator::class);
+                    $individualFileCreator->run($foundation);
                     break;
                 case 'IndividualWithoutRead':
-                    $individual_file_creator_without_read = app()->make(IndividualFileCreatorWithoutRead::class);
-                    $individual_file_creator_without_read->run($foundation);
+                    $individualFileCreatorWithoutRead = app()->make(IndividualFileCreatorWithoutRead::class);
+                    $individualFileCreatorWithoutRead->run($foundation);
                     break;
                 case 'Lump':
-                    $lump_file_creator = app()->make(LumpFileCreator::class);
-                    $lump_file_creator->run($foundation);
+                    $lumpFileCreator = app()->make(LumpFileCreator::class);
+                    $lumpFileCreator->run($foundation);
                     break;
                 case 'GroupLumpWithAddMethod':
-                    $group_lump_file_creator_with_add_method = app()->make(GroupLumpFileCreatorWithAddMethod::class);
-                    $group_lump_file_creator_with_add_method->run($foundation);
+                    $groupLumpFileCreatorWithAddMethod = app()->make(GroupLumpFileCreatorWithAddMethod::class);
+                    $groupLumpFileCreatorWithAddMethod->run($foundation);
                     break;
                 case 'GroupLumpFileCreator':
-                    $group_lump_file_creator = app()->make(GroupLumpFileCreator::class);
-                    $group_lump_file_creator->run($foundation);
+                    $groupLumpFileCreator = app()->make(GroupLumpFileCreator::class);
+                    $groupLumpFileCreator->run($foundation);
                     break;
                 default:
                     throw new LogicException('read error foundation_enumeration[create_type]');
             }
             
-            $this->info('Completed: ' . $foundation_name);
+            $this->info('Completed: '.$foundationName);
         }
-        
-        $this->call('view:clear');
-        $this->call('cache:clear');
-        $this->call('clear-compiled');
-        $this->call('route:clear');
     }
     
     /**
      * Get array depth
      *
-     * @param mixed $array
-     * @param bool $blank
-     * @param int $depth
+     * @param  mixed  $array
+     * @param  bool  $blank
+     * @param  int  $depth
      * @return int
      */
-    private function arrayDepth($array, bool $blank = false, int $depth = 0) : int
+    protected function arrayDepth($array, bool $blank = false, int $depth = 0): int
     {
         if (!is_array($array)) {
             return $depth;

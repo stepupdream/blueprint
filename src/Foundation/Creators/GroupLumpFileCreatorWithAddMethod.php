@@ -2,9 +2,8 @@
 
 namespace StepUpDream\Blueprint\Foundation\Creators;
 
-use File;
+use Illuminate\Support\Str;
 use LogicException;
-use Str;
 
 /**
  * Class GroupLumpFileCreatorWithAddMethod
@@ -16,49 +15,73 @@ class GroupLumpFileCreatorWithAddMethod extends BaseCreator implements Foundatio
     /**
      * Execution of processing
      *
-     * @param array $foundation
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * Output the read yaml contents as a group
+     * Assuming one method per Yaml
+     *
+     * [Keys that can be set : required]
+     * - read_path : string
+     * - output_directory_path : string
+     * - extension : string
+     * - method_key_name : string
+     * - add_template_blade_file : string
+     * - group_key_name : string
+     * - template_blade_file : string
+     *
+     * [Keys that can be set : option]
+     * - common_file_name : string
+     * - except_file_names : array
+     * - convert_class_name_type : string
+     * - prefix : string
+     * - suffix : string
+     * - extends_class_name : string
+     * - use_extends_class : string
+     * - interface_class_name : string
+     * - use_interface_class : string
+     * - request_directory_path : string
+     * - response_directory_path : string
+     * - option : string
+     *
+     * @param  array  $foundation
      */
-    public function run(array $foundation) : void
+    public function run(array $foundation): void
     {
-        // Read yaml file
+        $this->verifyKeys($foundation, ['read_path', 'output_directory_path', 'extension', 'template_blade_file']);
         if (is_dir($foundation['read_path'])) {
-            $common_yaml_file = $this->readCommonYamlFile($foundation);
-            $read_yaml_files = $this->readYamlFile($foundation);
+            $readYamlFiles = $this->readYamlFile($foundation);
         } else {
-            throw new LogicException($foundation['read_path'] . ': read path must be a directory');
+            throw new LogicException($foundation['read_path'].': read path must be a directory');
         }
         
-        if (empty($foundation['output_directory_path'])) {
-            throw new LogicException('output_directory_path is not found');
-        }
-        
-        // create class file
-        foreach ($read_yaml_files as $file_path => $read_yaml_file) {
-            // Exclude from creation
-            if (!empty($foundation['key_name_by_except']) && $read_yaml_file[$foundation['key_name_by_except']] === true) {
-                continue;
-            }
-            
-            $file_name = basename($file_path, '.yml');
-            $class_file_path = $this->convertClassFilePathGroupKey($foundation, $file_name, $read_yaml_file);
+        foreach ($readYamlFiles as $readYamlFile) {
+            $fileName = $readYamlFile[$foundation['group_key_name']];
+            $classFilePath = $this->convertClassFilePath($foundation, $fileName, $readYamlFile);
             
             // Only add methods if you already have a class
-            if (File::exists($class_file_path) && !method_exists($this->convertFileFullPathToClassPath($class_file_path), Str::camel($read_yaml_file[$foundation['method_key_name']]))) {
-                $blade_file = view($foundation['add_template_blade_file'],
-                    [
-                        'model'                   => $read_yaml_file,
-                        'request_directory_path'  => $foundation['request_directory_path'] ?? '',
-                        'response_directory_path' => $foundation['response_directory_path'] ?? '',
-                    ])->render();
+            if (file_exists($classFilePath) &&
+                !method_exists($this->convertFileFullPathToClassPath($classFilePath), Str::camel($readYamlFile[$foundation['method_key_name']]))) {
                 
                 // Replace } at the end of file with new method
-                $new_file = preg_replace('/}[^}]*$\n/', PHP_EOL . $this->file_operation->addTabSpace() . $blade_file . '}' . PHP_EOL, File::get($class_file_path));
-                $this->file_operation->createFile($new_file, $class_file_path, true);
+                $bladeFile = $this->readBladeFileAddTemplate($foundation, $readYamlFile);
+                $newFile = $this->replaceClassFile($bladeFile, $classFilePath);
+                $this->yamlFileOperation->createFile($newFile, $classFilePath, true);
             } else {
-                $blade_file = $this->readBladeFileIndividual($foundation, $class_file_path, $file_name, $read_yaml_file, $common_yaml_file);
-                $this->file_operation->createFile($blade_file, $class_file_path, false);
+                $commonYamlFile = $this->readCommonYamlFile($foundation);
+                $bladeFile = $this->readBladeFileIndividual($foundation, $classFilePath, $fileName, $readYamlFile, $commonYamlFile);
+                $this->yamlFileOperation->createFile($bladeFile, $classFilePath);
             }
         }
+    }
+    
+    /**
+     * Replace class file
+     *
+     * @param  string  $bladeFile
+     * @param  string  $classFilePath
+     * @return array|string|string[]|null
+     */
+    protected function replaceClassFile(string $bladeFile, string $classFilePath)
+    {
+        return preg_replace('/}[^}]*$\n/', PHP_EOL.$this->yamlFileOperation->addTabSpace().$bladeFile.'}'.PHP_EOL,
+            $this->yamlFileOperation->getFile($classFilePath));
     }
 }
