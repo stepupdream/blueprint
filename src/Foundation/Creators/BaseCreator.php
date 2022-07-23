@@ -36,7 +36,7 @@ abstract class BaseCreator
      * @param string $file_full_path
      * @return string
      */
-    protected function convertFileFullPathToNamespace(string $file_full_path)
+    protected function convertFileFullPathToNamespace(string $file_full_path) : string
     {
         return str_replace([
             base_path('app'),
@@ -55,7 +55,7 @@ abstract class BaseCreator
      * @param string $file_full_path
      * @return string
      */
-    protected function convertFileFullPathToClassPath(string $file_full_path)
+    protected function convertFileFullPathToClassPath(string $file_full_path) : string
     {
         $temp = str_replace([
             base_path('app'),
@@ -78,7 +78,7 @@ abstract class BaseCreator
      * @param array $common_yaml_file
      * @return string
      */
-    protected function readBladeFileIndividual(array $foundation, string $class_file_path, string $file_name, array $read_yaml_file, array $common_yaml_file)
+    protected function readBladeFileIndividual(array $foundation, string $class_file_path, string $file_name, array $read_yaml_file, array $common_yaml_file) : string
     {
         $file_name = $this->convertFileName($foundation, $file_name);
         
@@ -109,7 +109,7 @@ abstract class BaseCreator
      * @param array $read_yaml_file
      * @return string
      */
-    protected function convertClassFilePath(array $foundation, string $file_name, array $read_yaml_file)
+    protected function convertClassFilePath(array $foundation, string $file_name, array $read_yaml_file) : string
     {
         $file_name = $this->convertFileName($foundation, $file_name);
         
@@ -133,7 +133,7 @@ abstract class BaseCreator
      * @param string $key
      * @return string
      */
-    protected function addFileNameToFormat(array $foundation, string $file_name, string $key)
+    protected function addFileNameToFormat(array $foundation, string $file_name, string $key) : string
     {
         if (isset($foundation[$key])) {
             return str_replace('%s', $file_name, $foundation[$key]);
@@ -150,7 +150,7 @@ abstract class BaseCreator
      * @param string $key
      * @return string
      */
-    protected function organizeFilesIntoSpecifiedDirectory(array $foundation, array $read_yaml_file, string $key)
+    protected function organizeFilesIntoSpecifiedDirectory(array $foundation, array $read_yaml_file, string $key) : string
     {
         if (isset($foundation['directory_group_key_name'])) {
             return str_replace('%g', $read_yaml_file[$foundation['directory_group_key_name']], $foundation[$key]);
@@ -166,7 +166,7 @@ abstract class BaseCreator
      * @param string $file_name
      * @return string
      */
-    protected function convertFileName(array $foundation, string $file_name)
+    protected function convertFileName(array $foundation, string $file_name) : string
     {
         if (empty($foundation['convert_class_name_type'])) {
             return $file_name;
@@ -227,7 +227,7 @@ abstract class BaseCreator
      * @param array $read_yaml_file
      * @return string
      */
-    protected function convertClassFilePathGroupKey(array $foundation, string $file_name, array $read_yaml_file)
+    protected function convertClassFilePathGroupKey(array $foundation, string $file_name, array $read_yaml_file) : string
     {
         $foundation['output_directory_path'] = $this->addFileNameToFormat($foundation, $file_name, 'output_directory_path');
         
@@ -245,7 +245,7 @@ abstract class BaseCreator
      * @param array $read_yaml_files
      * @return string
      */
-    protected function readBladeFileLump(array $foundation, string $class_file_path, array $read_yaml_files)
+    protected function readBladeFileLump(array $foundation, string $class_file_path, array $read_yaml_files) : string
     {
         return view($foundation['template_blade_file'],
             [
@@ -267,10 +267,10 @@ abstract class BaseCreator
      * @param bool $is_except_file
      * @return array
      */
-    protected function readYamlFile(array $foundation, bool $is_except_file = true)
+    protected function readYamlFile(array $foundation, bool $is_except_file = true) : array
     {
         $read_yaml_files = YamlFileReader::readByDirectoryPath($foundation['read_path']);
-        
+
         // Exclude from creation
         if ($is_except_file && isset($foundation['except_file_names'])) {
             $read_yaml_files = collect($read_yaml_files)->filter(function ($key) use ($foundation) {
@@ -287,7 +287,7 @@ abstract class BaseCreator
      * @param array $foundation
      * @return array
      */
-    protected function readCommonYamlFile(array $foundation)
+    protected function readCommonYamlFile(array $foundation) : array
     {
         $common_yaml_file = [];
         if (isset($foundation['common_file_name'])) {

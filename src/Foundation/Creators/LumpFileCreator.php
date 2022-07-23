@@ -16,7 +16,7 @@ class LumpFileCreator extends BaseCreator implements FoundationCreatorInterface
      *
      * @param array $foundation
      */
-    public function run(array $foundation)
+    public function run(array $foundation) : void
     {
         // Read yaml file
         if (is_dir($foundation['read_path'])) {

@@ -16,13 +16,16 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register() : void
     {
         if ($this->app->runningInConsole()) {
-            $this->mergeConfigFrom(__DIR__ . '/../config/foundation.php', 'foundation');
+            $this->mergeConfigFrom(__DIR__ . '/../Config/foundation.php', 'foundation');
             
             $this->loadViewsFrom(__DIR__ . '/../../../resources', 'foundation');
-            
+    
+            $this->publishes([
+                __DIR__ . '/../Config/foundation.php' => config_path('foundation.php'),
+            ]);
             $this->publishes([
                 __DIR__ . '/../../../resources' => $this->app->resourcePath('views/vendor/foundation'),
             ], 'foundation');
@@ -37,8 +40,10 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
     
     /**
      * Get the services provided by the provider.
+     *
+     * @return array
      */
-    public function provides()
+    public function provides() : array
     {
         return ['command.foundation_create_command'];
     }

@@ -16,7 +16,7 @@ class GroupLumpFileCreator extends BaseCreator implements FoundationCreatorInter
      *
      * @param array $foundation
      */
-    public function run(array $foundation)
+    public function run(array $foundation) : void
     {
         // Read yaml file
         if (is_dir($foundation['read_path'])) {

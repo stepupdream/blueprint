@@ -18,7 +18,7 @@ class FileOperation
      * @param string $file_path
      * @param bool $is_overwrite
      */
-    public function createFile(string $content, string $file_path, bool $is_overwrite = false)
+    public function createFile(string $content, string $file_path, bool $is_overwrite = false) : void
     {
         $dir_path = dirname($file_path);
         
@@ -58,7 +58,7 @@ class FileOperation
      * @param int $tab_count
      * @return string
      */
-    public function addTabSpace(int $tab_count = 1)
+    public function addTabSpace(int $tab_count = 1) : string
     {
         $result = '';
         
