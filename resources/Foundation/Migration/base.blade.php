@@ -7,23 +7,23 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
- * {!! sprintf('Class Create%sTable', Str::studly($yaml['name'])) !!}
+ * {!! sprintf('Class Create%sTable', Str::studly($yamlFile['name'])) !!}
  */
-{!! sprintf('class %s extends Migration' , Str::studly($yaml['name'])) !!}
+{!! sprintf('class %s extends Migration' , Str::studly($yamlFile['name'])) !!}
 {
     /**
      * connection name
      *
      * {{ blade_phpdoc_support('string', 'var') }}
      */
-    protected $connection = '{!! Str::snake($yaml['connection_name']) !!}';
+    protected $connection = '{!! Str::snake($yamlFile['connection_name']) !!}';
 
     /**
      * table name
      *
      * {{ blade_phpdoc_support('string', 'var') }}
      */
-    protected $class_name = '{!! Str::studly(snake_singular($yaml['name'])) !!}';
+    protected $class_name = '{!! Str::studly(snake_singular($yamlFile['name'])) !!}';
 
     /**
      * run migration
@@ -33,7 +33,7 @@ use Illuminate\Database\Migrations\Migration;
         if (!Schema::connection($this->connection)->hasTable($this->table_name)) {
             Schema::connection($this->connection)->create($this->table_name, function (Blueprint $table) {
                 $table->bigIncrements('id')->comment('ID');
-@foreach ($yaml['columns'] as $column)
+@foreach ($yamlFile['columns'] as $column)
 @if ($column['name'] === 'id')
 @continue
 @endif

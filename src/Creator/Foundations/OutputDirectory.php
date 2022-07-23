@@ -6,7 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-abstract class OutputDirectoryCommon extends Base
+abstract class OutputDirectory extends Base
 {
     /**
      * @var string
@@ -17,6 +17,11 @@ abstract class OutputDirectoryCommon extends Base
      * @var string
      */
     protected string $outputDirectoryPath;
+
+    /**
+     * @var string
+     */
+    protected string $extension;
 
     /**
      * @var string[]
@@ -44,11 +49,6 @@ abstract class OutputDirectoryCommon extends Base
     protected string $convertClassNameType;
 
     /**
-     * @var string
-     */
-    protected string $convertMethodNameType;
-
-    /**
      * OutputDirectoryCommon constructor.
      *
      * @param  mixed[]  $foundationConfig
@@ -63,6 +63,7 @@ abstract class OutputDirectoryCommon extends Base
         // required
         $this->readPath = (string) $foundationConfig['read_path'];
         $this->outputDirectoryPath = (string) $foundationConfig['output_directory_path'];
+        $this->extension = (string) $foundationConfig['extension'];
 
         // option
         $this->exceptFileNames = $foundationConfig['except_file_names'] ?? [];
@@ -70,7 +71,6 @@ abstract class OutputDirectoryCommon extends Base
         $this->suffix = $foundationConfig['suffix'] ?? '';
         $this->commonFileName = $foundationConfig['common_file_name'] ?? '';
         $this->convertClassNameType = $foundationConfig['convert_class_name_type'] ?? '';
-        $this->convertMethodNameType = $foundationConfig['convert_method_name_type'] ?? '';
     }
 
     /**
@@ -91,6 +91,16 @@ abstract class OutputDirectoryCommon extends Base
     public function exceptFileNames(): array
     {
         return $this->exceptFileNames;
+    }
+
+    /**
+     * Get extension
+     *
+     * @return string
+     */
+    public function extension(): string
+    {
+        return $this->extension;
     }
 
     /**
@@ -131,16 +141,6 @@ abstract class OutputDirectoryCommon extends Base
     public function convertClassNameType(): string
     {
         return $this->convertClassNameType;
-    }
-
-    /**
-     * Get convertMethodNameType
-     *
-     * @return string
-     */
-    public function convertMethodNameType(): string
-    {
-        return $this->convertMethodNameType;
     }
 
     /**

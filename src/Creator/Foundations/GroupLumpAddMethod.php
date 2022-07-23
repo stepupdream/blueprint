@@ -6,7 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class GroupLumpAddMethod extends OutputDirectoryCommon
+class GroupLumpAddMethod extends OutputDirectory
 {
     /**
      * @var string[]
@@ -18,6 +18,7 @@ class GroupLumpAddMethod extends OutputDirectoryCommon
         'method_key_name',
         'add_template_blade_file',
         'group_key_name',
+        'method_name_type',
         'template_blade_file',
     ];
 
@@ -37,6 +38,11 @@ class GroupLumpAddMethod extends OutputDirectoryCommon
     protected string $groupKeyName;
 
     /**
+     * @var string
+     */
+    protected string $methodNameType;
+
+    /**
      * GroupLumpAddMethod constructor.
      *
      * @param  mixed[]  $foundationConfig
@@ -53,6 +59,7 @@ class GroupLumpAddMethod extends OutputDirectoryCommon
         $this->methodKeyName = (string) $foundationConfig['method_key_name'];
         $this->addTemplateBladeFile = (string) $foundationConfig['add_template_blade_file'];
         $this->groupKeyName = (string) $foundationConfig['group_key_name'];
+        $this->methodNameType = $foundationConfig['method_name_type'];
     }
 
     /**
@@ -83,5 +90,15 @@ class GroupLumpAddMethod extends OutputDirectoryCommon
     public function groupKeyName(): string
     {
         return $this->groupKeyName;
+    }
+
+    /**
+     * Get methodNameType
+     *
+     * @return string
+     */
+    public function methodNameType(): string
+    {
+        return $this->methodNameType;
     }
 }

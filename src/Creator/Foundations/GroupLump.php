@@ -6,7 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class GroupLump extends OutputDirectoryCommon
+class GroupLump extends OutputDirectory
 {
     /**
      * @var string[]

@@ -1,6 +1,6 @@
     /**
-     * {!! $yaml['description'] !!}
+     * {!! $yamlFile['description'] !!}
      */
-    {!! sprintf('public function %s()', Str::camel($yaml['name'])) !!}
+    {!! sprintf('public function %s()', Str::camel($yamlFile['name'])) !!}
     {
     }

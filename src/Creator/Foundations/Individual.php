@@ -6,7 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class Individual extends OutputDirectoryCommon
+class Individual extends OutputDirectory
 {
     /**
      * @var string[]

@@ -18,18 +18,18 @@ abstract class {{ Str::studly($className) }}{{ $extendsClassName }}
     /**
      * The database connection instance
      */
-    protected $connection = '{!! Str::snake($yaml['connection_name']) !!}';
+    protected $connection = '{!! Str::snake($yamlFile['connection_name']) !!}';
 
     /**
      * The name of the cache table
      */
-    protected $table = '{!! Str::snake($yaml['name']) !!}';
+    protected $table = '{!! Str::snake($yamlFile['name']) !!}';
 
     /**
      * Cast an attribute
      */
     protected $casts = [
-@foreach($yaml['columns'] as $column)
+@foreach($yamlFile['columns'] as $column)
         '{!! $column['name'] !!}' => '{!! $column['data_type'] !!}',
 @endforeach
     ];

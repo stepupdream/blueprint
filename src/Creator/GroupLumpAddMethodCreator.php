@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator;
 
+use Illuminate\Http\File;
 use LogicException;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
 
@@ -26,7 +27,7 @@ class GroupLumpAddMethodCreator extends BaseCreator
             $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $fileName);
             $classPath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
             $methodName = $this->textSupport->convertName(
-                $foundation->convertMethodNameType(),
+                $foundation->methodNameType(),
                 $yamlFile[$foundation->methodKeyName()]
             );
 
@@ -62,7 +63,7 @@ class GroupLumpAddMethodCreator extends BaseCreator
         array $yamlFileCommon
     ): string {
         $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
-        $arguments['yaml'] = $yamlFile;
+        $arguments['yamlFile'] = $yamlFile;
 
         return view($foundation->addTemplateBladeFile(), $arguments)->render();
     }

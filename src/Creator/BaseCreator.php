@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace StepUpDream\Blueprint\Creator;
 
 use StepUpDream\Blueprint\Creator\Foundations\Base;
-use StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryCommon;
+use StepUpDream\Blueprint\Creator\Foundations\OutputDirectory;
 use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
+use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
-use StepUpDream\Blueprint\Reader\Yaml\YamlFileOperation;
 
 abstract class BaseCreator
 {
@@ -16,7 +16,7 @@ abstract class BaseCreator
      * BaseCreator constructor.
      *
      * @param  \StepUpDream\Blueprint\Creator\Supports\File\FileOperation  $fileCreator
-     * @param  \StepUpDream\Blueprint\Reader\Yaml\YamlFileOperation  $yamlReader
+     * @param  \StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation  $yamlReader
      * @param  \StepUpDream\Blueprint\Creator\Supports\TextSupport  $textSupport
      */
     public function __construct(
@@ -44,7 +44,7 @@ abstract class BaseCreator
         array $yamlFileCommon
     ): string {
         $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
-        $arguments['yaml'] = $yamlFile;
+        $arguments['yamlFile'] = $yamlFile;
 
         return view($foundation->templateBladeFile(), $arguments)->render();
     }
@@ -67,9 +67,9 @@ abstract class BaseCreator
         array $yamlFile = []
     ): array {
         return [
-            'yamlCommon'            => $yamlFileCommon,
+            'yamlCommonFile'        => $yamlFileCommon,
             'namespace'             => $this->textSupport->convertFileFullPathToNamespace($classFilePath),
-            'className'             => basename($classFilePath, '.'.$foundation->extension()),
+            'className'             => pathinfo($classFilePath, PATHINFO_FILENAME),
             'extendsClassName'      => $foundation->extendsClassNameForBlade($fileName, $yamlFile),
             'useExtendsClass'       => $foundation->useExtendsClassForBlade($fileName, $yamlFile),
             'interfaceClassName'    => $foundation->interfaceClassNameForBlade($fileName, $yamlFile),
@@ -96,7 +96,7 @@ abstract class BaseCreator
         array $yamlFileCommon
     ): string {
         $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon);
-        $arguments['yamls'] = $yamlFiles;
+        $arguments['yamlFiles'] = $yamlFiles;
 
         return view($foundation->templateBladeFile(), $arguments)->render();
     }
@@ -105,13 +105,13 @@ abstract class BaseCreator
      * Generate the full path of the output file.
      *
      * @param  string  $fileName
-     * @param  \StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryCommon  $foundation
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\OutputDirectory  $foundation
      * @param  mixed[]  $yamlFile
      * @return string
      */
     protected function generateOutputFileFullPath(
         string $fileName,
-        OutputDirectoryCommon $foundation,
+        OutputDirectory $foundation,
         array $yamlFile
     ): string {
         $outputDirectoryPath = $foundation->replacedOutputDirectoryPath($fileName, $yamlFile);
