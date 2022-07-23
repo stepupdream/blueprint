@@ -14,7 +14,6 @@ class Lump extends Base
     protected array $requiredKeys = [
         'read_path',
         'output_path',
-        'extension',
         'template_blade_file',
         'is_override',
     ];

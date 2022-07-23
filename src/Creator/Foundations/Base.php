@@ -12,11 +12,6 @@ abstract class Base
     /**
      * @var string
      */
-    protected string $extension;
-
-    /**
-     * @var string
-     */
     protected string $templateBladeFile;
 
     /**
@@ -70,7 +65,6 @@ abstract class Base
         protected TextSupport $textSupport
     ) {
         // required
-        $this->extension = (string) $foundationConfig['extension'];
         $this->templateBladeFile = (string) $foundationConfig['template_blade_file'];
 
         // option
@@ -205,16 +199,6 @@ abstract class Base
         }
 
         return $result;
-    }
-
-    /**
-     * Get extension
-     *
-     * @return string
-     */
-    public function extension(): string
-    {
-        return $this->extension;
     }
 
     /**

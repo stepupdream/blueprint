@@ -13,7 +13,6 @@ class IndividualNotRead extends Base
      */
     protected array $requiredKeys = [
         'output_path',
-        'extension',
         'template_blade_file',
         'is_override',
     ];

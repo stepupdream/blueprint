@@ -8,7 +8,6 @@ return [
             'create_type'         => 'IndividualWithoutRead',
             'template_blade_file' => 'blueprint::Foundation.Controller.base',
             'output_path'         => app_path('Presentations/Http/Api/BaseController.php'),
-            'extension'           => 'php',
             'use_extends_class'   => 'App\Http\Controllers\Controller;',
             'extends_class_name'  => 'Controller',
             'is_override'         => false,
@@ -36,7 +35,6 @@ return [
             'read_path'           => base_path('definition_document/http/api'),
             'except_file_names'   => ['Base'],
             'output_path'         => base_path('routes/api.php'),
-            'extension'           => 'php',
             'template_blade_file' => 'blueprint::Foundation.Route.base',
             'is_override'         => true,
         ],
@@ -71,7 +69,6 @@ return [
             'create_type'         => 'IndividualWithoutRead',
             'template_blade_file' => 'blueprint::Foundation.Model.base',
             'output_path'         => app_path('Infrastructures/User/BaseUser.php'),
-            'extension'           => 'php',
             'is_override'         => false,
         ],
 
