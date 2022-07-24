@@ -31,8 +31,6 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
 
             $this->publishes([
                 __DIR__.'/../Config/stepupdream/blueprint.php' => config_path('stepupdream/blueprint.php'),
-            ]);
-            $this->publishes([
                 __DIR__.'/../../../resources' => $this->app->resourcePath('views/vendor/blueprint'),
             ], 'blueprint');
 

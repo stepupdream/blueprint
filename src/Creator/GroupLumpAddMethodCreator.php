@@ -38,7 +38,7 @@ class GroupLumpAddMethodCreator extends BaseCreator
                 $this->fileCreator->createFile($newFile, $classPath, true);
             } else {
                 $blade = $this->readBladeIndividual($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
-                $this->fileCreator->createFile($blade, $classPath, false);
+                $this->fileCreator->createFile($blade, $classPath);
             }
         }
     }
@@ -78,6 +78,6 @@ class GroupLumpAddMethodCreator extends BaseCreator
     {
         $replacement = PHP_EOL.$this->fileCreator->addTabSpace().$bladeFile.'}'.PHP_EOL;
 
-        return preg_replace('/}[^}]*$/', $replacement, $this->fileCreator->get($classFilePath));
+        return (string) preg_replace('/}[^}]*$/', $replacement, $this->fileCreator->get($classFilePath));
     }
 }

@@ -1,6 +1,6 @@
 # blueprint
 
-[![Laravel 6|7|8](https://img.shields.io/badge/Laravel-6|7|8-orange.svg)](http://laravel.com)
+[![Laravel 9](https://img.shields.io/badge/Laravel-9-orange.svg)](http://laravel.com)
 [![License](https://poser.pugx.org/stepupdream/blueprint/license)](//packagist.org/packages/stepupdream/blueprint)
 
 ## Introduction
@@ -20,7 +20,7 @@ project.
 The requirements to Blueprint application is:
 
 - PHP - Supported Versions: >= 8.0
-- Laravel - Supported Versions: >= 8.0
+- Laravel - Supported Versions: >= 9.0
 
 ## Installation
 
@@ -219,7 +219,7 @@ If you specify these strings, the strings will be replaced automatically.
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/stepupdream/blueprint/blob/master/.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/stepupdream/blueprint/blob/main/.github/CONTRIBUTING.md) for details.
 
 ## License
 
