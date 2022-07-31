@@ -32,7 +32,7 @@ trait OutputDirectory
     protected string $convertClassNameType;
 
     /**
-     * Get extension
+     * Get extension.
      *
      * @return string
      */
@@ -42,7 +42,7 @@ trait OutputDirectory
     }
 
     /**
-     * Get prefix
+     * Get prefix.
      *
      * @return string
      */
@@ -52,7 +52,7 @@ trait OutputDirectory
     }
 
     /**
-     * Get suffix
+     * Get suffix.
      *
      * @return string
      */
@@ -62,7 +62,7 @@ trait OutputDirectory
     }
 
     /**
-     * Get convertClassNameType
+     * Get convertClassNameType.
      *
      * @return string
      */

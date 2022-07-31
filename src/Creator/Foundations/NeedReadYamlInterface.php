@@ -7,28 +7,28 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 interface NeedReadYamlInterface
 {
     /**
-     * Get groupKeyName
+     * Get groupKeyName.
      *
      * @return string
      */
     public function groupKeyName(): string;
 
     /**
-     * Get readPath
+     * Get readPath.
      *
      * @return string
      */
     public function readPath(): string;
 
     /**
-     * Get exceptFileNames
+     * Get exceptFileNames.
      *
      * @return string[]
      */
     public function exceptFileNames(): array;
 
     /**
-     * Get commonFileName
+     * Get commonFileName.
      *
      * @return string
      */

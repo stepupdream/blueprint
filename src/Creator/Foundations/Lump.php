@@ -49,7 +49,7 @@ class Lump extends Base implements NeedReadYamlInterface
     }
 
     /**
-     * Get outputPath
+     * Get outputPath.
      *
      * @return string
      */
@@ -59,7 +59,7 @@ class Lump extends Base implements NeedReadYamlInterface
     }
 
     /**
-     * Get isOverride
+     * Get isOverride.
      *
      * @return bool
      */

@@ -62,7 +62,7 @@ class IndividualNotRead extends Base
     }
 
     /**
-     * Get isOverride
+     * Get isOverride.
      *
      * @return bool
      */
@@ -72,7 +72,7 @@ class IndividualNotRead extends Base
     }
 
     /**
-     * Get outputPath
+     * Get outputPath.
      *
      * @return string
      */

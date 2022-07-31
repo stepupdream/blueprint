@@ -61,7 +61,7 @@ class GroupLumpAddMethod extends Base implements OutputDirectoryInterface, NeedR
     }
 
     /**
-     * Get methodKeyName
+     * Get methodKeyName.
      *
      * @return string
      */
@@ -71,7 +71,7 @@ class GroupLumpAddMethod extends Base implements OutputDirectoryInterface, NeedR
     }
 
     /**
-     * Get addTemplateBladeFile
+     * Get addTemplateBladeFile.
      *
      * @return string
      */
@@ -81,7 +81,7 @@ class GroupLumpAddMethod extends Base implements OutputDirectoryInterface, NeedR
     }
 
     /**
-     * Get methodNameType
+     * Get methodNameType.
      *
      * @return string
      */
