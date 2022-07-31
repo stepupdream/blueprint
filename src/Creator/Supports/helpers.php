@@ -12,7 +12,7 @@ if (! function_exists('blade_phpdoc_support')) {
      */
     function blade_phpdoc_support(string $text, string $type): string
     {
-        return '@'.$type.sprintf('  %s', $text);
+        return '@'.$type.sprintf(' %s', $text);
     }
 }
 
