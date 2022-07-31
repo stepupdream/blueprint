@@ -3,17 +3,16 @@ use Illuminate\Support\Str;
 echo '<?php' . PHP_EOL;
 @endphp
 
+declare(strict_types=1);
+
 namespace {{ $namespace }};
 
-@if (!empty($useExtendsClass))
-{{ $useExtendsClass }}
+@if (!empty($options['use_extends_class']))
+{{ $options['use_extends_class'] }}
 
 @else
 @endif
-/**
- * Class {{ Str::studly($className) }}
- */
-class {{ Str::studly($className) }}{{ $extendsClassName }}
+class {{ Str::studly($className) }}{{ $options['extends_class_name'] }}
 {
     @include('blueprint::Component.Controller.add_method')
 }

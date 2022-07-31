@@ -2,17 +2,16 @@
 echo '<?php' . PHP_EOL;
 @endphp
 
+declare(strict_types=1);
+
 namespace {{ $namespace }};
 
-@if (!empty($useExtendsClass))
-{{ $useExtendsClass }}
+@if (!empty($options['use_extends_class']))
+{{ $options['use_extends_class'] }}
 
 @else
 @endif
-/**
- * Class {{ $className }}
- */
-abstract class {{ $className }}{{ $extendsClassName }}
+abstract class {{ $className }}{{ $options['extends_class_name'] }}
 {
 
 }

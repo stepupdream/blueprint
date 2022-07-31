@@ -46,7 +46,7 @@ class Individual extends Base implements OutputDirectoryInterface, NeedReadYamlI
     }
 
     /**
-     * Get isOverride
+     * Get isOverride.
      *
      * @return bool
      */

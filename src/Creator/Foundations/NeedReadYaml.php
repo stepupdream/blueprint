@@ -27,7 +27,7 @@ trait NeedReadYaml
     protected string $groupKeyName;
 
     /**
-     * Get groupKeyName
+     * Get groupKeyName.
      *
      * @return string
      */
@@ -37,7 +37,7 @@ trait NeedReadYaml
     }
 
     /**
-     * Get readPath
+     * Get readPath.
      *
      * @return string
      */
@@ -47,7 +47,7 @@ trait NeedReadYaml
     }
 
     /**
-     * Get exceptFileNames
+     * Get exceptFileNames.
      *
      * @return string[]
      */
@@ -57,7 +57,7 @@ trait NeedReadYaml
     }
 
     /**
-     * Get commonFileName
+     * Get commonFileName.
      *
      * @return string
      */

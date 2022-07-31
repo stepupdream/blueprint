@@ -7,28 +7,28 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 interface OutputDirectoryInterface
 {
     /**
-     * Get extension
+     * Get extension.
      *
      * @return string
      */
     public function extension(): string;
 
     /**
-     * Get prefix
+     * Get prefix.
      *
      * @return string
      */
     public function prefix(): string;
 
     /**
-     * Get suffix
+     * Get suffix.
      *
      * @return string
      */
     public function suffix(): string;
 
     /**
-     * Get convertClassNameType
+     * Get convertClassNameType.
      *
      * @return string
      */

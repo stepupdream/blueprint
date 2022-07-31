@@ -47,7 +47,7 @@ class GroupLump extends Base implements OutputDirectoryInterface, NeedReadYamlIn
     }
 
     /**
-     * Get isOverride
+     * Get isOverride.
      *
      * @return bool
      */

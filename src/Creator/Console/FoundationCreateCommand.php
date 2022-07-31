@@ -33,42 +33,12 @@ class FoundationCreateCommand extends BaseCreateCommand
     protected $description = 'Generates design basic data';
 
     /**
-     * @var \StepUpDream\Blueprint\Creator\IndividualCreator
-     */
-    protected IndividualCreator $individualCreator;
-
-    /**
-     * @var \StepUpDream\Blueprint\Creator\IndividualNotReadCreator
-     */
-    protected IndividualNotReadCreator $individualNotReadCreator;
-
-    /**
-     * @var \StepUpDream\Blueprint\Creator\LumpCreator
-     */
-    protected LumpCreator $lumpCreator;
-
-    /**
-     * @var \StepUpDream\Blueprint\Creator\GroupLumpCreator
-     */
-    protected GroupLumpCreator $groupLumpCreator;
-
-    /**
-     * @var \StepUpDream\Blueprint\Creator\GroupLumpAddMethodCreator
-     */
-    protected GroupLumpAddMethodCreator $groupLumpAddMethodCreator;
-
-    /**
      * Run method in order.
      */
     public function handle(): void
     {
         $target = $this->targetOption();
         $foundationsConfig = $this->foundationsConfig();
-        $this->individualCreator = app()->make(IndividualCreator::class);
-        $this->individualNotReadCreator = app()->make(IndividualNotReadCreator::class);
-        $this->lumpCreator = app()->make(LumpCreator::class);
-        $this->groupLumpCreator = app()->make(GroupLumpCreator::class);
-        $this->groupLumpAddMethodCreator = app()->make(GroupLumpAddMethodCreator::class);
 
         foreach ($foundationsConfig as $foundationName => $foundationConfig) {
             if ($target !== null && $foundationName !== $target) {
@@ -146,23 +116,28 @@ class FoundationCreateCommand extends BaseCreateCommand
         switch ($createType) {
             case 'Individual':
                 $foundation = app()->make(Individual::class, ['foundationConfig' => $foundationConfig]);
-                $this->individualCreator->run($foundation);
+                $individualCreator = app()->make(IndividualCreator::class);
+                $individualCreator->run($foundation);
                 break;
             case 'IndividualNotRead':
                 $foundation = app()->make(IndividualNotRead::class, ['foundationConfig' => $foundationConfig]);
-                $this->individualNotReadCreator->run($foundation);
+                $individualNotReadCreator = app()->make(IndividualNotReadCreator::class);
+                $individualNotReadCreator->run($foundation);
                 break;
             case 'Lump':
                 $foundation = app()->make(Lump::class, ['foundationConfig' => $foundationConfig]);
-                $this->lumpCreator->run($foundation);
+                $lumpCreator = app()->make(LumpCreator::class);
+                $lumpCreator->run($foundation);
                 break;
             case 'GroupLump':
                 $foundation = app()->make(GroupLump::class, ['foundationConfig' => $foundationConfig]);
-                $this->groupLumpCreator->run($foundation);
+                $groupLumpCreator = app()->make(GroupLumpCreator::class);
+                $groupLumpCreator->run($foundation);
                 break;
             case 'GroupLumpAddMethod':
                 $foundation = app()->make(GroupLumpAddMethod::class, ['foundationConfig' => $foundationConfig]);
-                $this->groupLumpAddMethodCreator->run($foundation);
+                $groupLumpAddMethodCreator = app()->make(GroupLumpAddMethodCreator::class);
+                $groupLumpAddMethodCreator->run($foundation);
                 break;
             default:
                 throw new LogicException('read error create_type: name '.$createType);

@@ -34,7 +34,7 @@ abstract class Base implements BaseInterface
     }
 
     /**
-     * Get templateBladeFile
+     * Get templateBladeFile.
      *
      * @return string
      */
