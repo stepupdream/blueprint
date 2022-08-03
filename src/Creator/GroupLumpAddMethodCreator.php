@@ -40,6 +40,7 @@ class GroupLumpAddMethodCreator extends BaseCreator
                 $blade = $this->readBladeIndividual($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
                 $this->fileCreator->createFile($blade, $classPath);
             }
+            $this->write($classPath, 'COMPLETE');
         }
     }
 

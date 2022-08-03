@@ -20,5 +20,6 @@ class IndividualNotReadCreator extends BaseCreator
         $classFilePath = $foundation->outputPath();
         $bladeFile = $this->readBladeIndividual($foundation, $classFilePath, '', [], []);
         $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
+        $this->write($classFilePath, 'COMPLETE');
     }
 }
