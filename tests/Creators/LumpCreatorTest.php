@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test\Creators;
 
+use Mockery;
 use StepUpDream\Blueprint\Creator\Foundations\Lump;
 use StepUpDream\Blueprint\Creator\LumpCreator;
+use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
+use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
+use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
 use StepUpDream\Blueprint\Test\ViewLoadServiceProvider;
 
@@ -30,8 +34,18 @@ class LumpCreatorTest extends TestCase
 
         // test
         $foundation = app()->make(Lump::class, ['foundationConfig' => $foundationConfig]);
-        $lumpCreator = $this->app->make(LumpCreator::class);
-        $lumpCreator->run($foundation);
+        $fileCreator = new FileOperation();
+        $yamlReader = new YamlFileOperation();
+        $textSupport = new TextSupport();
+        $lumpCreatorMock = Mockery::mock(LumpCreator::class, [
+            $fileCreator,
+            $yamlReader,
+            $textSupport,
+        ])->makePartial();
+        $lumpCreatorMock->allows('write')->andReturns();
+
+        /** @var LumpCreator $lumpCreatorMock */
+        $lumpCreatorMock->run($foundation);
 
         // assertion
         $testResult = file_get_contents(__DIR__.'/../Result/Lump/sample.php');

@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test\Creators;
 
+use Mockery;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLump;
 use StepUpDream\Blueprint\Creator\GroupLumpCreator;
+use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
+use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
+use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
 use StepUpDream\Blueprint\Test\ViewLoadServiceProvider;
 
@@ -30,8 +34,18 @@ class GroupLumpCreatorTest extends TestCase
 
         // test
         $foundation = app()->make(GroupLump::class, ['foundationConfig' => $foundationConfig]);
-        $individualCreator = $this->app->make(GroupLumpCreator::class);
-        $individualCreator->run($foundation);
+        $fileCreator = new FileOperation();
+        $yamlReader = new YamlFileOperation();
+        $textSupport = new TextSupport();
+        $groupLumpCreatorMock = Mockery::mock(GroupLumpCreator::class, [
+            $fileCreator,
+            $yamlReader,
+            $textSupport,
+        ])->makePartial();
+        $groupLumpCreatorMock->allows('write')->andReturns();
+
+        /** @var GroupLumpCreator $groupLumpCreatorMock */
+        $groupLumpCreatorMock->run($foundation);
 
         // assertion
         $testResult = file_get_contents(__DIR__.'/../Result/GroupLump/PrefixSampleGroup1Suffix.php');

@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test\Creators;
 
+use Mockery;
 use StepUpDream\Blueprint\Creator\Foundations\Individual;
 use StepUpDream\Blueprint\Creator\IndividualCreator;
+use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
+use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
+use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
 use StepUpDream\Blueprint\Test\ViewLoadServiceProvider;
 
@@ -30,8 +34,18 @@ class IndividualCreatorTest extends TestCase
 
         // test
         $foundation = app()->make(Individual::class, ['foundationConfig' => $foundationConfig]);
-        $individualCreator = $this->app->make(IndividualCreator::class);
-        $individualCreator->run($foundation);
+        $fileCreator = new FileOperation();
+        $yamlReader = new YamlFileOperation();
+        $textSupport = new TextSupport();
+        $individualCreatorMock = Mockery::mock(IndividualCreator::class, [
+            $fileCreator,
+            $yamlReader,
+            $textSupport,
+        ])->makePartial();
+        $individualCreatorMock->allows('write')->andReturns();
+
+        /** @var IndividualCreator $individualCreatorMock */
+        $individualCreatorMock->run($foundation);
 
         // assertion
         $testResult = file_get_contents(__DIR__.'/../Result/Individual/PrefixSample2Suffix.php');
