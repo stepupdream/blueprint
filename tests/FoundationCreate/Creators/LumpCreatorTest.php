@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Test\Creators;
+namespace StepUpDream\Blueprint\Test\FoundationCreate\Creators;
 
 use Mockery;
-use StepUpDream\Blueprint\Creator\Foundations\IndividualNotRead;
-use StepUpDream\Blueprint\Creator\IndividualNotReadCreator;
+use StepUpDream\Blueprint\Creator\Foundations\Lump;
+use StepUpDream\Blueprint\Creator\LumpCreator;
 use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
 use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
 use StepUpDream\Blueprint\Test\ViewLoadServiceProvider;
 
-class IndividualNotReadCreatorTest extends TestCase
+class LumpCreatorTest extends TestCase
 {
     /**
      * @test
      */
-    public function individualNotReadCreator(): void
+    public function lumpCreator(): void
     {
         // initialize
         $this->resultReset();
@@ -26,30 +26,30 @@ class IndividualNotReadCreatorTest extends TestCase
         // config mock
         $configPath = __DIR__.'/../Config.php';
         $configMock = require $configPath;
-        $foundationConfig = $configMock['foundations']['individual_not_read'];
+        $foundationConfig = $configMock['foundations']['lump'];
 
         // load resources
         $mock = new ViewLoadServiceProvider($this->app);
         $mock->run();
 
         // test
-        $foundation = app()->make(IndividualNotRead::class, ['foundationConfig' => $foundationConfig]);
+        $foundation = app()->make(Lump::class, ['foundationConfig' => $foundationConfig]);
         $fileCreator = new FileOperation();
         $yamlReader = new YamlFileOperation();
         $textSupport = new TextSupport();
-        $individualNotReadCreatorMock = Mockery::mock(IndividualNotReadCreator::class, [
+        $lumpCreatorMock = Mockery::mock(LumpCreator::class, [
             $fileCreator,
             $yamlReader,
             $textSupport,
         ])->makePartial();
-        $individualNotReadCreatorMock->allows('write')->andReturns();
+        $lumpCreatorMock->allows('write')->andReturns();
 
-        /** @var IndividualNotReadCreator $individualNotReadCreatorMock */
-        $individualNotReadCreatorMock->run($foundation);
+        /** @var LumpCreator $lumpCreatorMock */
+        $lumpCreatorMock->run($foundation);
 
         // assertion
-        $testResult = file_get_contents(__DIR__.'/../Result/IndividualNotRead/sample.php');
-        $expectedResult = file_get_contents(__DIR__.'/../Expected/IndividualNotRead/sample.php');
+        $testResult = file_get_contents(__DIR__.'/../Result/Lump/sample.php');
+        $expectedResult = file_get_contents(__DIR__.'/../Expected/Lump/sample.php');
         self::assertSame($testResult, $expectedResult);
 
         // end

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Test\Console;
+namespace StepUpDream\Blueprint\Test\FoundationCreate\Console;
 
 use Illuminate\Support\Facades\Config;
 use StepUpDream\Blueprint\Creator\Console\FoundationCreateCommand;

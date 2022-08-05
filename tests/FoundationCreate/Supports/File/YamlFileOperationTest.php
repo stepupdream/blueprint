@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Test\Supports\File;
+namespace StepUpDream\Blueprint\Test\FoundationCreate\Supports\File;
 
 use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Test\TestCase;
