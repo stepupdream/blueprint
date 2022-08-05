@@ -22,5 +22,6 @@ class LumpCreator extends BaseCreator
         $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
         $bladeFile = $this->readBladeFileLump($foundation, $foundation->outputPath(), $yamlFiles, $yamlFileCommon);
         $this->fileCreator->createFile($bladeFile, $foundation->outputPath(), $foundation->isOverride());
+        $this->write($foundation->outputPath(), 'COMPLETE');
     }
 }

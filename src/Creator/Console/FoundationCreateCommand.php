@@ -53,9 +53,7 @@ class FoundationCreateCommand extends BaseCreateCommand
                 throw new LogicException('create_type must be specified as a string');
             }
 
-            $createType = $foundationConfig['create_type'];
-            $this->createFoundation($createType, $foundationConfig);
-            $this->info('Completed: '.$foundationName);
+            $this->createFoundation($foundationConfig);
         }
     }
 
@@ -108,36 +106,36 @@ class FoundationCreateCommand extends BaseCreateCommand
     /**
      * Generate the underlying class.
      *
-     * @param  string  $createType
      * @param  mixed[]  $foundationConfig
      */
-    private function createFoundation(string $createType, array $foundationConfig): void
+    private function createFoundation(array $foundationConfig): void
     {
+        $createType = $foundationConfig['create_type'];
         switch ($createType) {
             case 'Individual':
                 $foundation = app()->make(Individual::class, ['foundationConfig' => $foundationConfig]);
                 $individualCreator = app()->make(IndividualCreator::class);
-                $individualCreator->run($foundation);
+                $individualCreator->setOutput($this->output)->run($foundation);
                 break;
             case 'IndividualNotRead':
                 $foundation = app()->make(IndividualNotRead::class, ['foundationConfig' => $foundationConfig]);
                 $individualNotReadCreator = app()->make(IndividualNotReadCreator::class);
-                $individualNotReadCreator->run($foundation);
+                $individualNotReadCreator->setOutput($this->output)->run($foundation);
                 break;
             case 'Lump':
                 $foundation = app()->make(Lump::class, ['foundationConfig' => $foundationConfig]);
                 $lumpCreator = app()->make(LumpCreator::class);
-                $lumpCreator->run($foundation);
+                $lumpCreator->setOutput($this->output)->run($foundation);
                 break;
             case 'GroupLump':
                 $foundation = app()->make(GroupLump::class, ['foundationConfig' => $foundationConfig]);
                 $groupLumpCreator = app()->make(GroupLumpCreator::class);
-                $groupLumpCreator->run($foundation);
+                $groupLumpCreator->setOutput($this->output)->run($foundation);
                 break;
             case 'GroupLumpAddMethod':
                 $foundation = app()->make(GroupLumpAddMethod::class, ['foundationConfig' => $foundationConfig]);
                 $groupLumpAddMethodCreator = app()->make(GroupLumpAddMethodCreator::class);
-                $groupLumpAddMethodCreator->run($foundation);
+                $groupLumpAddMethodCreator->setOutput($this->output)->run($foundation);
                 break;
             default:
                 throw new LogicException('read error create_type: name '.$createType);

@@ -27,6 +27,7 @@ class IndividualCreator extends BaseCreator
             $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
             $bladeFile = $this->readBladeIndividual($foundation, $classFilePath, $fileName, $yamlFile, $yamlFileCommon);
             $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
+            $this->write($classFilePath, 'COMPLETE');
         }
     }
 }

@@ -26,6 +26,7 @@ class GroupLumpCreator extends BaseCreator
             $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, []);
             $bladeFile = $this->readBladeFileLump($foundation, $classFilePath, $yamlFilesGroup, $yamlFileCommon);
             $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
+            $this->write($classFilePath, 'COMPLETE');
         }
     }
 }

@@ -9,8 +9,9 @@ use StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryInterface;
 use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
 use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\LineMessage;
 
-abstract class BaseCreator
+abstract class BaseCreator extends LineMessage
 {
     /**
      * BaseCreator constructor.

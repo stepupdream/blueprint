@@ -10,7 +10,8 @@
   "require": {
     "php": ">=8.0.0",
     "laravel/framework": "^9",
-    "symfony/yaml": "^6"
+    "symfony/yaml": "^6",
+    "stepupdream/spread-sheet-converter": "^2.0"
   },
   "require-dev": {
     "orchestra/testbench": "^7",
