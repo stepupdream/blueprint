@@ -7,6 +7,7 @@ namespace StepUpDream\Blueprint\Creator\Providers;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use StepUpDream\Blueprint\Creator\Console\FoundationCreateCommand;
+use StepUpDream\Blueprint\Creator\Console\MigrationFileCreateCommand;
 
 class FoundationCreateCommandServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -16,7 +17,8 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
      * @var string[]
      */
     protected array $commands = [
-        'BlueprintCreateCommand' => 'blueprint.create.command',
+        'BlueprintCreateCommand'          => 'blueprint.create.command',
+        'BlueprintMigrationCreateCommand' => 'blueprint.migration-create.command',
     ];
 
     /**
@@ -31,11 +33,14 @@ class FoundationCreateCommandServiceProvider extends ServiceProvider implements 
 
             $this->publishes([
                 __DIR__.'/../Config/stepupdream/blueprint.php' => config_path('stepupdream/blueprint.php'),
-                __DIR__.'/../../../resources' => $this->app->resourcePath('views/vendor/blueprint'),
+                __DIR__.'/../../../resources'                  => $this->app->resourcePath('views/vendor/blueprint'),
             ], 'blueprint');
 
             $this->app->singleton('blueprint.create.command', function () {
                 return new FoundationCreateCommand();
+            });
+            $this->app->singleton('blueprint.migration-create.command', function () {
+                return new MigrationFileCreateCommand();
             });
 
             $this->commands(array_values($this->commands));

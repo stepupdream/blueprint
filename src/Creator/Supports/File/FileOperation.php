@@ -47,4 +47,101 @@ class FileOperation extends SpreadSheetConverterFileOperation
 
         throw new FileNotFoundException("File does not exist at path {$path}.");
     }
+
+    /**
+     * Get the version for each column.
+     *
+     * @param  string  $migrationDirectoryPath
+     * @param  string  $tableName
+     * @return \StepUpDream\Blueprint\Creator\Supports\File\ColumnVersionMigration
+     */
+    public function getColumnVersionByTable(string $migrationDirectoryPath, string $tableName): ColumnVersionMigration
+    {
+        $columnVersionMigration = new ColumnVersionMigration();
+        if (! is_dir($migrationDirectoryPath)) {
+            return $columnVersionMigration;
+        }
+
+        $files = $this->allFiles($migrationDirectoryPath);
+        foreach ($files as $file) {
+            if ($file->getFilenameWithoutExtension() !== $tableName) {
+                continue;
+            }
+
+            $directoryPathSplit = explode('/', dirname($file->getRealPath()));
+            $versionName = $this->pop($directoryPathSplit, 2);
+            if ($versionName === 'tmp') {
+                continue;
+            }
+
+            $columnVersions = $this->getColumnVersion($file->getRealPath(), $versionName);
+            if (! empty($columnVersions)) {
+                $columnVersionMigration->addColumnVersions($columnVersions);
+            }
+        }
+
+        return $columnVersionMigration;
+    }
+
+    /**
+     * Get the specified element from the back.
+     *
+     * @param  array  $directoryPathSplit
+     * @param  int  $arrayNumber
+     * @return string
+     */
+    public function pop(array $directoryPathSplit, int $arrayNumber): string
+    {
+        $results = [];
+        for ($i = 1; $i <= $arrayNumber; $i++) {
+            $results[$i] = array_pop($directoryPathSplit);
+        }
+
+        return $results[$arrayNumber];
+    }
+
+    /**
+     * Get the last updated version of the corresponding column.
+     *
+     * @param  string  $filePath
+     * @param  string  $version
+     * @return array
+     */
+    private function getColumnVersion(string $filePath, string $version): array
+    {
+        $columnNames = [];
+
+        // ver9.x support
+        $migrationKeys = [
+            'year', 'uuidMorphs', 'uuid', 'unsignedTinyInteger', 'unsignedSmallInteger', 'unsignedMediumInteger',
+            'unsignedInteger', 'unsignedDecimal', 'unsignedBigInteger', 'tinyText', 'tinyInteger', 'tinyIncrements',
+            'timeTz', 'timestampTz', 'timestamp', 'time', 'text', 'string', 'smallInteger', 'smallIncrements', 'set',
+            'polygon', 'point', 'nullableUuidMorphs', 'nullableMorphs', 'multiPolygon', 'multiPoint', 'multiLineString',
+            'morphs', 'mediumText', 'mediumInteger', 'mediumIncrements', 'macAddress', 'longText', 'lineString',
+            'jsonb', 'json', 'ipAddress', 'integer', 'increments', 'geometryCollection', 'geometry', 'foreignUuid',
+            'foreignId', 'float', 'enum', 'double', 'decimal', 'dateTimeTz', 'dateTime', 'date', 'char', 'boolean',
+            'binary', 'bigInteger', 'bigIncrements',
+        ];
+
+        $content = file_get_contents($filePath);
+        $rows = explode("\n", $content);
+        foreach ($rows as $row) {
+            foreach ($migrationKeys as $migrationKey) {
+                preg_match('/(->'.$migrationKey."\(')(.*?)(')/s", $row, $return);
+                if (! empty($return)) {
+                    $columnNames[$return[2]] = $version;
+                    break;
+                }
+
+                preg_match('/(->renameColumn\()(.*?)(\))/s', $row, $return);
+                preg_match('/->renameColumn/', $row, $return);
+                if (! empty($return)) {
+                    $returnByExplode = explode(',', $return);
+                    $columnNames[trim(array_pop($returnByExplode))] = $version;
+                }
+            }
+        }
+
+        return $columnNames;
+    }
 }

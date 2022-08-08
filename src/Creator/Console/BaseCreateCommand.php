@@ -17,4 +17,23 @@ abstract class BaseCreateCommand extends Command
 
         parent::__construct();
     }
+
+    /**
+     * Whether it is a multidimensional array.
+     *
+     * @param  mixed[]  $array
+     * @return bool
+     */
+    protected function isMultidimensional(array $array): bool
+    {
+        return count($array) !== count($array, 1);
+    }
+
+    /**
+     * Run method in order.
+     */
+    public function handle(): void
+    {
+        // Describe common command execution processing here.
+    }
 }

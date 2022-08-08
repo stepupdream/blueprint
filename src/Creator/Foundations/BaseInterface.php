@@ -7,7 +7,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 interface BaseInterface
 {
     /**
-     * options for blade.
+     * Options for blade.
      *
      * @param  string  $fileName
      * @param  mixed  $yamlFile

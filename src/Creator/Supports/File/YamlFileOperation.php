@@ -6,11 +6,15 @@ namespace StepUpDream\Blueprint\Creator\Supports\File;
 
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class YamlFileOperation
+class YamlFileOperation extends FileOperation
 {
+    /**
+     * @var array
+     */
+    protected array $yamlCache = [];
+
     /**
      * Read yaml files.
      *
@@ -21,7 +25,6 @@ class YamlFileOperation
     public function readByFileName(string $directoryPath, string $findFileName): array
     {
         $yamlFiles = $this->readByDirectoryPath($directoryPath);
-
         foreach ($yamlFiles as $fileName => $yamlFile) {
             if (basename($fileName, '.yml') === $findFileName) {
                 return $yamlFile;
@@ -29,6 +32,45 @@ class YamlFileOperation
         }
 
         return [];
+    }
+
+    /**
+     * Read the version for each column.
+     *
+     * @param  string  $directoryPath
+     * @param  string  $findFileName
+     * @param  string|null  $version
+     * @return ColumnVersionYaml
+     */
+    public function readColumnVersionByFileName(
+        string $directoryPath,
+        string $findFileName,
+        ?string $version
+    ): ColumnVersionYaml {
+        $readYamlFile = $this->readByFileName($directoryPath, $findFileName);
+        if (empty($readYamlFile) || empty($readYamlFile['columns'])) {
+            throw new LogicException('Failed to load Yaml file. : '.$directoryPath.' -> '.$findFileName);
+        }
+
+        $columnVersion = new ColumnVersionYaml($version, $readYamlFile);
+        foreach ($readYamlFile['columns'] as $column) {
+            if (empty($column['version']) || empty($column['name'])) {
+                throw new LogicException('Missing required key [name, version] : '.$directoryPath.' -> '.$findFileName);
+            }
+
+            // Returns the highest version if no target version is specified.
+            if (empty($columnVersion->targetVersion()) ||
+                (! $columnVersion->isTargetVersionSelect() && $columnVersion->targetVersion() < $column['version'])) {
+                $columnVersion->resetVersionMatchColumns();
+                $columnVersion->setTargetVersion($column['version']);
+            }
+
+            if ($columnVersion->targetVersion() === $column['version']) {
+                $columnVersion->addVersionMatchColumns($column['name']);
+            }
+        }
+
+        return $columnVersion;
     }
 
     /**
@@ -44,8 +86,13 @@ class YamlFileOperation
             throw new LogicException($directoryPath.': read path must be a directory');
         }
 
-        $filePaths = $this->getAllFilePath($directoryPath);
-        $yamlFiles = $this->parseAllYaml($filePaths);
+        if (empty($this->yamlCache[$directoryPath])) {
+            $filePaths = $this->getAllFilePath($directoryPath);
+            $yamlFiles = $this->parseAllYaml($filePaths);
+            $this->yamlCache[$directoryPath] = $yamlFiles;
+        } else {
+            $yamlFiles = $this->yamlCache[$directoryPath];
+        }
 
         // Exclude from creation
         if (! empty($exceptFileNames) && ! empty($yamlFiles)) {
@@ -55,6 +102,24 @@ class YamlFileOperation
         }
 
         return $yamlFiles;
+    }
+
+    /**
+     * Read yaml file and get only its filename.
+     *
+     * @param  string  $directoryPath
+     * @param  string[]  $exceptFileNames
+     * @return string[]
+     */
+    public function readNamesByDirectoryPath(string $directoryPath, array $exceptFileNames = []): array
+    {
+        $names = [];
+        $yamlFiles = $this->readByDirectoryPath($directoryPath, $exceptFileNames);
+        foreach ($yamlFiles as $filePath => $yamlFile) {
+            $names[] = basename($filePath, '.yml');
+        }
+
+        return $names;
     }
 
     /**
@@ -90,22 +155,6 @@ class YamlFileOperation
         }
 
         return $filePaths;
-    }
-
-    /**
-     * Get all the files from the given directory (recursive).
-     *
-     * @param  string  $directory
-     * @param  bool  $hidden
-     * @return \Symfony\Component\Finder\SplFileInfo[]
-     * @see \Illuminate\Filesystem\Filesystem::allFiles
-     */
-    protected function allFiles(string $directory, bool $hidden = false): array
-    {
-        return iterator_to_array(
-            Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory)->sortByName(),
-            false
-        );
     }
 
     /**
