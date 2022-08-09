@@ -33,6 +33,6 @@ abstract class TestCase extends OrchestraTestCase
     protected function resultReset(): void
     {
         $filesystem = $this->app->make(Filesystem::class);
-        $filesystem->deleteDirectory(__DIR__.'/Result');
+        $filesystem->deleteDirectory(__DIR__.'/FoundationCreate/Result');
     }
 }
