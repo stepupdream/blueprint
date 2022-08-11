@@ -73,5 +73,4 @@ class MigrationFileCreateCommand extends BaseCreateCommand
 
         return $foundations;
     }
-
 }

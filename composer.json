@@ -45,7 +45,8 @@
     "test": "vendor/bin/phpunit",
     "format": "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
     "phpcs": "vendor/bin/phpcs --standard=phpcs.xml ./",
-    "phpstan": "vendor/bin/phpstan analyse"
+    "phpstan": "vendor/bin/phpstan analyse",
+    "phpstan-generate-baseline": "vendor/bin/phpstan analyse --generate-baseline"
   },
   "config": {
     "allow-plugins": {

@@ -86,7 +86,7 @@ class FileOperation extends SpreadSheetConverterFileOperation
     /**
      * Get the specified element from the back.
      *
-     * @param  array  $directoryPathSplit
+     * @param  string[]  $directoryPathSplit
      * @param  int  $arrayNumber
      * @return string
      */
@@ -97,6 +97,10 @@ class FileOperation extends SpreadSheetConverterFileOperation
             $results[$i] = array_pop($directoryPathSplit);
         }
 
+        if (empty($results[$arrayNumber])) {
+            throw new LogicException('Incorrect migration version folder arrangement structure.');
+        }
+
         return $results[$arrayNumber];
     }
 
@@ -105,12 +109,10 @@ class FileOperation extends SpreadSheetConverterFileOperation
      *
      * @param  string  $filePath
      * @param  string  $version
-     * @return array
+     * @return string[]
      */
     private function getColumnVersion(string $filePath, string $version): array
     {
-        $columnNames = [];
-
         // ver9.x support
         $migrationKeys = [
             'year', 'uuidMorphs', 'uuid', 'unsignedTinyInteger', 'unsignedSmallInteger', 'unsignedMediumInteger',
@@ -123,7 +125,12 @@ class FileOperation extends SpreadSheetConverterFileOperation
             'binary', 'bigInteger', 'bigIncrements',
         ];
 
+        $columnNames = [];
         $content = file_get_contents($filePath);
+        if (empty($content)) {
+            throw new LogicException($filePath.' : Failed to load content.');
+        }
+
         $rows = explode("\n", $content);
         foreach ($rows as $row) {
             foreach ($migrationKeys as $migrationKey) {

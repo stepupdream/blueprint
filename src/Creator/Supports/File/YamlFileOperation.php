@@ -11,7 +11,10 @@ use Symfony\Component\Yaml\Yaml;
 class YamlFileOperation extends FileOperation
 {
     /**
-     * @var array
+     * First element key: directory path.
+     * Second element key: file path.
+     *
+     * @var mixed[][][]
      */
     protected array $yamlCache = [];
 
