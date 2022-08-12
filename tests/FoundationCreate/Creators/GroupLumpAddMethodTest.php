@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Test\Creators;
+namespace StepUpDream\Blueprint\Test\FoundationCreate\Creators;
 
 use Illuminate\Filesystem\Filesystem;
 use Mockery;

@@ -67,7 +67,7 @@ trait NeedReadYaml
     }
 
     /**
-     * options for blade.
+     * Options for blade.
      *
      * @param  string  $fileName
      * @param  mixed  $yamlFile

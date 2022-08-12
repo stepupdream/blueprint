@@ -13,6 +13,6 @@ class ViewLoadServiceProvider extends ServiceProvider
      */
     public function run(): void
     {
-        $this->loadViewsFrom(__DIR__.'/Mock/Resources', 'blueprint');
+        $this->loadViewsFrom(__DIR__.'/FoundationCreate/Mock/Resources', 'blueprint');
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\Blueprint\Test\Supports;
+namespace StepUpDream\Blueprint\Test\FoundationCreate\Supports;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;

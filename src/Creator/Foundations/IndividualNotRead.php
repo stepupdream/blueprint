@@ -45,7 +45,7 @@ class IndividualNotRead extends Base
     }
 
     /**
-     * options for blade.
+     * Options for blade.
      *
      * @param  string  $fileName
      * @param  mixed  $yamlFile

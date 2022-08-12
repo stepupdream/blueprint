@@ -93,17 +93,6 @@ class FoundationCreateCommand extends BaseCreateCommand
     }
 
     /**
-     * Whether it is a multidimensional array.
-     *
-     * @param  mixed[]  $array
-     * @return bool
-     */
-    private function isMultidimensional(array $array): bool
-    {
-        return count($array) !== count($array, 1);
-    }
-
-    /**
      * Generate the underlying class.
      *
      * @param  mixed[]  $foundationConfig
