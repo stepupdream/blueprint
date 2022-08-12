@@ -107,7 +107,6 @@ return [
     'foundations_migration' => [
         'user_db' => [
             'read_path'                  => base_path('definition_document/database/user'),
-            'connection'                 => 'user_db',
             'except_file_names'          => [],
             'output_directory_path'      => database_path('migrations/step_up_dream'),
             'template_blade_file'        => 'blueprint::Foundation.Migration.create',

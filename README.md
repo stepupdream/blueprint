@@ -1,7 +1,7 @@
 # blueprint
 
 [![Laravel 9](https://img.shields.io/badge/Laravel-9-orange.svg)](http://laravel.com)
-[![License](https://poser.pugx.org/stepupdream/blueprint/license)](//packagist.org/packages/stepupdream/blueprint)
+[![testing](https://github.com/stepupdream/blueprint/actions/workflows/testing.yml/badge.svg?branch=develop)](https://github.com/stepupdream/blueprint/actions/workflows/testing.yml)
 
 ## Introduction
 
@@ -38,12 +38,16 @@ composer require --dev stepupdream/blueprint
 ## Run Locally
 
 ```bash
+// create class file
 php artisan blueprint:create
+
+// create migration file
+php artisan blueprint:migration-create
 ```
 
-## Output Pattern
+## Class file's output pattern
 
-Currently, there are 5 output patterns.
+Currently, there are 5 output patterns + 1 set migration pattern.
 
 - Individual  
   Reads the yaml file in the specified directory and creates one file for each yaml file.  
@@ -65,6 +69,8 @@ Currently, there are 5 output patterns.
   and outputs them to a file.
 
 ## Config
+
+### class file pattern
 
 Required keys are determined by each pattern.  
 There is no problem if you do not enter any keys other than the required keys. It will be an invalid value.  
@@ -90,6 +96,17 @@ If you specify these strings, the strings will be replaced automatically.
 |  suffix  | string |  The string you want to add to the end of the output file  |
 |  options  | array |  A list of values you want to pass to the blade file as optional values, separate from the contents of the yaml file  |
 |  is_override  | bool |  Whether it is okay to overwrite the file when outputting the file  |
+
+### migration file pattern
+
+| name                       | type   |  detail  |
+|----------------------------|--------| ---- |
+| read_path                  | string |  Directory path where yaml files are located  |
+| except_file_names          | array |  List of file names that you want to exclude from reading  |
+| output_directory_path      | string |  Output destination path  |
+| template_blade_file        | string |  Blade file that serves as a template  |
+| template_update_blade_file | string |  Blade file that serves as a template  |
+| options                 | array  |  A list of values you want to pass to the blade file as optional values, separate from the contents of the yaml file  |
 
 ## Sample
 
@@ -212,6 +229,12 @@ If you specify these strings, the strings will be replaced automatically.
     'is_override'             => true,
 ];
 ```
+
+## About migration file creation
+
+A migration file can be generated based on a yaml file containing table information.
+If the corresponding migration file does not yet exist, the table is treated as a new table.
+Conversely, if a migration file already exists, it will be treated as a separate file.
 
 ## Related open source tool
 
