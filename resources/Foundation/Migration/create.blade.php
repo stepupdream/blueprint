@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-{!! sprintf('class %s extends Migration' , Str::studly(snake_singular($yamlFile['name']))) !!}
-{
+return new class extends Migration {
     /**
      * Connection name.
      *
@@ -38,25 +37,11 @@ use Illuminate\Database\Migrations\Migration;
     {
         if (! Schema::connection($this->connection)->hasTable($this->tableName)) {
             Schema::connection($this->connection)->create($this->tableName, function (Blueprint $table) {
-                $table->bigIncrements('id')->comment('ID');
-@foreach ($yamlFile['columns'] as $column)
-@if ($column['name'] === 'id')
-@continue
-@endif
-                {!! sprintf("\$table->%s('%s')%s%s->comment('%s');", $column['migration_data_type'], $column['name'], $column['is_unsigned'] ? '->unsigned()' : '', $column['is_nullable'] ? '->nullable()' : '', $column['description']) !!}
+@foreach ($versionMatchColumns as $versionMatchColumn)
+                {!! sprintf("\$table->%s('%s')%s%s->comment('%s');", $versionMatchColumn['migration_data_type'], $versionMatchColumn['name'], $versionMatchColumn['is_unsigned'] ? '->unsigned()' : '', $versionMatchColumn['is_nullable'] ? '->nullable()' : '', $versionMatchColumn['description']) !!}
 @endforeach
                 $table->timestamps();
             });
         }
     }
-
-    /**
-     * Rollback migration.
-     */
-    public function down(): void
-    {
-        if (Schema::connection($this->connection)->hasTable($this->tableName)) {
-            Schema::connection($this->connection)->drop($this->tableName);
-        }
-    }
-}
+};
