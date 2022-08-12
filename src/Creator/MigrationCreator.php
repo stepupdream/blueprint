@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator;
 
+use Illuminate\Contracts\View\Factory;
 use InvalidArgumentException;
 use StepUpDream\Blueprint\Creator\Foundations\Migration;
 use StepUpDream\Blueprint\Creator\Supports\File\ColumnVersionMigration;
@@ -66,7 +67,7 @@ class MigrationCreator extends BaseCreator
      * @param  string  $fileName
      * @return string
      */
-    private function outputPath(Migration $foundation, string $targetVersion, string $fileName): string
+    protected function outputPath(Migration $foundation, string $targetVersion, string $fileName): string
     {
         $outputDirectoryPath = $foundation->outputDirectoryPath();
         $connection = $foundation->connection();
@@ -81,7 +82,7 @@ class MigrationCreator extends BaseCreator
      * @param  string  $fileName
      * @return string
      */
-    private function outputPathTmp(Migration $foundation, string $fileName): string
+    protected function outputPathTmp(Migration $foundation, string $fileName): string
     {
         $outputDirectoryPath = $foundation->outputDirectoryPathTmp();
         $connection = $foundation->connection();
@@ -98,7 +99,7 @@ class MigrationCreator extends BaseCreator
      * @param  \StepUpDream\Blueprint\Creator\Supports\File\ColumnVersionMigration  $columnVersionMigration
      * @return string
      */
-    protected function readBlade(
+    public function readBlade(
         Migration $foundation,
         bool $isNewTable,
         ColumnVersionYaml $columnVersionYaml,
@@ -112,9 +113,9 @@ class MigrationCreator extends BaseCreator
         $bladeViewArguments['options'] = $foundation->optionsForBlade('', '');
 
         if ($isNewTable) {
-            return view($foundation->templateBladeFile(), $bladeViewArguments)->render();
+            return app(Factory::class)->make($foundation->templateBladeFile(), $bladeViewArguments)->render();
         }
 
-        return view($foundation->templateUpdateBladeFile(), $bladeViewArguments)->render();
+        return app(Factory::class)->make($foundation->templateUpdateBladeFile(), $bladeViewArguments)->render();
     }
 }

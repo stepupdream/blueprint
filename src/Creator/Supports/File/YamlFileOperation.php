@@ -108,24 +108,6 @@ class YamlFileOperation extends FileOperation
     }
 
     /**
-     * Read yaml file and get only its filename.
-     *
-     * @param  string  $directoryPath
-     * @param  string[]  $exceptFileNames
-     * @return string[]
-     */
-    public function readNamesByDirectoryPath(string $directoryPath, array $exceptFileNames = []): array
-    {
-        $names = [];
-        $yamlFiles = $this->readByDirectoryPath($directoryPath, $exceptFileNames);
-        foreach ($yamlFiles as $filePath => $yamlFile) {
-            $names[] = basename($filePath, '.yml');
-        }
-
-        return $names;
-    }
-
-    /**
      * Determine if the given path is a directory.
      *
      * @param  string  $directory

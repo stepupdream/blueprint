@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator;
 
+use Illuminate\Contracts\View\Factory;
 use StepUpDream\Blueprint\Creator\Foundations\Base;
 use StepUpDream\Blueprint\Creator\Foundations\OutputDirectoryInterface;
 use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
@@ -47,7 +48,7 @@ abstract class BaseCreator extends LineMessage
         $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
         $arguments['yamlFile'] = $yamlFile;
 
-        return view($foundation->templateBladeFile(), $arguments)->render();
+        return app(Factory::class)->make($foundation->templateBladeFile(), $arguments)->render();
     }
 
     /**
@@ -95,7 +96,7 @@ abstract class BaseCreator extends LineMessage
         $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
         $arguments['yamlFiles'] = $yamlFiles;
 
-        return view($foundation->templateBladeFile(), $arguments)->render();
+        return app(Factory::class)->make($foundation->templateBladeFile(), $arguments)->render();
     }
 
     /**

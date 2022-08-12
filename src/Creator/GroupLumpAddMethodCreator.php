@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator;
 
+use Illuminate\Contracts\View\Factory;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
 
 class GroupLumpAddMethodCreator extends BaseCreator
@@ -64,7 +65,7 @@ class GroupLumpAddMethodCreator extends BaseCreator
         $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
         $arguments['yamlFile'] = $yamlFile;
 
-        return view($foundation->addTemplateBladeFile(), $arguments)->render();
+        return app(Factory::class)->make($foundation->addTemplateBladeFile(), $arguments)->render();
     }
 
     /**
