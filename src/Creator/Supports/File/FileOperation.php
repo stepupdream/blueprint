@@ -151,4 +151,19 @@ class FileOperation extends SpreadSheetConverterFileOperation
 
         return $columnNames;
     }
+
+    /**
+     * Create the same file as the first argument at the position specified by the second argument.
+     *
+     * @param  string  $content
+     * @param  string  $filePath
+     * @param  bool  $isOverwrite
+     * @return string
+     */
+    public function create(string $content, string $filePath, bool $isOverwrite = false): string
+    {
+        $result = $this->createFile($content, $filePath, $isOverwrite);
+
+        return $result ? 'DONE' : 'SKIP';
+    }
 }

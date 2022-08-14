@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator\Console;
 
+use Illuminate\Console\View\Components\Info;
 use LogicException;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLump;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
@@ -53,8 +54,12 @@ class FoundationCreateCommand extends BaseCreateCommand
                 throw new LogicException('create_type must be specified as a string');
             }
 
+            (new Info($this->output))->render(sprintf('%s file creating.', $foundationName));
             $this->createFoundation($foundationConfig);
+            $this->output->newLine();
         }
+
+        parent::handle();
     }
 
     /**

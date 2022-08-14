@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test\Migration\Creators;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use StepUpDream\Blueprint\Creator\Foundations\Migration;
@@ -12,6 +13,8 @@ use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
 use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class MigrationCreatorTest extends TestCase
 {
@@ -20,12 +23,16 @@ class MigrationCreatorTest extends TestCase
     /**
      * @test
      * @dataProvider migrationCreatorDataProvider
+     * @param $foundationConfig
+     * @param  MigrationCreator  $migrationCreator
      */
-    public function migrationCreatorRun($foundationConfig, $migrationCreator): void
+    public function migrationCreatorRun($foundationConfig, MigrationCreator $migrationCreator): void
     {
         $this->resultReset();
 
-        /** @var MigrationCreator $migrationCreator */
+        $bufferedOutput = new BufferedOutput();
+        $style = new OutputStyle(new ArrayInput([]), $bufferedOutput);
+        $migrationCreator->setOutput($style);
         $foundation = app()->make(Migration::class, ['foundationConfig' => $foundationConfig]);
 
         $migrationCreator->run($foundation, '1_0_0_0');

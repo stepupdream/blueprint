@@ -42,6 +42,7 @@ composer require --dev stepupdream/blueprint
 php artisan blueprint:create
 
 // create migration file
+// To generate a migration file, the version column must be present in the read Yaml file.
 php artisan blueprint:migration-create
 ```
 
@@ -99,14 +100,15 @@ If you specify these strings, the strings will be replaced automatically.
 
 ### migration file pattern
 
-| name                       | type   |  detail  |
-|----------------------------|--------| ---- |
-| read_path                  | string |  Directory path where yaml files are located  |
-| except_file_names          | array |  List of file names that you want to exclude from reading  |
-| output_directory_path      | string |  Output destination path  |
-| template_blade_file        | string |  Blade file that serves as a template  |
-| template_update_blade_file | string |  Blade file that serves as a template  |
-| options                 | array  |  A list of values you want to pass to the blade file as optional values, separate from the contents of the yaml file  |
+| name                       | type   | detail                                                                                                              |
+|----------------------------|--------|---------------------------------------------------------------------------------------------------------------------|
+| read_path                  | string | Directory path where yaml files are located                                                                         |
+| connection                 | string | Database connection name. Used for folder names.                                                                                        |
+| except_file_names          | array | List of file names that you want to exclude from reading                                                            |
+| output_directory_path      | string | Output destination path                                                                                             |
+| template_blade_file        | string | Blade file that serves as a template                                                                                |
+| template_update_blade_file | string | Blade file that serves as a template                                                                                |
+| options                 | array  | A list of values you want to pass to the blade file as optional values, separate from the contents of the yaml file |
 
 ## Sample
 
