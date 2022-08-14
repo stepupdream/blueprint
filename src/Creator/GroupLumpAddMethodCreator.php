@@ -6,6 +6,7 @@ namespace StepUpDream\Blueprint\Creator;
 
 use Illuminate\Contracts\View\Factory;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 
 class GroupLumpAddMethodCreator extends BaseCreator
 {
@@ -18,31 +19,56 @@ class GroupLumpAddMethodCreator extends BaseCreator
      */
     public function run(GroupLumpAddMethod $foundation): void
     {
+        $task = new Task($this->output);
         $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
-        $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
+
+        if (empty($yamlFiles)) {
+            $task->render('No file to load : '.$foundation->readPath(), fn () => 'ERROR');
+        }
 
         foreach ($yamlFiles as $yamlFile) {
             $fileName = $yamlFile[$foundation->groupKeyName()];
             $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $fileName);
             $classPath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
-            $methodName = $this->textSupport->convertName(
-                $foundation->methodNameType(),
-                $yamlFile[$foundation->methodKeyName()]
-            );
-
-            // Only add methods if you already have a class
-            if (file_exists($classPath) &&
-                ! method_exists($this->textSupport->convertFileFullPathToClassPath($classPath), $methodName)) {
-                // Replace } at the end of file with new method
-                $blade = $this->readBladeAddTemplate($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
-                $newFile = $this->replaceClassFile($blade, $classPath);
-                $this->fileCreator->createFile($newFile, $classPath, true);
-            } else {
-                $blade = $this->readBladeIndividual($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
-                $this->fileCreator->createFile($blade, $classPath);
-            }
-            $this->write($classPath, 'COMPLETE');
+            $task->render($classPath, fn () => $this->createFile($foundation, $fileName, $classPath, $yamlFile));
         }
+    }
+
+    /**
+     * Generate various files used in the project based on the Yaml file.
+     *
+     * @param  \StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod  $foundation
+     * @param  string  $fileName
+     * @param  string  $classPath
+     * @param  mixed[]  $yamlFile
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    protected function createFile(
+        GroupLumpAddMethod $foundation,
+        string $fileName,
+        string $classPath,
+        array $yamlFile
+    ): string {
+        $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
+        $methodName = $this->textSupport->convertName(
+            $foundation->methodNameType(),
+            $yamlFile[$foundation->methodKeyName()]
+        );
+
+        // Only add methods if you already have a class
+        if (file_exists($classPath) &&
+            ! method_exists($this->textSupport->convertFileFullPathToClassPath($classPath), $methodName)) {
+            // Replace } at the end of file with new method
+            $blade = $this->readBladeAddTemplate($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
+            $newFile = $this->replaceClassFile($blade, $classPath);
+
+            return $this->fileCreator->create($newFile, $classPath, true);
+        }
+
+        $blade = $this->readBladeIndividual($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
+
+        return $this->fileCreator->create($blade, $classPath);
     }
 
     /**

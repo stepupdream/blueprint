@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use StepUpDream\Blueprint\Creator\Foundations\Migration;
 use StepUpDream\Blueprint\Creator\Supports\File\ColumnVersionMigration;
 use StepUpDream\Blueprint\Creator\Supports\File\ColumnVersionYaml;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 
 class MigrationCreator extends BaseCreator
 {
@@ -22,9 +23,14 @@ class MigrationCreator extends BaseCreator
      */
     public function run(Migration $foundation, ?string $version): void
     {
+        $task = new Task($this->output);
         $readPath = $foundation->readPath();
         $outputDirectoryPath = $foundation->outputDirectoryPath();
         $yamlFiles = $this->yamlReader->readByDirectoryPath($readPath, $foundation->exceptFileNames());
+
+        if (empty($yamlFiles)) {
+            $task->render('No file to load : '.$foundation->readPath(), fn () => 'ERROR');
+        }
 
         foreach ($yamlFiles as $filePath => $yamlFile) {
             $fileName = basename($filePath, '.yml');
@@ -35,7 +41,7 @@ class MigrationCreator extends BaseCreator
             // first time.
             if (! $columnVersionMigration->isExistMigrationFile()) {
                 $outputPath = $this->outputPath($foundation, $columnVersionYaml->targetVersion(), $fileName);
-                $this->fileCreator->createFile($bladeFile, $outputPath);
+                $task->render($outputPath, fn () => $this->fileCreator->create($bladeFile, $outputPath));
                 continue;
             }
 
@@ -48,14 +54,14 @@ class MigrationCreator extends BaseCreator
             // If you export again with the same version, place them manually. Print to the tmp location.
             if ($columnVersionMigration->maxTargetVersion() === $columnVersionYaml->targetVersion()) {
                 $outputPath = $this->outputPathTmp($foundation, $fileName);
-                $this->fileCreator->createFile($bladeFile, $outputPath, true);
+                $task->render($outputPath, fn () => $this->fileCreator->create($bladeFile, $outputPath, true));
                 continue;
             }
 
             // Assuming the table already exists. Modify the contents of the table in the new version.
             $bladeFileUpdate = $this->readBlade($foundation, false, $columnVersionYaml, $columnVersionMigration);
             $outputPath = $this->outputPath($foundation, $columnVersionYaml->targetVersion(), $fileName);
-            $this->fileCreator->createFile($bladeFileUpdate, $outputPath);
+            $task->render($outputPath, fn () => $this->fileCreator->create($bladeFileUpdate, $outputPath));
         }
     }
 

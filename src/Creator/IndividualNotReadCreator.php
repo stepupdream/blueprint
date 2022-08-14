@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace StepUpDream\Blueprint\Creator;
 
 use StepUpDream\Blueprint\Creator\Foundations\IndividualNotRead;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 
 class IndividualNotReadCreator extends BaseCreator
 {
@@ -19,7 +20,8 @@ class IndividualNotReadCreator extends BaseCreator
     {
         $classFilePath = $foundation->outputPath();
         $bladeFile = $this->readBladeIndividual($foundation, $classFilePath, '', [], []);
-        $this->fileCreator->createFile($bladeFile, $classFilePath, $foundation->isOverride());
-        $this->write($classFilePath, 'COMPLETE');
+        (new Task($this->output))->render($classFilePath, function () use ($bladeFile, $classFilePath, $foundation) {
+            return $this->fileCreator->create($bladeFile, $classFilePath, $foundation->isOverride());
+        });
     }
 }

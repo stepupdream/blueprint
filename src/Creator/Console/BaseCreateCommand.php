@@ -4,20 +4,10 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator\Console;
 
-use Illuminate\Console\Command;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Console\BaseCreateCommand as BaseCommand;
 
-abstract class BaseCreateCommand extends Command
+abstract class BaseCreateCommand extends BaseCommand
 {
-    /**
-     * Create a new console command instance.
-     */
-    public function __construct()
-    {
-        ini_set('memory_limit', '2056M');
-
-        parent::__construct();
-    }
-
     /**
      * Whether it is a multidimensional array.
      *
@@ -31,9 +21,11 @@ abstract class BaseCreateCommand extends Command
 
     /**
      * Run method in order.
+     *
+     * Describe common command execution processing here.
      */
     public function handle(): void
     {
-        // Describe common command execution processing here.
+        $this->commandDetailLog();
     }
 }

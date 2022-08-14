@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator\Console;
 
+use Illuminate\Console\View\Components\Info;
 use LogicException;
 use StepUpDream\Blueprint\Creator\Foundations\Migration;
 use StepUpDream\Blueprint\Creator\MigrationCreator;
@@ -26,6 +27,7 @@ class MigrationFileCreateCommand extends BaseCreateCommand
 
     /**
      * Run method in order.
+     * @noinspection DisconnectedForeachInstructionInspection
      */
     public function handle(): void
     {
@@ -35,8 +37,13 @@ class MigrationFileCreateCommand extends BaseCreateCommand
         foreach ($foundationsConfig as $foundationConfig) {
             $foundation = app()->make(Migration::class, ['foundationConfig' => $foundationConfig]);
             $migrationCreator = app()->make(MigrationCreator::class);
+
+            (new Info($this->output))->render(sprintf('%s file creating.', $foundation->connection()));
             $migrationCreator->setOutput($this->output)->run($foundation, $version);
+            $this->output->newLine();
         }
+
+        parent::handle();
     }
 
     /**

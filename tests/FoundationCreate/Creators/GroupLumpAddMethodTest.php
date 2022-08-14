@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Test\FoundationCreate\Creators;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
@@ -13,6 +14,8 @@ use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
 use StepUpDream\Blueprint\Test\ViewLoadServiceProvider;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class GroupLumpAddMethodTest extends TestCase
 {
@@ -42,15 +45,15 @@ class GroupLumpAddMethodTest extends TestCase
         $fileCreator = new FileOperation();
         $yamlReader = new YamlFileOperation();
         $textSupport = new TextSupport();
+        $bufferedOutput = new BufferedOutput();
+        $style = new OutputStyle(new ArrayInput([]), $bufferedOutput);
         $groupLumpAddMethodCreatorMock = Mockery::mock(GroupLumpAddMethodCreator::class, [
             $fileCreator,
             $yamlReader,
             $textSupport,
         ])->makePartial();
         $groupLumpAddMethodCreatorMock->allows('write')->andReturns();
-
-        /** @var GroupLumpAddMethodCreator $groupLumpAddMethodCreatorMock */
-        $groupLumpAddMethodCreatorMock->run($foundation);
+        $groupLumpAddMethodCreatorMock->setOutput($style)->run($foundation);
 
         // assertion
         $testResult = file_get_contents(__DIR__.'/../Result/GroupLumpAddMethod/PrefixSampleGroup1Suffix.php');
