@@ -26,6 +26,6 @@ abstract class BaseCreateCommand extends BaseCommand
      */
     public function handle(): void
     {
-        $this->commandDetailLog();
+        $this->commandDetailLog('command run detail');
     }
 }
