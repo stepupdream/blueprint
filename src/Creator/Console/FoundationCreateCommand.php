@@ -16,8 +16,9 @@ use StepUpDream\Blueprint\Creator\GroupLumpCreator;
 use StepUpDream\Blueprint\Creator\IndividualCreator;
 use StepUpDream\Blueprint\Creator\IndividualNotReadCreator;
 use StepUpDream\Blueprint\Creator\LumpCreator;
+use StepUpDream\DreamAbilitySupport\Console\BaseCommand;
 
-class FoundationCreateCommand extends BaseCreateCommand
+class FoundationCreateCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
@@ -38,7 +39,7 @@ class FoundationCreateCommand extends BaseCreateCommand
      */
     public function handle(): void
     {
-        $target = $this->targetOption();
+        $target = $this->optionText('target');
         $foundationsConfig = $this->foundationsConfig();
 
         foreach ($foundationsConfig as $foundationName => $foundationConfig) {
@@ -59,26 +60,7 @@ class FoundationCreateCommand extends BaseCreateCommand
             $this->output->newLine();
         }
 
-        parent::handle();
-    }
-
-    /**
-     * Target.
-     *
-     * @return string|null
-     */
-    private function targetOption(): string|null
-    {
-        $target = $this->option('target');
-        if ($target === null) {
-            return null;
-        }
-
-        if (is_string($target)) {
-            return $target;
-        }
-
-        throw new LogicException('The option specification is incorrect: target');
+        $this->commandDetailLog('command run detail');
     }
 
     /**
@@ -104,7 +86,7 @@ class FoundationCreateCommand extends BaseCreateCommand
      */
     private function createFoundation(array $foundationConfig): void
     {
-        $createType = $foundationConfig['create_type'];
+        $createType = $foundationConfig['create_type'] ?? '';
         switch ($createType) {
             case 'Individual':
                 $foundation = app()->make(Individual::class, ['foundationConfig' => $foundationConfig]);
