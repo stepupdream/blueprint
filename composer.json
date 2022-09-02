@@ -43,6 +43,12 @@
     }
   },
   "scripts": {
+    "test-all": [
+      "vendor/bin/phpunit",
+      "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
+      "vendor/bin/phpcs --standard=phpcs.xml .",
+      "vendor/bin/phpstan analyse"
+    ],
     "test": "vendor/bin/phpunit",
     "format": "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
     "phpcs": "vendor/bin/phpcs --standard=phpcs.xml ./",
