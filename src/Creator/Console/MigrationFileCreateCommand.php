@@ -8,8 +8,9 @@ use Illuminate\Console\View\Components\Info;
 use LogicException;
 use StepUpDream\Blueprint\Creator\Foundations\Migration;
 use StepUpDream\Blueprint\Creator\MigrationCreator;
+use StepUpDream\DreamAbilitySupport\Console\BaseCommand;
 
-class MigrationFileCreateCommand extends BaseCreateCommand
+class MigrationFileCreateCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
@@ -31,7 +32,7 @@ class MigrationFileCreateCommand extends BaseCreateCommand
      */
     public function handle(): void
     {
-        $version = $this->versionOption();
+        $version = $this->optionText('target-version');
         $foundationsConfig = $this->foundationsMigrationConfig();
 
         foreach ($foundationsConfig as $foundationConfig) {
@@ -43,26 +44,7 @@ class MigrationFileCreateCommand extends BaseCreateCommand
             $this->output->newLine();
         }
 
-        parent::handle();
-    }
-
-    /**
-     * Version.
-     *
-     * @return string|null
-     */
-    private function versionOption(): string|null
-    {
-        $target = $this->option('target-version');
-        if ($target === null) {
-            return null;
-        }
-
-        if (is_string($target)) {
-            return $target;
-        }
-
-        throw new LogicException('The option specification is incorrect: target-version');
+        $this->commandDetailLog('command run detail');
     }
 
     /**

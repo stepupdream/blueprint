@@ -11,7 +11,8 @@
     "php": ">=8.0.0",
     "laravel/framework": "^9",
     "symfony/yaml": "^6",
-    "stepupdream/spread-sheet-converter": "^2.0"
+    "stepupdream/spread-sheet-converter": "^2.0",
+    "stepupdream/dream-ability-support": "dev-develop"
   },
   "require-dev": {
     "orchestra/testbench": "^7",
@@ -42,6 +43,12 @@
     }
   },
   "scripts": {
+    "test-all": [
+      "vendor/bin/phpunit",
+      "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
+      "vendor/bin/phpcs --standard=phpcs.xml .",
+      "vendor/bin/phpstan analyse"
+    ],
     "test": "vendor/bin/phpunit",
     "format": "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
     "phpcs": "vendor/bin/phpcs --standard=phpcs.xml ./",

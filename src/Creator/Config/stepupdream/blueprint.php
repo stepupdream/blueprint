@@ -6,7 +6,7 @@ declare(strict_types=1);
 // Please change the output destination etc. according to your own project rules.
 // Please change the contents of the template blade file according to the project.
 return [
-    'foundations' => [
+    'foundations'           => [
         'api_base_controller' => [
             'create_type'         => 'IndividualNotRead',
             'template_blade_file' => 'blueprint::Foundation.Controller.base',
