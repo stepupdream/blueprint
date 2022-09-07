@@ -6,8 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Supports\File;
 
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
-use StepUpDream\DreamAbilitySupport\Supports\YamlFileOperation as BaseYamlFileOperation;
-use Symfony\Component\Yaml\Yaml;
+use StepUpDream\DreamAbilitySupport\Supports\File\YamlFileOperation as BaseYamlFileOperation;
 
 class YamlFileOperation extends BaseYamlFileOperation
 {
