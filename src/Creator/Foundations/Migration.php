@@ -66,23 +66,6 @@ class Migration extends Base
     }
 
     /**
-     * Options for blade.
-     *
-     * @param  string  $fileName
-     * @param  mixed  $yamlFile
-     * @return mixed[]
-     */
-    public function optionsForBlade(string $fileName, mixed $yamlFile): array
-    {
-        $result = [];
-        foreach ($this->options as $key => $option) {
-            $result[$key] = $option;
-        }
-
-        return $result;
-    }
-
-    /**
      * Get readPath.
      *
      * @return string

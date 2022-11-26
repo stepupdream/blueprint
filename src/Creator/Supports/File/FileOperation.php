@@ -45,7 +45,7 @@ class FileOperation extends SpreadSheetConverterFileOperation
             return $contents;
         }
 
-        throw new FileNotFoundException("File does not exist at path {$path}.");
+        throw new FileNotFoundException("File does not exist at path $path.");
     }
 
     /**

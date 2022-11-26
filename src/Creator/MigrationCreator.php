@@ -111,17 +111,17 @@ class MigrationCreator extends BaseCreator
         ColumnVersionYaml $columnVersionYaml,
         ColumnVersionMigration $columnVersionMigration,
     ): string {
-        $bladeViewArguments = [];
-        $bladeViewArguments['yamlFile'] = $columnVersionYaml->readYamlFile();
-        $bladeViewArguments['versionMatchColumns'] = $columnVersionYaml->versionMatchColumnDetail();
-        $bladeViewArguments['existColumnNames'] = $columnVersionMigration->existColumnNames();
-        $bladeViewArguments['targetVersion'] = $columnVersionYaml->targetVersion();
-        $bladeViewArguments['options'] = $foundation->optionsForBlade('', '');
+        $renderText = [];
+        $renderText['yamlFile'] = $columnVersionYaml->readYamlFile();
+        $renderText['options'] = $foundation->optionsForBlade();
+        $renderText['versionMatchColumns'] = $columnVersionYaml->versionMatchColumnDetail();
+        $renderText['existColumnNames'] = $columnVersionMigration->existColumnNames();
+        $renderText['targetVersion'] = $columnVersionYaml->targetVersion();
 
         if ($isNewTable) {
-            return app(Factory::class)->make($foundation->templateBladeFile(), $bladeViewArguments)->render();
+            return app(Factory::class)->make($foundation->templateBladeFile(), $renderText)->render();
         }
 
-        return app(Factory::class)->make($foundation->templateUpdateBladeFile(), $bladeViewArguments)->render();
+        return app(Factory::class)->make($foundation->templateUpdateBladeFile(), $renderText)->render();
     }
 }

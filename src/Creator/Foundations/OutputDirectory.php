@@ -72,15 +72,22 @@ trait OutputDirectory
     }
 
     /**
-     * Replaced output directory path.
+     * Output file full path.
      *
-     * @param  mixed[]  $yamlFile
+     * The argument is the directory path to be sent after the substitution.
+     *
      * @param  string  $fileName
+     * @param  string  $newOutputDirectoryPath
      * @return string
+     * @see \StepUpDream\Blueprint\Creator\Foundations\Base::replaceAtSign
      */
-    public function replacedOutputDirectoryPath(string $fileName, array $yamlFile): string
+    public function outputFileFullPath(string $fileName, string $newOutputDirectoryPath): string
     {
-        return $this->replaceForBlade($fileName, $this->outputDirectoryPath, $yamlFile);
+        $prefix = $this->prefix();
+        $suffix = $this->suffix();
+        $extension = $this->extension();
+
+        return $newOutputDirectoryPath.DIRECTORY_SEPARATOR.$prefix.$fileName.$suffix.'.'.$extension;
     }
 
     /**
@@ -96,5 +103,15 @@ trait OutputDirectory
         $this->prefix = $foundationConfig['prefix'] ?? '';
         $this->suffix = $foundationConfig['suffix'] ?? '';
         $this->convertClassNameType = $foundationConfig['convert_class_name_type'] ?? '';
+    }
+
+    /**
+     * Get outputDirectoryPath.
+     *
+     * @return string
+     */
+    public function outputDirectoryPath(): string
+    {
+        return $this->outputDirectoryPath;
     }
 }

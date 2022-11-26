@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator;
 
+use Illuminate\Contracts\View\Factory;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLump;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 
@@ -28,9 +29,20 @@ class GroupLumpCreator extends BaseCreator
 
         foreach ($yamlFilesGroups as $groupKeyName => $yamlFilesGroup) {
             $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $groupKeyName);
-            $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, []);
+            $outputDirectoryPath = $foundation->replaceAtSign($fileName, $foundation->outputDirectoryPath(), '');
+            $classFilePath = $foundation->outputFileFullPath($fileName, $outputDirectoryPath);
+            $newFileName = pathinfo($classFilePath, PATHINFO_FILENAME);
             $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
-            $bladeFile = $this->readBladeFileLump($foundation, $classFilePath, $yamlFilesGroup, $yamlFileCommon);
+            $yamlFile = array_values($yamlFilesGroup)[0];
+            $renderText = [];
+            $renderText['yamlFile'] = $yamlFile;
+            $renderText['yamlCommonFile'] = $yamlFileCommon;
+            $renderText['namespace'] = $this->textSupport->convertFileFullPathToNamespace($classFilePath);
+            $renderText['className'] = pathinfo($classFilePath, PATHINFO_FILENAME);
+            $renderText['options'] = $foundation->optionsForBlade($newFileName, $yamlFile);
+            $renderText['yamlFiles'] = $yamlFilesGroup;
+            $bladeFile = app(Factory::class)->make($foundation->templateBladeFile(), $renderText)->render();
+
             $task->render(
                 $classFilePath,
                 fn () => $this->fileCreator->create($bladeFile, $classFilePath, $foundation->isOverride())

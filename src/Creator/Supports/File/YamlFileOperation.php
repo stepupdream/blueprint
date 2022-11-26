@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator\Supports\File;
 
-use Illuminate\Filesystem\Filesystem;
 use LogicException;
 use StepUpDream\DreamAbilitySupport\Supports\File\YamlFileOperation as BaseYamlFileOperation;
 
@@ -47,40 +46,5 @@ class YamlFileOperation extends BaseYamlFileOperation
         }
 
         return $columnVersion;
-    }
-
-    /**
-     * Determine if the given path is a directory.
-     *
-     * @param  string  $directory
-     * @return bool
-     * @see \Illuminate\Filesystem\Filesystem::isDirectory
-     */
-    protected function isDirectory(string $directory): bool
-    {
-        return is_dir($directory);
-    }
-
-    /**
-     * Extract the file extension from a file path.
-     *
-     * @param  string  $path
-     * @return string
-     * @see \Illuminate\Filesystem\Filesystem::extension
-     */
-    protected function extension(string $path): string
-    {
-        return pathinfo($path, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * Whether it is a multidimensional array.
-     *
-     * @param  mixed[]  $array
-     * @return bool
-     */
-    protected function isMultidimensional(array $array): bool
-    {
-        return count($array) !== count($array, 1);
     }
 }

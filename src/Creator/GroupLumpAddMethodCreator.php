@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace StepUpDream\Blueprint\Creator;
 
 use Illuminate\Contracts\View\Factory;
+use StepUpDream\Blueprint\Creator\Foundations\Base;
 use StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 
@@ -29,7 +30,8 @@ class GroupLumpAddMethodCreator extends BaseCreator
         foreach ($yamlFiles as $yamlFile) {
             $fileName = $yamlFile[$foundation->groupKeyName()];
             $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $fileName);
-            $classPath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
+            $outputDirectoryPath = $foundation->replaceAtSign($fileName, $foundation->outputDirectoryPath(), $yamlFile);
+            $classPath = $foundation->outputFileFullPath($fileName, $outputDirectoryPath);
             $task->render($classPath, fn () => $this->createFile($foundation, $fileName, $classPath, $yamlFile));
         }
     }
@@ -60,38 +62,45 @@ class GroupLumpAddMethodCreator extends BaseCreator
         if (file_exists($classPath) &&
             ! method_exists($this->textSupport->convertFileFullPathToClassPath($classPath), $methodName)) {
             // Replace } at the end of file with new method
-            $blade = $this->readBladeAddTemplate($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
-            $newFile = $this->replaceClassFile($blade, $classPath);
+            $renderText = $this->renderText($yamlFile, $yamlFileCommon, $classPath, $fileName, $foundation);
+            $bladeFile = app(Factory::class)->make($foundation->addTemplateBladeFile(), $renderText)->render();
+            $newFile = $this->replaceClassFile($bladeFile, $classPath);
 
             return $this->fileCreator->create($newFile, $classPath, true);
         }
 
-        $blade = $this->readBladeIndividual($foundation, $classPath, $fileName, $yamlFile, $yamlFileCommon);
+        $renderText = $this->renderText($yamlFile, $yamlFileCommon, $classPath, $fileName, $foundation);
+        $bladeFile = app(Factory::class)->make($foundation->templateBladeFile(), $renderText)->render();
 
-        return $this->fileCreator->create($blade, $classPath);
+        return $this->fileCreator->create($bladeFile, $classPath);
     }
 
     /**
      * Read blade file for add template file.
      *
-     * @param  \StepUpDream\Blueprint\Creator\Foundations\GroupLumpAddMethod  $foundation
-     * @param  string  $classFilePath
-     * @param  string  $fileName
      * @param  mixed[]  $yamlFile
      * @param  mixed[]  $yamlFileCommon
-     * @return string
+     * @param  string  $classFilePath
+     * @param  string  $fileName
+     * @param  Base  $foundation
+     * @return mixed[]
+     * @noinspection DuplicatedCode
      */
-    protected function readBladeAddTemplate(
-        GroupLumpAddMethod $foundation,
+    protected function renderText(
+        array $yamlFile,
+        array $yamlFileCommon,
         string $classFilePath,
         string $fileName,
-        array $yamlFile,
-        array $yamlFileCommon
-    ): string {
-        $arguments = $this->argumentsToView($foundation, $classFilePath, $yamlFileCommon, $fileName, $yamlFile);
-        $arguments['yamlFile'] = $yamlFile;
+        Base $foundation
+    ): array {
+        $renderText = [];
+        $renderText['yamlFile'] = $yamlFile;
+        $renderText['yamlCommonFile'] = $yamlFileCommon;
+        $renderText['namespace'] = $this->textSupport->convertFileFullPathToNamespace($classFilePath);
+        $renderText['className'] = pathinfo($classFilePath, PATHINFO_FILENAME);
+        $renderText['options'] = $foundation->optionsForBlade($fileName, $yamlFile);
 
-        return app(Factory::class)->make($foundation->addTemplateBladeFile(), $arguments)->render();
+        return $renderText;
     }
 
     /**

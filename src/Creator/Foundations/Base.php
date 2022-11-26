@@ -7,7 +7,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 use LogicException;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-abstract class Base implements BaseInterface
+abstract class Base
 {
     /**
      * @var string
@@ -18,6 +18,11 @@ abstract class Base implements BaseInterface
      * @var string[]
      */
     protected array $options;
+
+    /**
+     * @var string
+     */
+    protected string $groupKeyName = '';
 
     /**
      * Base constructor.
@@ -44,6 +49,33 @@ abstract class Base implements BaseInterface
     }
 
     /**
+     * Get groupKeyName.
+     *
+     * @return string
+     */
+    public function groupKeyName(): string
+    {
+        return $this->groupKeyName;
+    }
+
+    /**
+     * Options for blade.
+     *
+     * @param  string  $fileName
+     * @param  mixed  $yamlFile
+     * @return mixed[]
+     */
+    public function optionsForBlade(string $fileName = '', mixed $yamlFile = []): array
+    {
+        $result = [];
+        foreach ($this->options as $key => $option) {
+            $result[$key] = $this->replaceAtSign($fileName, $option, $yamlFile);
+        }
+
+        return $result;
+    }
+
+    /**
      * Verify if there is a required key.
      *
      * @param  string[]  $foundationConfig
@@ -64,5 +96,27 @@ abstract class Base implements BaseInterface
                 throw new LogicException($requiredKey.' : The value is not set.');
             }
         }
+    }
+
+    /**
+     * Replace the string specified by @ with a different content.
+     *
+     * @param  string  $fileName
+     * @param  string  $value
+     * @param  mixed  $yamlFile
+     * @return string
+     */
+    public function replaceAtSign(string $fileName, string $value, mixed $yamlFile): string
+    {
+        $groupName = $yamlFile[$this->groupKeyName] ?? '';
+        if (! empty($groupName) && str_contains($value, '@groupName')) {
+            $value = str_replace('@groupName', $groupName, $value);
+        }
+
+        if (! empty($fileName) && str_contains($value, '@fileName')) {
+            $value = str_replace('@fileName', $fileName, $value);
+        }
+
+        return $value;
     }
 }

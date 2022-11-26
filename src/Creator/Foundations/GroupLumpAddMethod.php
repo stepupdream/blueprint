@@ -6,7 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class GroupLumpAddMethod extends Base implements OutputDirectoryInterface, NeedReadYamlInterface
+class GroupLumpAddMethod extends Base
 {
     use OutputDirectory;
     use NeedReadYaml;

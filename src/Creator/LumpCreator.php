@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator;
 
+use Illuminate\Contracts\View\Factory;
 use StepUpDream\Blueprint\Creator\Foundations\Lump;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 
@@ -27,13 +28,22 @@ class LumpCreator extends BaseCreator
 
             return;
         }
-        $yamlFiles = $this->yamlReader->readByDirectoryPath($foundation->readPath(), $foundation->exceptFileNames());
+        $outputPath = $foundation->outputPath();
         $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
-        $bladeFile = $this->readBladeFileLump($foundation, $foundation->outputPath(), $yamlFiles, $yamlFileCommon);
+        $fileName = pathinfo($outputPath, PATHINFO_FILENAME);
+        $yamlFile = array_values($yamlFiles)[0];
+        $renderText = [];
+        $renderText['yamlFile'] = $yamlFile;
+        $renderText['yamlCommonFile'] = $yamlFileCommon;
+        $renderText['namespace'] = $this->textSupport->convertFileFullPathToNamespace($outputPath);
+        $renderText['className'] = pathinfo($outputPath, PATHINFO_FILENAME);
+        $renderText['options'] = $foundation->optionsForBlade($fileName, $yamlFile);
+        $renderText['yamlFiles'] = $yamlFiles;
+        $bladeFile = app(Factory::class)->make($foundation->templateBladeFile(), $renderText)->render();
 
         $task->render(
-            $foundation->outputPath(),
-            fn () => $this->fileCreator->create($bladeFile, $foundation->outputPath(), $foundation->isOverride())
+            $outputPath,
+            fn () => $this->fileCreator->create($bladeFile, $outputPath, $foundation->isOverride())
         );
     }
 }

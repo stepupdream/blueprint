@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\Blueprint\Creator;
 
+use Illuminate\Contracts\View\Factory;
 use StepUpDream\Blueprint\Creator\Foundations\Individual;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 
@@ -15,6 +16,7 @@ class IndividualCreator extends BaseCreator
      * Output the file according to the read yaml file.
      *
      * @param  \StepUpDream\Blueprint\Creator\Foundations\Individual  $foundation
+     * @noinspection DuplicatedCode
      */
     public function run(Individual $foundation): void
     {
@@ -28,9 +30,17 @@ class IndividualCreator extends BaseCreator
         foreach ($yamlFiles as $filePath => $yamlFile) {
             $fileName = basename($filePath, '.yml');
             $fileName = $this->textSupport->convertName($foundation->convertClassNameType(), $fileName);
-            $classFilePath = $this->generateOutputFileFullPath($fileName, $foundation, $yamlFile);
+
+            $outputDirectoryPath = $foundation->replaceAtSign($fileName, $foundation->outputDirectoryPath(), $yamlFile);
+            $classFilePath = $foundation->outputFileFullPath($fileName, $outputDirectoryPath);
             $yamlFileCommon = $this->yamlReader->readByFileName($foundation->readPath(), $foundation->commonFileName());
-            $bladeFile = $this->readBladeIndividual($foundation, $classFilePath, $fileName, $yamlFile, $yamlFileCommon);
+            $renderText = [];
+            $renderText['yamlFile'] = $yamlFile;
+            $renderText['yamlCommonFile'] = $yamlFileCommon;
+            $renderText['namespace'] = $this->textSupport->convertFileFullPathToNamespace($classFilePath);
+            $renderText['className'] = pathinfo($classFilePath, PATHINFO_FILENAME);
+            $renderText['options'] = $foundation->optionsForBlade($fileName, $yamlFile);
+            $bladeFile = app(Factory::class)->make($foundation->templateBladeFile(), $renderText)->render();
 
             $task->render(
                 $classFilePath,

@@ -6,7 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class Lump extends Base implements NeedReadYamlInterface
+class Lump extends Base
 {
     use NeedReadYaml;
 

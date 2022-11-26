@@ -6,7 +6,7 @@ namespace StepUpDream\Blueprint\Creator\Foundations;
 
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 
-class Individual extends Base implements OutputDirectoryInterface, NeedReadYamlInterface
+class Individual extends Base
 {
     use OutputDirectory;
     use NeedReadYaml;
