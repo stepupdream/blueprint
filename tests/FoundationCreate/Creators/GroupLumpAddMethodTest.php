@@ -13,7 +13,7 @@ use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
 use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
-use StepUpDream\Blueprint\Test\ViewLoadServiceProvider;
+use StepUpDream\Blueprint\Test\ViewLoad;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -21,6 +21,7 @@ class GroupLumpAddMethodTest extends TestCase
 {
     /**
      * @test
+     * @noinspection UsingInclusionReturnValueInspection
      */
     public function groupLumpAddMethod(): void
     {
@@ -33,8 +34,8 @@ class GroupLumpAddMethodTest extends TestCase
         $foundationConfig = $configMock['foundations']['group_lump_add_method'];
 
         // load resources
-        $mock = new ViewLoadServiceProvider($this->app);
-        $mock->run();
+        $viewLoad = new ViewLoad($this->app);
+        $viewLoad->run(__DIR__.'/../Mock/Resources');
 
         // initialize
         $filesystem = new Filesystem();
@@ -58,10 +59,10 @@ class GroupLumpAddMethodTest extends TestCase
         // assertion
         $testResult = file_get_contents(__DIR__.'/../Result/GroupLumpAddMethod/PrefixSampleGroup1Suffix.php');
         $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixSampleGroup1Suffix.php');
-        self::assertSame($testResult, $expectedResult);
+        self::assertSame($expectedResult, $testResult);
         $testResult = file_get_contents(__DIR__.'/../Result/GroupLumpAddMethod/PrefixSampleGroup2Suffix.php');
         $expectedResult = file_get_contents(__DIR__.'/../Expected/GroupLumpAddMethod/PrefixSampleGroup2Suffix.php');
-        self::assertSame($testResult, $expectedResult);
+        self::assertSame($expectedResult, $testResult);
 
         // end
         $this->resultReset();

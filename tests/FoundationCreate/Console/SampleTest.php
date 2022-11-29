@@ -14,6 +14,7 @@ class SampleTest extends TestCase
      * Laravel's [this-> option ('target')] hindered the test, so test only where it's needed.
      *
      * @test
+     * @noinspection UsingInclusionReturnValueInspection
      */
     public function foundationCreateCommand(): void
     {
@@ -25,6 +26,6 @@ class SampleTest extends TestCase
         /* @see FoundationCreateCommand::foundationsConfig() */
         $foundationCreateCommand = new FoundationCreateCommand();
         $result = $this->executePrivateFunction($foundationCreateCommand, 'foundationsConfig');
-        self::assertSame($result, $configMock['foundations']);
+        self::assertSame($configMock['foundations'], $result);
     }
 }

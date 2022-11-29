@@ -12,7 +12,7 @@ use StepUpDream\Blueprint\Creator\Supports\File\FileOperation;
 use StepUpDream\Blueprint\Creator\Supports\File\YamlFileOperation;
 use StepUpDream\Blueprint\Creator\Supports\TextSupport;
 use StepUpDream\Blueprint\Test\TestCase;
-use StepUpDream\Blueprint\Test\ViewLoadServiceProvider;
+use StepUpDream\Blueprint\Test\ViewLoad;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -20,6 +20,7 @@ class LumpCreatorTest extends TestCase
 {
     /**
      * @test
+     * @noinspection UsingInclusionReturnValueInspection
      */
     public function lumpCreator(): void
     {
@@ -32,8 +33,8 @@ class LumpCreatorTest extends TestCase
         $foundationConfig = $configMock['foundations']['lump'];
 
         // load resources
-        $mock = new ViewLoadServiceProvider($this->app);
-        $mock->run();
+        $viewLoad = new ViewLoad($this->app);
+        $viewLoad->run(__DIR__.'/../Mock/Resources');
 
         // test
         $foundation = app()->make(Lump::class, ['foundationConfig' => $foundationConfig]);
@@ -53,7 +54,7 @@ class LumpCreatorTest extends TestCase
         // assertion
         $testResult = file_get_contents(__DIR__.'/../Result/Lump/sample.php');
         $expectedResult = file_get_contents(__DIR__.'/../Expected/Lump/sample.php');
-        self::assertSame($testResult, $expectedResult);
+        self::assertSame($expectedResult, $testResult);
 
         // end
         $this->resultReset();

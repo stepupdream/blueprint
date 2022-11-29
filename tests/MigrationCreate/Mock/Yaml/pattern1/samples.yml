@@ -1,0 +1,20 @@
+- name: 'accounts'
+  database_directory_name: 'User'
+  connection_name: 'user_db'
+  domain_group: 'User'
+  description: 'AccountsTable'
+  columns:
+    - name: 'id'
+      description: 'ID'
+      data_type: 'int'
+      migration_data_type: 'bigInteger'
+      version: '1_0_0_0'
+      is_unsigned: TRUE
+      is_nullable: TRUE
+    - name: 'user_id'
+      description: 'UserID'
+      data_type: 'int'
+      migration_data_type: 'bigInteger'
+      version: '1_0_0_0'
+      is_unsigned: TRUE
+      is_nullable: TRUE

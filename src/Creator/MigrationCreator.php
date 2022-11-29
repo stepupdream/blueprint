@@ -19,9 +19,8 @@ class MigrationCreator extends BaseCreator
      * Output the file according to the read yaml file.
      *
      * @param  \StepUpDream\Blueprint\Creator\Foundations\Migration  $foundation
-     * @param  string|null  $version
      */
-    public function run(Migration $foundation, ?string $version): void
+    public function run(Migration $foundation): void
     {
         $task = new Task($this->output);
         $readPath = $foundation->readPath();
@@ -33,34 +32,34 @@ class MigrationCreator extends BaseCreator
         }
 
         foreach ($yamlFiles as $filePath => $yamlFile) {
-            $fileName = basename($filePath, '.yml');
-            $columnVersionMigration = $this->fileCreator->getColumnVersionByTable($outputDirectoryPath, $fileName);
-            $columnVersionYaml = $this->yamlReader->readColumnVersionByFileName($readPath, $fileName, $version);
+            $tableName = basename($filePath, '.yml');
+            $columnVersionMigration = $this->fileCreator->getColumnVersionByTable($outputDirectoryPath, $tableName);
+            $columnVersionYaml = $this->yamlReader->readColumnVersionByFileName($readPath, $tableName);
             $bladeFile = $this->readBlade($foundation, true, $columnVersionYaml, $columnVersionMigration);
 
             // first time.
             if (! $columnVersionMigration->isExistMigrationFile()) {
-                $outputPath = $this->outputPath($foundation, $columnVersionYaml->targetVersion(), $fileName);
+                $outputPath = $this->outputPath($foundation, $columnVersionYaml->maxVersion(), $tableName);
                 $task->render($outputPath, fn () => $this->fileCreator->create($bladeFile, $outputPath));
                 continue;
             }
 
-            if ($columnVersionMigration->maxTargetVersion() > $columnVersionYaml->targetVersion()) {
+            if ($columnVersionMigration->maxTargetVersion() > $columnVersionYaml->maxVersion()) {
                 throw new InvalidArgumentException(
-                    'You cannot specify a value lower than the existing migration file : '.$version
+                    'You cannot specify a value lower than the existing migration file : '
                 );
             }
 
             // If you export again with the same version, place them manually. Print to the tmp location.
-            if ($columnVersionMigration->maxTargetVersion() === $columnVersionYaml->targetVersion()) {
-                $outputPath = $this->outputPathTmp($foundation, $fileName);
+            if ($columnVersionMigration->maxTargetVersion() === $columnVersionYaml->maxVersion()) {
+                $outputPath = $this->outputPathTmp($foundation, $tableName);
                 $task->render($outputPath, fn () => $this->fileCreator->create($bladeFile, $outputPath, true));
                 continue;
             }
 
             // Assuming the table already exists. Modify the contents of the table in the new version.
             $bladeFileUpdate = $this->readBlade($foundation, false, $columnVersionYaml, $columnVersionMigration);
-            $outputPath = $this->outputPath($foundation, $columnVersionYaml->targetVersion(), $fileName);
+            $outputPath = $this->outputPath($foundation, $columnVersionYaml->maxVersion(), $tableName);
             $task->render($outputPath, fn () => $this->fileCreator->create($bladeFileUpdate, $outputPath));
         }
     }
@@ -69,16 +68,16 @@ class MigrationCreator extends BaseCreator
      * Get outputPath.
      *
      * @param  \StepUpDream\Blueprint\Creator\Foundations\Migration  $foundation
-     * @param  string  $targetVersion
+     * @param  string  $maxVersion
      * @param  string  $fileName
      * @return string
      */
-    protected function outputPath(Migration $foundation, string $targetVersion, string $fileName): string
+    protected function outputPath(Migration $foundation, string $maxVersion, string $fileName): string
     {
         $outputDirectoryPath = $foundation->outputDirectoryPath();
         $connection = $foundation->connection();
 
-        return sprintf('%s/%s/%s/%s.php', $outputDirectoryPath, $targetVersion, $connection, $fileName);
+        return sprintf('%s/%s/%s/%s.php', $outputDirectoryPath, $maxVersion, $connection, $fileName);
     }
 
     /**
@@ -116,7 +115,7 @@ class MigrationCreator extends BaseCreator
         $renderText['options'] = $foundation->optionsForBlade();
         $renderText['versionMatchColumns'] = $columnVersionYaml->versionMatchColumnDetail();
         $renderText['existColumnNames'] = $columnVersionMigration->existColumnNames();
-        $renderText['targetVersion'] = $columnVersionYaml->targetVersion();
+        $renderText['maxVersion'] = $columnVersionYaml->maxVersion();
 
         if ($isNewTable) {
             return app(Factory::class)->make($foundation->templateBladeFile(), $renderText)->render();

@@ -14,33 +14,30 @@ class YamlFileOperation extends BaseYamlFileOperation
      *
      * @param  string  $directoryPath
      * @param  string  $findFileName
-     * @param  string|null  $version
      * @return ColumnVersionYaml
      */
     public function readColumnVersionByFileName(
         string $directoryPath,
-        string $findFileName,
-        ?string $version
+        string $findFileName
     ): ColumnVersionYaml {
         $readYamlFile = $this->readByFileName($directoryPath, $findFileName);
         if (empty($readYamlFile) || empty($readYamlFile['columns'])) {
             throw new LogicException('Failed to load Yaml file. : '.$directoryPath.' -> '.$findFileName);
         }
 
-        $columnVersion = new ColumnVersionYaml($version, $readYamlFile);
+        $columnVersion = new ColumnVersionYaml($readYamlFile);
         foreach ($readYamlFile['columns'] as $column) {
             if (empty($column['version']) || empty($column['name'])) {
                 throw new LogicException('Missing required key [name, version] : '.$directoryPath.' -> '.$findFileName);
             }
 
-            // Returns the highest version if no target version is specified.
-            if (empty($columnVersion->targetVersion()) ||
-                (! $columnVersion->isTargetVersionSelect() && $columnVersion->targetVersion() < $column['version'])) {
+            // Returns the highest version.
+            if (empty($columnVersion->maxVersion()) || $columnVersion->maxVersion() < $column['version']) {
                 $columnVersion->resetVersionMatchColumns();
-                $columnVersion->setTargetVersion($column['version']);
+                $columnVersion->setMaxVersion($column['version']);
             }
 
-            if ($columnVersion->targetVersion() === $column['version']) {
+            if ($columnVersion->maxVersion() === $column['version']) {
                 $columnVersion->addVersionMatchColumns($column['name']);
             }
         }

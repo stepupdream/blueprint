@@ -86,17 +86,17 @@ class YamlFileOperationTest extends TestCase
      */
     public function readColumnVersionByFileName(): void
     {
-        $migrationDirectoryPath = __DIR__.'/../../../Migration/Mock/YamlFile';
+        $migrationDirectoryPath = __DIR__.'/../../../MigrationCreate/Mock/Yaml';
         $yamlFileOperation = $this->app->make(YamlFileOperation::class);
         $result = $yamlFileOperation->readColumnVersionByFileName($migrationDirectoryPath, 'samples', null);
         $yamlFile = $yamlFileOperation->readByFileName($migrationDirectoryPath, 'samples');
         self::assertEquals($result->readYamlFile(), $yamlFile);
-        self::assertEquals('1_0_1_0', $result->targetVersion());
+        self::assertEquals('1_0_1_0', $result->maxVersion());
         self::assertEquals(['user_id'], $result->versionMatchColumns());
 
         $result2 = $yamlFileOperation->readColumnVersionByFileName($migrationDirectoryPath, 'samples', '1_0_0_0');
         self::assertEquals($result2->readYamlFile(), $yamlFile);
-        self::assertEquals('1_0_0_0', $result2->targetVersion());
+        self::assertEquals('1_0_0_0', $result2->maxVersion());
         self::assertEquals(['id'], $result2->versionMatchColumns());
     }
 }

@@ -17,7 +17,7 @@ class MigrationFileCreateCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'blueprint:migration-create {--target-version=}';
+    protected $signature = 'blueprint:migration-create';
 
     /**
      * The console command description.
@@ -32,7 +32,6 @@ class MigrationFileCreateCommand extends BaseCommand
      */
     public function handle(): void
     {
-        $version = $this->optionText('target-version');
         $foundationsConfig = $this->foundationsMigrationConfig();
 
         foreach ($foundationsConfig as $foundationConfig) {
@@ -40,7 +39,7 @@ class MigrationFileCreateCommand extends BaseCommand
             $migrationCreator = app()->make(MigrationCreator::class);
 
             (new Info($this->output))->render(sprintf('%s file creating.', $foundation->connection()));
-            $migrationCreator->setOutput($this->output)->run($foundation, $version);
+            $migrationCreator->setOutput($this->output)->run($foundation);
             $this->output->newLine();
         }
 

@@ -15,7 +15,7 @@ class FileOperationTest extends TestCase
      */
     public function getColumnVersionByTable(): void
     {
-        $migrationDirectoryPath = __DIR__.'/../../../Migration/Mock/Migration';
+        $migrationDirectoryPath = __DIR__.'/../../../MigrationCreate/Mock/Migration';
         $fileOperation = $this->app->make(FileOperation::class);
         $columnVersion = $fileOperation->getColumnVersionByTable($migrationDirectoryPath, 'samples');
 

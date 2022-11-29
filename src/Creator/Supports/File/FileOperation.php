@@ -49,7 +49,7 @@ class FileOperation extends SpreadSheetConverterFileOperation
     }
 
     /**
-     * Get the version for each column.
+     * Get the biggest version of each column.
      *
      * @param  string  $migrationDirectoryPath
      * @param  string  $tableName
@@ -113,6 +113,12 @@ class FileOperation extends SpreadSheetConverterFileOperation
      */
     private function getColumnVersion(string $filePath, string $version): array
     {
+        $columnNames = [];
+        $content = file_get_contents($filePath);
+        if (empty($content)) {
+            throw new LogicException($filePath.' : Failed to load content.');
+        }
+
         // ver9.x support
         $migrationKeys = [
             'year', 'uuidMorphs', 'uuid', 'unsignedTinyInteger', 'unsignedSmallInteger', 'unsignedMediumInteger',
@@ -125,26 +131,24 @@ class FileOperation extends SpreadSheetConverterFileOperation
             'binary', 'bigInteger', 'bigIncrements',
         ];
 
-        $columnNames = [];
-        $content = file_get_contents($filePath);
-        if (empty($content)) {
-            throw new LogicException($filePath.' : Failed to load content.');
-        }
-
         $rows = explode("\n", $content);
         foreach ($rows as $row) {
             foreach ($migrationKeys as $migrationKey) {
+                // Characters enclosed in single quotes are column names.
+                // [example] ->bigInteger('before')
                 preg_match('/(->'.$migrationKey."\(')(.*?)(')/s", $row, $return);
                 if (! empty($return)) {
                     $columnNames[$return[2]] = $version;
                     break;
                 }
 
-                preg_match('/(->renameColumn\()(.*?)(\))/s', $row, $return);
-                preg_match('/->renameColumn/', $row, $return);
+                // Only rename is handled separately because the regularity is different.
+                // [example] ->renameColumn('before', 'after')
+                $exceptionRuleName = 'renameColumn';
+                preg_match('/(->'.$exceptionRuleName."\(')(.*?)('\))/s", $row, $return);
                 if (! empty($return)) {
-                    $returnByExplode = explode(',', $return);
-                    $columnNames[trim(array_pop($returnByExplode))] = $version;
+                    $returnByExplode = str_replace(["'", '’'], '', $return[1]);
+                    $columnNames[trim($returnByExplode)] = $version;
                 }
             }
         }

@@ -1,5 +1,5 @@
 - name: 'accounts'
-  database_directory_name: 'Useer'
+  database_directory_name: 'User'
   connection_name: 'user_db'
   domain_group: 'User'
   description: 'AccountsTable'
@@ -13,8 +13,15 @@
       is_nullable: TRUE
     - name: 'user_id'
       description: 'UserID'
+      data_type: 'string'
+      migration_data_type: 'string'
+      version: '1_0_1_0'
+      is_unsigned: TRUE
+      is_nullable: TRUE
+    - name: 'rank'
+      description: 'Rank'
       data_type: 'int'
-      migration_data_type: 'bigInteger'
+      migration_data_type: 'integer'
       version: '1_0_1_0'
       is_unsigned: TRUE
       is_nullable: TRUE

@@ -9,14 +9,9 @@ use LogicException;
 class ColumnVersionYaml
 {
     /**
-     * @var bool
-     */
-    protected bool $isTargetVersionSelect;
-
-    /**
      * @var string
      */
-    protected string $targetVersion;
+    protected string $maxVersion = '';
 
     /**
      * @var string[]
@@ -26,35 +21,21 @@ class ColumnVersionYaml
     /**
      * ColumnVersionYaml constructor.
      *
-     * @param  string|null  $version
      * @param  mixed[]  $readYamlFile
      */
     public function __construct(
-        ?string $version,
         protected array $readYamlFile
     ) {
-        $this->isTargetVersionSelect = ! empty($version);
-        $this->targetVersion = empty($version) ? '' : $version;
     }
 
     /**
-     * Get isTargetVersionSelect.
-     *
-     * @return bool
-     */
-    public function isTargetVersionSelect(): bool
-    {
-        return $this->isTargetVersionSelect;
-    }
-
-    /**
-     * Get targetVersion.
+     * Get maxVersion.
      *
      * @return string
      */
-    public function targetVersion(): string
+    public function maxVersion(): string
     {
-        return $this->targetVersion;
+        return $this->maxVersion;
     }
 
     /**
@@ -68,13 +49,13 @@ class ColumnVersionYaml
     }
 
     /**
-     * Set targetVersion.
+     * Set MaxVersion.
      *
-     * @param  string  $targetVersion
+     * @param  string  $maxVersion
      */
-    public function setTargetVersion(string $targetVersion): void
+    public function setMaxVersion(string $maxVersion): void
     {
-        $this->targetVersion = $targetVersion;
+        $this->maxVersion = $maxVersion;
     }
 
     /**
@@ -94,7 +75,7 @@ class ColumnVersionYaml
      */
     public function versionMatchColumnDetail(): array
     {
-        if (empty($this->targetVersion)) {
+        if (empty($this->maxVersion)) {
             throw new LogicException('This method cannot be called without a target Version specified.');
         }
 
@@ -105,7 +86,7 @@ class ColumnVersionYaml
                 $column['after_column'] = $afterColumn;
             }
 
-            if ($column['version'] === $this->targetVersion) {
+            if ($column['version'] === $this->maxVersion) {
                 $columns[] = $column;
             }
             $afterColumn = $column['name'];
